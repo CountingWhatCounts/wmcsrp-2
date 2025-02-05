@@ -1,5 +1,10 @@
 # West Midlands Cultural Sector Research Project 2.0
-Repository for the West Midlands Cultural Sector Research Project 2.0
+
+## Introduction
+
+This repository contains the data sources and processing for the West Midlands Cultural Sector Research Project 2.0.
+Openness is a core principal of this project, and therefore all code and data is being published here.
+
 
 
 ## Data Sources
