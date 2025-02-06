@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from google.cloud import storage
 import os
-from logger import logger
-from helper_functions import get_config
+from .logger import logger
+from .helper_functions import get_config
 
 
 
