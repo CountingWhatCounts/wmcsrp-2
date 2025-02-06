@@ -5,7 +5,6 @@ import pyreadstat
 
 from .logger import logger
 from .helper_functions import (
-    save_df_in_chunks,
     get_data_folders,
     get_data_content_from_total_column,
     get_geography_from_filename,
@@ -20,9 +19,12 @@ from .helper_functions import (
 )
 
 
+
+
 def ace_project_grants(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str
+        preprocessed_data_dir: str,
+        output_filename: str
     ) -> None:
 
     logger.info(f"Pre-processing ACE Project Grants data")
@@ -34,7 +36,7 @@ def ace_project_grants(
     df = df.iloc[2:, :]
     df.columns = [x.lower().replace(' ','_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, f"ace_project_grants.csv")
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -42,7 +44,8 @@ def ace_project_grants(
 
 def ace_npo_funding(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str
+        preprocessed_data_dir: str,
+        output_filename: str
     ) -> None:
 
     logger.info(f"Pre-processing ACE NPO Funding data")
@@ -52,16 +55,16 @@ def ace_npo_funding(
     df = pd.read_excel(os.path.join(data_dir, files[0]), sheet_name='data')
     df.columns = [x.lower().replace(' ','_').replace('\n', '_').replace('/','_').replace('(','_').replace(')','_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, 'npo_funding_data.csv')
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
 
-
 def economic_data(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str
+        preprocessed_data_dir: str,
+        output_filename: str
     ) -> None:
 
     logger.info(f"Pre-processing Annual Survey Economic data")
@@ -114,16 +117,16 @@ def economic_data(
     melted_df['value'] = melted_df['value'].apply(lambda x: float(x) / 100)
     melted_df['margin of error'] = melted_df['margin of error'].apply(lambda x: float(x) / 100)
     
-    output_path = os.path.join(preprocessed_data_dir, 'economic_data.csv')
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
     melted_df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
 
-
 def grant360_data(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str
+        preprocessed_data_dir: str,
+        output_filename: str
     ) -> None:
 
     logger.info(f"Pre-processing Grant360 data")
@@ -141,9 +144,193 @@ def grant360_data(
     df['award_date'] = df['award_date'].apply(lambda x: x.replace('/', '-'))
     df['award_date'] = df['award_date'].apply(lambda x: pd.to_datetime(x).strftime('%Y-%m-%d'))
 
-    output_path = os.path.join(preprocessed_data_dir, 'grant360_data.csv')
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
 
+def imd_data(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing Indices of Deprivation data")
+    data_dir = os.path.join(downloaded_data_dir, 'indices_of_deprivation')
+    files = [f for f in os.listdir(data_dir) if f.endswith('.csv')]
+
+    df = pd.read_csv(os.path.join(data_dir, files[0]))
+    df.columns = [x.lower().replace(' ', '_') for x in df.columns]
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def cultural_infrastructure(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing Cultural Infrastructure data")
+    data_dir = os.path.join(downloaded_data_dir, 'services')
+    files = [f for f in os.listdir(data_dir) if f.endswith('.csv')]
+
+    frames = []
+    for file in files:
+        df = pd.read_csv(os.path.join(data_dir, file))
+        df.columns = [x.lower().replace(' ', '_').replace('(', '').replace(')', '').replace(':', '_') for x in df.columns]
+        frames.append(df)
+    df = pd.concat(frames)
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def wellbeing(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing Wellbeing data")
+    data_dir = os.path.join(downloaded_data_dir, 'wellbeing')
+    files = [f for f in os.listdir(data_dir) if f.endswith('.xlsx')]
+
+    sheets = {
+        '1 Life satisfaction means': 11,
+        '4 Worthwhile means': 11,
+        '7 Happiness means': 11,
+        '10 Anxiety means': 12
+    }
+
+    sheet_frames = []
+
+    for sheet, columns_row in sheets.items():
+
+        df = pd.read_excel(os.path.join(data_dir, files[0]), sheet_name=sheet)
+        df.columns = df.iloc[columns_row,:]
+        df = df.iloc[columns_row+1:,1:]
+
+        df = df.replace('[cv1]', '<5%')
+        df = df.replace('[cv2]', '5-10%')
+        df = df.replace('[cv3]', '10-20%')
+        df = df.replace('[cv4]', '>20%')
+        df = df.replace('[u]', np.nan)
+        df = df.replace('[x]', np.nan)
+
+        index_column = 'Area Codes'
+
+        melted_df = pd.DataFrame()
+        i = 1
+        while i < len(df.columns):
+            value_column = df.columns[i]
+            error_column = df.columns[i+1]
+            temp_df = df[[index_column, value_column, error_column]].copy()
+            temp_df['date'] = value_column
+            temp_df.columns = ['area codes', 'value', 'margin of error', 'date']
+            melted_df = pd.concat([melted_df, temp_df], ignore_index=True)
+            i += 2
+
+        melted_df['measure'] = sheet
+        sheet_frames.append(melted_df)
+    df = pd.concat(sheet_frames)
+
+    df['measure'] = df['measure'].apply(lambda x: ' '.join(x.split(' ')[1:]))
+    df['value'] = df['value'].astype(float)
+    df = df.reset_index(names='ID')
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def census_data(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing Census data")
+    data_dir = os.path.join(downloaded_data_dir, 'census')
+    files = [f for f in os.listdir(data_dir) if f.endswith('.xlsx')]
+
+    frames = []
+    for folder in get_data_folders(data_dir):
+        files = [f for f in os.listdir(os.path.join(data_dir, folder)) if f.endswith('.csv')]
+
+        for filename in files:
+            geography = get_geography_from_filename(filename)
+            
+            # Only process MSOA data
+            if geography != 'msoa':
+                continue
+            
+            try:
+                df = pd.read_csv(os.path.join(data_dir, folder, filename))
+            except pd.errors.EmptyDataError as e:
+                logger.info(f'No data present in {filename}.')
+                continue
+
+            # If age data then preprocess
+            if 'ts007' in filename:
+                df = process_age_data(df)
+
+            total_column = get_total_column_name(df)
+            data_content = get_data_content_from_total_column(total_column)
+            value_columns = get_value_columns(df, total_column)
+
+            df_totals = df[['date', 'geography', 'geography code', total_column]].drop_duplicates()
+            df_values = df[['geography code'] + value_columns]
+            df_values = df_values.melt(
+                id_vars='geography code',
+                var_name='measure',
+                value_name='count'
+            )
+
+            df = df_totals.merge(df_values, how='left', on='geography code')
+            df = df.rename(columns={total_column: 'n'})
+
+            df['content'] = data_content
+            df['geography'] = geography
+            df = df[df['measure']!=total_column]
+            df['measure'] = df['measure'].apply(remove_content_from_measure_name)
+            frames.append(df)
+
+    df = pd.concat(frames)
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def yougov(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing YouGov Survey data")
+    data_dir = os.path.join(downloaded_data_dir, 'yougov')
+
+    _, meta = pyreadstat.read_sav(os.path.join(data_dir,"SAV for Indigo (Local Authorities 2024) 232 10.1.2025.sav"))
+    df = pd.read_excel(os.path.join(data_dir,"SAV for Indigo (Local Authorities 2024) 232 10.1.2025 - LABEL.xlsx"))
+
+    df = df.rename(columns=meta.column_names_to_labels)
+    df = df.dropna(how='all')
+    df['RecordNo'] = df['RecordNo'].astype(int)
+
+    df = replace_invalid_characters(df)
+    df = label_duplicate_columns(df)
+    df = append_underscore_if_number(df)
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
