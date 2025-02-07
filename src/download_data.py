@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from google.cloud import storage
 import os
 from .logger import logger
@@ -15,7 +14,7 @@ def download_from_gcs(
     
     os.makedirs(downloaded_data_dir, exist_ok=True)
 
-    client = storage.Client()
+    client = storage.Client.create_anonymous_client()
     bucket = client.bucket(bucket_name)
     blobs = bucket.list_blobs()
     
@@ -31,6 +30,5 @@ def download_from_gcs(
 
 
 if __name__ == '__main__':
-    load_dotenv('.env', override=True)
     config = get_config('config.yml')
     download_from_gcs(bucket_name=config.get('gcp_bucket'), downloaded_data_dir='data/downloaded')
