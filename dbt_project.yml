@@ -1,0 +1,28 @@
+
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'dbt_transform'
+version: '1.0.0'
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'dbt_transform'
+model-paths: ["src/dbt_transform/models"]
+test-paths: ["src/dbt_transform/tests"]
+seed-paths: ["data/preprocessed"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dbt_transform:
+    staging:
+      +materialized: view
+      +schema: staging
+    warehouse:
+      +materialized: view
+      +schema: warehouse
+    marts:
+      +materialized: table
+      +schema: marts
