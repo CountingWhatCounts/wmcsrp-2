@@ -6,7 +6,6 @@ select
     msoa21nm,
     lad22cd,
     lad22nm,
-    lad22nmw,
-    objectid
+    lad22nmw
 from
-    {{ ref('msoa_mapping') }}
+    {{ ref('seed_msoa_mapping') }}

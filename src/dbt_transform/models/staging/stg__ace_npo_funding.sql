@@ -13,4 +13,4 @@ select
     levelling_up_for_culture_place,
     priority_place
 from
-    {{ ref('ace_npo_funding') }}
+    {{ ref('seed_ace_npo_funding') }}

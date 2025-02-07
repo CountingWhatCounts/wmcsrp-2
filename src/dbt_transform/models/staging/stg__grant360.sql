@@ -17,4 +17,4 @@ select
     best_available_ward_additional_data,
     best_available_ward_geographic_code_additional_data
 from
-    {{ ref('grant360') }}
+    {{ ref('seed_grant360') }}

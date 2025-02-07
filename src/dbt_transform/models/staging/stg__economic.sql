@@ -5,4 +5,4 @@ select
     value,
     margin_of_error
 from
-    {{ ref('economic') }}
+    {{ ref('seed_economic') }}

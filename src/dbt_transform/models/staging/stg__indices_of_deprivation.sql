@@ -11,4 +11,4 @@ select
     imd_quantile_msoa,
     msoa_2021_status
 from
-    {{ ref('indices_of_deprivation') }}
+    {{ ref('seed_indices_of_deprivation') }}

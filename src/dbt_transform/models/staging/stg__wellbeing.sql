@@ -6,6 +6,6 @@ SELECT
     value,
     margin_of_error
 FROM
-    {{ ref('wellbeing') }}
+    {{ ref('seed_wellbeing') }}
 where
     date in ('April 2022 to March 2023')

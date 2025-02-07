@@ -7,4 +7,4 @@ SELECT
     measure,
     count
 FROM
-    {{ ref('census') }}
+    {{ ref('seed_census') }}

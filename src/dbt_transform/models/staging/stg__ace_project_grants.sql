@@ -10,4 +10,4 @@ select
     recipient,
     strand
 from
-    {{ ref('ace_project_grants') }}
+    {{ ref('seed_ace_project_grants') }}

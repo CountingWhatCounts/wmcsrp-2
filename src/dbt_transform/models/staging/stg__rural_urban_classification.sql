@@ -1,8 +1,7 @@
 SELECT
-    FID,
-    MSOA11CD,
-    MSOA11NM,
-    RUC11CD,
-    RUC11
+    MSOA11CD as msoa11cd,
+    MSOA11NM as msoa11nm,
+    RUC11CD as ruc11cd,
+    RUC11 as ruc11
 FROM
-    {{ ref('rural_urban_classification') }}
+    {{ ref('seed_rural_urban_classification') }}

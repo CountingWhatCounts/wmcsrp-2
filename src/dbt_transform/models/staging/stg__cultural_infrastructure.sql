@@ -9,4 +9,4 @@ select
     funding_year,
     website
 from
-    {{ ref('cultural_infrastructure') }}
+    {{ ref('seed_cultural_infrastructure') }}
