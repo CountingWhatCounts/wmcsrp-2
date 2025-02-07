@@ -176,9 +176,9 @@ dbt_packages/
 logs/
 
 # ignore data files
+metadata/
 *.xlsx
 *.csv
-*.txt
 *.sav
 .DS_Store
 *.duckdb
