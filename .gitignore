@@ -169,7 +169,16 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# dbt ignore
+target/
+dbt_packages/
+logs/
+
+# ignore data files
 *.xlsx
 *.csv
 *.txt
 *.sav
+.DS_Store
+*.duckdb
