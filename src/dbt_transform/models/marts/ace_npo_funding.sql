@@ -1,0 +1,1 @@
+select * from {{ ref('int__ace_npo_funding_aggregated') }}

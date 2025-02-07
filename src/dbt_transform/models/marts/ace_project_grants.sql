@@ -1,0 +1,1 @@
+select * from {{ ref('int__ace_project_grants_aggregated') }}

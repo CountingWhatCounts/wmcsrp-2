@@ -1,0 +1,1 @@
+select * from {{ ref('int__area_codes') }}

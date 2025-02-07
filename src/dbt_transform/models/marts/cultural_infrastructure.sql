@@ -1,0 +1,1 @@
+select * from {{ ref('int__cultural_infrastructure_msoa') }}
