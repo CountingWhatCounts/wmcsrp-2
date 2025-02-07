@@ -5,6 +5,19 @@
 This repository contains the data sources and processing for the West Midlands Cultural Sector Research Project 2.0.
 Openness is a core principal of this project, and therefore all code and data is being published here.
 
+The list of sourcess is in the table below. To ease replication of the data processing, data from the various sources has been downloaded and stored in a Google Cloud bucket which supports download using this project.
+
+For information or support, please contact Counting What Counts at marc.dunford@culturecounts.cc.
+
+
+## Instructions
+
+1. Clone the repo
+2. Verify python installation version >= 3.11.0 : `python --version`
+3. Install dependencies: `pip install -r requirements.txt`
+4. Run the main function: `python main.py`
+
+
 
 
 ## Data Sources
