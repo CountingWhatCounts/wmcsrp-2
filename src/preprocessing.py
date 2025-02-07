@@ -116,7 +116,7 @@ def economic_data(
     melted_df = melted_df[['ID', 'local authority', 'measure', 'value', 'margin of error']]
     melted_df['value'] = melted_df['value'].apply(lambda x: float(x) / 100)
     melted_df['margin of error'] = melted_df['margin of error'].apply(lambda x: float(x) / 100)
-    melted_df.columns = [x.lower().replace(' ','_') for x in df.columns]
+    melted_df.columns = [x.lower().replace(' ','_') for x in melted_df.columns]
     
     output_path = os.path.join(preprocessed_data_dir, output_filename)
     melted_df.to_csv(output_path, index=False)
@@ -389,6 +389,7 @@ def postcode_mapping(
     data_dir = os.path.join(downloaded_data_dir, 'postcode_mapping')
 
     df = pd.read_csv(os.path.join(data_dir,'ONSPD_NOV_2024_UK.csv'))
+    df = df.replace(r'^\s*$', np.nan, regex=True)
     df.columns = [x.lower() for x in df.columns]
 
     output_path = os.path.join(preprocessed_data_dir, output_filename)
@@ -408,6 +409,27 @@ def msoa_mapping(
 
     df = pd.read_csv(os.path.join(data_dir, 'MSOA_(2011)_to_MSOA_(2021)_to_Local_Authority_District_(2022)_Lookup_for_England_and_Wales_-5379446518771769392.csv'))
     df.columns = [x.lower() for x in df.columns]
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def msoa_population(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing MSOA Population data")
+    data_dir = os.path.join(downloaded_data_dir, 'msoa_population')
+
+    df = pd.read_excel(os.path.join(data_dir, 'sapemsoasyoatablefinal.xlsx'), sheet_name='Mid-2021 MSOA 2021')
+    df.columns = df.iloc[2, :]
+    df = df.iloc[3:, :]
+    df = df[['MSOA 2021 Code', 'Total']]
+    df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 
     output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
