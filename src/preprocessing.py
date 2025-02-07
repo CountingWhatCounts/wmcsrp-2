@@ -116,6 +116,7 @@ def economic_data(
     melted_df = melted_df[['ID', 'local authority', 'measure', 'value', 'margin of error']]
     melted_df['value'] = melted_df['value'].apply(lambda x: float(x) / 100)
     melted_df['margin of error'] = melted_df['margin of error'].apply(lambda x: float(x) / 100)
+    melted_df.columns = [x.lower().replace(' ','_') for x in df.columns]
     
     output_path = os.path.join(preprocessed_data_dir, output_filename)
     melted_df.to_csv(output_path, index=False)
@@ -185,6 +186,7 @@ def cultural_infrastructure(
         df.columns = [x.lower().replace(' ', '_').replace('(', '').replace(')', '').replace(':', '_') for x in df.columns]
         frames.append(df)
     df = pd.concat(frames)
+    df = df.drop('amount_awarded', axis=1)
 
     output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
@@ -244,6 +246,7 @@ def wellbeing(
     df['measure'] = df['measure'].apply(lambda x: ' '.join(x.split(' ')[1:]))
     df['value'] = df['value'].astype(float)
     df = df.reset_index(names='ID')
+    df.columns = [x.lower().replace(' ','_') for x in df.columns]
 
     output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
@@ -304,6 +307,7 @@ def census_data(
             frames.append(df)
 
     df = pd.concat(frames)
+    df.columns = [x.lower().replace(' ','_') for x in df.columns]
 
     output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
@@ -330,6 +334,80 @@ def yougov(
     df = replace_invalid_characters(df)
     df = label_duplicate_columns(df)
     df = append_underscore_if_number(df)
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def rural_urban_classification(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing Rural Urban Classification data")
+    data_dir = os.path.join(downloaded_data_dir, 'rural_urban_classification')
+
+    df = pd.read_csv(os.path.join(
+        data_dir,
+        'Rural_Urban_Classification_(2011)_of_Middle_Layer_Super_Output_Areas_in_England_and_Wales.csv'
+    ))
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def ace_priority_places(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing ACE Priority Places data")
+    data_dir = os.path.join(downloaded_data_dir, 'ace_priority_places')
+
+    df = pd.read_csv(os.path.join(data_dir,'ace_priority_places.csv'))
+    df.columns = [x.lower() for x in df.columns]
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def postcode_mapping(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing Postcode Mapping data")
+    data_dir = os.path.join(downloaded_data_dir, 'postcode_mapping')
+
+    df = pd.read_csv(os.path.join(data_dir,'ONSPD_NOV_2024_UK.csv'))
+    df.columns = [x.lower() for x in df.columns]
+
+    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
+def msoa_mapping(
+        downloaded_data_dir: str,
+        preprocessed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing MSOA Mapping data")
+    data_dir = os.path.join(downloaded_data_dir, 'msoa_mapping')
+
+    df = pd.read_csv(os.path.join(data_dir, 'MSOA_(2011)_to_MSOA_(2021)_to_Local_Authority_District_(2022)_Lookup_for_England_and_Wales_-5379446518771769392.csv'))
+    df.columns = [x.lower() for x in df.columns]
 
     output_path = os.path.join(preprocessed_data_dir, output_filename)
     df.to_csv(output_path, index=False)

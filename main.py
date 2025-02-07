@@ -22,11 +22,15 @@ if __name__ == '__main__':
         'ace_npo_funding.csv': preprocess.ace_npo_funding,
         'economic.csv': preprocess.economic_data,
         'grant360.csv': preprocess.grant360_data,
-        'imd.csv': preprocess.imd_data,
+        'indices_of_deprivation.csv': preprocess.imd_data,
         'cultural_infrastructure.csv': preprocess.cultural_infrastructure,
         'wellbeing.csv': preprocess.wellbeing,
         'census.csv': preprocess.census_data,
         'yougov_survey.csv': preprocess.yougov,
+        'rural_urban_classification.csv': preprocess.rural_urban_classification,
+        'ace_priority_places.csv': preprocess.ace_priority_places,
+        'postcode_mapping.csv': preprocess.postcode_mapping,
+        'msoa_mapping.csv': preprocess.msoa_mapping
     }
 
     for file, processing_function in processing_spec.items():
