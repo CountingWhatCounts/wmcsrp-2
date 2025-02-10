@@ -1,8 +1,3 @@
-{{ config(
-    tags=["wmca_project_warehouse", "census", "wmca_project"]
-) }}
-
-
 with msoa_census as (
     select * from {{ ref('int__census_msoa_base') }}
 ),

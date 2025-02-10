@@ -1,8 +1,3 @@
-{{ config(
-    tags=["wmca_project_warehouse", "wmca_project"]
-) }}
-
-
 with
 
 economic_data as (

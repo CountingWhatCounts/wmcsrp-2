@@ -1,9 +1,3 @@
-{{ config(
-    tags=["wmca_project_warehouse", "wmca_project"]
-) }}
-
-
-
 with
 
 postcodes as (

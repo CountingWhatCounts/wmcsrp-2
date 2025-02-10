@@ -1,8 +1,3 @@
-{{ config(
-    tags=["wmca_project_warehouse", "wmca_project"]
-) }}
-
-
 with npo_funding as (
     select * from {{ ref('stg__ace_npo_funding') }}
 ),
