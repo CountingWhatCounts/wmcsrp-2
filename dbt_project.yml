@@ -1,18 +1,16 @@
-name: 'dbt_transform'
+name: 'WMCSRP2_dataset'
 version: '1.0.0'
 
+profile: 'main'
 
-profile: 'dbt_transform'
-
-model-paths: ["src/dbt_transform/models"]
-test-paths: ["src/dbt_transform/tests"]
-seed-paths: ["data/preprocessed"]
+model-paths: ["models"]
+test-paths: ["tests"]
 
 models:
-  dbt_transform:
-    staging:
+  WMCSRP2_dataset:
+    raw:
       +materialized: view
-      +schema: staging
+      +schema: raw
     warehouse:
       +materialized: view
       +schema: warehouse
