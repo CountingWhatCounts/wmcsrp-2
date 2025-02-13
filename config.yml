@@ -1,4 +1,0 @@
-gcp_bucket: 'wmcsrp-source-data'
-downloaded_data_dir: 'data/downloaded'
-preprocessed_data_dir: 'data/preprocessed'
-transformed_data_dir: 'data/transformed'
