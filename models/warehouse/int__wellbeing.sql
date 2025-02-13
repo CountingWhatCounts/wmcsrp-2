@@ -3,11 +3,11 @@ with
 wellbeing_data as (
     select
         area_codes,
-        measure,
+        wellbeing_factor,
         value,
         margin_of_error 
     from
-        {{ ref('stg__wellbeing') }}
+        {{ ref('raw__wellbeing') }}
 ),
 
 wmca_area_codes as (
@@ -21,7 +21,7 @@ wmca_area_codes as (
 select
     distinct ac.lad22cd,
     ac.lad22nm,
-    wd.measure,
+    wd.wellbeing_factor,
     wd.value,
     wd.margin_of_error,
 from

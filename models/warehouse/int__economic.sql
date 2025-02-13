@@ -7,7 +7,7 @@ economic_data as (
         value,
         margin_of_error
     from
-        {{ ref('stg__economic') }}
+        {{ ref('raw__economic') }}
 ),
 
 wmca_area_codes as (

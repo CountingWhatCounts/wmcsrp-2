@@ -17,7 +17,7 @@ msoa_census as (
         t.count as count,
         t.n as n
     from
-        {{ ref('stg__census') }} as t
+        {{ ref('raw__census') }} as t
     inner join
         wmca_area_codes as wac
     on

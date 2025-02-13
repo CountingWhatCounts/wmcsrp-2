@@ -7,8 +7,8 @@ msoa_errors as (
     select
         msoa21cd,
         msoa21nm,
-        content,
-        measure,
+        content as census_question,
+        measure as answer,
         count as count_of_answer,
         n as sample_size,
         population as population_size,

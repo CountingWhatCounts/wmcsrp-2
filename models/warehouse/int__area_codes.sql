@@ -46,7 +46,7 @@ target_areas as (
         msoa21cd,
         msoa21nm
     from
-        {{ ref('stg__msoa_mapping') }}
+        {{ ref('raw__msoa_mapping') }}
 )
 
 select * from target_areas where area != 'Ignore'

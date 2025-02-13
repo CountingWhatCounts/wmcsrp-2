@@ -1,17 +1,17 @@
 with
 
 ruc as (
-    select * from {{ ref('stg__rural_urban_classification') }}
+    select * from {{ ref('raw__rural_urban_classification') }}
 ),
 
 msoa_mapping as (
-    select * from {{ ref('stg__msoa_mapping') }}
+    select * from {{ ref('raw__msoa_mapping') }}
 ),
 
 combined as (
     select
-        msoa21cd,
-        msoa21nm
+        ruc.msoa11cd,
+        ruc.msoa11nm,
         ruc11cd,
         ruc11
     from ruc

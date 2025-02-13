@@ -4,7 +4,7 @@ with msoa_census as (
 
 
 msoa_population as (
-    select * from {{ ref('stg__msoa_population') }}
+    select * from {{ ref( 'raw__msoa_population') }}
 ),
 
 combined as (

@@ -7,15 +7,15 @@ lad_codes as (
 
 services_msoa as (
     select
-        ladnm,
+        area_name as ladnm,
         msoa21,
         postcode,
         service_type,
         name as service_name,
         source,
         category,
-    from {{ ref('stg__cultural_infrastructure') }} as ci
-    left join {{ ref('stg__postcode_mapping') }} as pm
+    from {{ ref('raw__cultural_infrastructure') }} as ci
+    left join {{ ref('raw__postcode_mapping') }} as pm
     on ci.postcode = pm.pcd_no_space
 ),
 

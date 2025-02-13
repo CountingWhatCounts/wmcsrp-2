@@ -1,5 +1,5 @@
 with npo_funding as (
-    select * from {{ ref('stg__ace_npo_funding') }}
+    select * from {{ ref('raw__ace_npo_funding') }}
 ),
 
 

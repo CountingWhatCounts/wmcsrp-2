@@ -1,7 +1,7 @@
 with
 
 project_grants as (
-    select * from {{ ref('stg__ace_project_grants') }}
+    select * from {{ ref('raw__ace_project_grants') }}
 ),
 
 

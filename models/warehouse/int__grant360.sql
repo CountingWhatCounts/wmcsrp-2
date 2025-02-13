@@ -5,7 +5,7 @@ postcodes as (
         msoa21,
         pcd_no_space as postcode
     from
-        {{ ref('stg__postcode_mapping')}}
+        {{ ref('raw__postcode_mapping')}}
 ),
 
 
@@ -27,7 +27,7 @@ grant360 as (
         replace(recipient_org_postal_code, ' ', '') as recipient_org_postal_code,
         funding_org_name
     from
-        {{ ref('stg__grant360') }}
+        {{ ref('raw__grant360') }}
 ),
 
 
