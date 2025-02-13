@@ -1,1 +1,0 @@
-select * from "WMCSRP2"."main_warehouse"."int__cultural_infrastructure_msoa"
