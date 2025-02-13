@@ -1,1 +1,0 @@
-select * from "dev"."main_warehouse"."int__ace_npo_funding_aggregated"

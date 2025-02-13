@@ -1,1 +1,0 @@
-select * from "dev"."main_warehouse"."int__ace_project_grants_aggregated"
