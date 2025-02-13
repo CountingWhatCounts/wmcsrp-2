@@ -1,0 +1,607 @@
+version: 1
+
+models:
+
+  - name: ace_npo_funding
+    description: |
+      # Arts Council England NPO Funding
+      
+      This table contains the amount of Arts Council England funding provided to
+      NPOs, grouped by local authority district.
+
+      Data is grouped by local authority district as there are not enough entries
+      in the data to populate at the MSOA level i.e. the majority of MSOAs will have
+      zero funding, which is not informative when it comes to analysing the data.
+
+      source: https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data
+    config:
+      tags: Funding
+      alias: Arts Council England NPO Funding
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "2023-2026"
+      latest_release: "March 2023"
+      next_release: "Unknown"
+      update_frequency: "3-4 years"
+    
+    columns:
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+      
+      - name: lad22nm
+        data_type: string
+        description: The name of the local authority district
+      
+      - name: sum_annual_funding_extension_year
+        data_type: int
+        description: The total funding in that local authority district for the 2022-23 extension year
+      
+      - name: sum_annual_funding_2023_2026
+        data_type: int
+        description: The planned average annual funding in that local authority for the period 2023-26
+      
+      - name: sum_average_annual_funding_2018_2022
+        data_type: int
+        description: The average annual funding in that local authority for the period 2018-22
+
+
+  - name: ace_priority_places
+    description: |
+      # Arts Council England Priority Places
+
+      A table showing whether each local authority district in the West Midlands
+      is an Arts Council England Priority Place.
+      
+      source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
+    config:
+      tags: Place Characteristics
+      alias: Arts Council England Priority Places
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "2021-2024"
+      latest_release: "2021"
+      next_release: "N/A"
+      update_frequency: "N/A"
+    
+    columns:
+      - name: ladnm
+        data_type: string
+        description: The name of the local authority district
+      
+      - name: priority_place
+        data_type: bool
+        description: A true/false value indicating whether that local authority is a designated Priority Place
+
+
+  - name: ace_levelling_up_for_culture_places
+    description: |
+      # Arts Council England Levelling Up for Culture Places
+
+      A table showing whether each local authority district in the West Midlands
+      is an Arts Council England Levelling Up for Culture Place.
+      
+      source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
+    config:
+      tags: Place Characteristics
+      alias: Arts Council England Levelling Up for Culture Places
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "2022-2026"
+      latest_release: "2022"
+      next_release: "N/A"
+      update_frequency: "N/A"
+    
+    columns:
+      - name: ladnm
+        data_type: string
+        description: The name of the local authority district
+      
+      - name: levelling_up_place
+        data_type: bool
+        description: A true/false value indicating whether that local authority is a designated Levelling Up Place
+  
+
+  - name: ace_project_grants_funding
+    description: |
+      # Arts Council England Project Grants Funding
+
+      This table contains the amount of Arts Council England funding provided as
+      Project Grants, grouped by local authority district.
+
+      Data is grouped by local authority district as there are not enough entries
+      in the data to populate at the MSOA level i.e. the majority of MSOAs will have
+      zero funding, which is not informative when it comes to analysing the data.
+      
+      source: https://www.artscouncil.org.uk/ProjectGrants/project-grants-data
+    config:
+      tags: Funding
+      alias: Arts Council England Project Grants Funding
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "2024-2025"
+      latest_release: "December 2024"
+      next_release: "N/A"
+      update_frequency: "Annual"
+
+    columns:
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+      
+      - name: lad22nm
+        data_type: string
+        description: The name of the local authority district
+      
+      - name: sum_annual_funding_extension_year
+        description: The total funding in that local authority district for the 2022-23 extension year
+      
+      - name: sum_annual_funding_2023_2026
+        description: The planned average annual funding in that local authority for the period 2023-26
+      
+      - name: sum_average_annual_funding_2018_2022
+        description: The average annual funding in that local authority for the period 2018-22
+
+    
+  - name: west_midlands_area_codes
+    description: |
+      # West Midlands Area Codes
+
+      Contains names and codes for all MSOAs and local authority districts. Also
+      indicates whether each local authority is a constituent or non-constituent
+      member of the WMCA. Compiled from the ONS Postcode Directory and the MSOA
+      to Local Authority District Mapping.
+
+      This table is used to link up tables which are at different levels of
+      granularity and allows for searching of data by geography.
+
+      sources:
+      - https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about
+      - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
+    config:
+      tags: Area Mapping
+      alias: West Midlands Area Codes
+    meta:
+      granularity: "MSOA"
+      data_relates_to: "2024"
+      latest_release: "December 2024"
+      next_release: "N/A"
+      update_frequency: "N/A"
+
+    
+    columns:
+      - name: area
+        data_type: string
+        description: Whether the local authority is part of WMCA
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+      - name: lad22nm
+        data_type: string
+        description: The name for the local authority district
+      - name: msoa21cd
+        data_type: string
+        description: The code for the MSOA
+      - name: msoa21nm
+        data_type: string
+        description: The name for the MSOA
+
+
+  - name: census
+    description: |
+      # Census 2021 Data
+
+      Contains data from the 2021 Census at the MSOA level.
+
+      ### Census data margin of error
+
+      The raw data for the census is provided as counts for each category
+      along with the total sample size count for that census question. For
+      example:
+
+      [Distance travelled to work]{.underline}
+
+      Total people who responded about distance travelled to work: 2829
+
+      People who answered "less than 2km": 118
+
+      We combined these counts with the estimated population for each
+      MSOA[^17] to calculate the margin of error for each answer using a
+      finite population correction. The margin of error provided is a 95%
+      confidence level.
+
+      ![](media/image1.png){width="2.9843755468066493in"
+      height="0.7533377077865266in"}
+
+      *Figure 3: Formula for calculating margin of error with finite
+      population correction*
+
+      #### Census age data
+
+      The grouped age data in the Census didn't match perfectly onto the age
+      groups for the participation survey.
+
+      So, instead of using the pre-grouped age data, we began with the year by
+      year age data and grouped them together to match the participation
+      survey as part of the preprocessing.
+
+      The result is age data grouped into 5 year bins to match the
+      participation survey data.
+      
+      source: https://www.nomisweb.co.uk/sources/census_2021_bulk
+    config:
+      tags: Demographics
+      alias: Census 2021 Data
+    meta:
+      granularity: "MSOA"
+      data_relates_to: "2021"
+      latest_release: "2022"
+      next_release: "Post 2031"
+      update_frequency: "10 years"
+    
+    columns:
+      - name: msoa21cd
+        data_type: string
+        description: The code for the MSOA
+      
+      - name: msoa21n
+        data_type: string
+        description: The name for the MSOA
+      
+      - name: census_question
+        data_type: string
+        description: The question from the Census
+      
+      - name: answer
+        data_type: string
+        description: The answer to that question
+      
+      - name: count_of_answer
+        data_type: int
+        description: The number of people who gave that answer in the MSOA
+      
+      - name: sample_size
+        data_type: int
+        description: The total number of people who answered that question in the MSOA
+      
+      - name: population_size
+        data_type: int
+        description: The population of the MSOA in 2021
+      
+      - name: p
+        data_type: float
+        description: The proportion of people who gave that answer (count_of_answer / sample_size)
+      
+      - name: margin_of_error
+        data_type: float
+        description: The margin of error on p. Calculated with a 95% confidence level and a finite population correction
+
+
+  - name: cultural_infrastructure
+    description: |
+      # Cultural Infrastructure
+
+      The number of each type of cultural infrastructure in each MSOA.
+      This data is sourced from Arts Council Englands's Culture and Place Data Explorer
+      which allows for a list of services to be downloaded for each local authority.
+      
+      source: https://culture.localinsight.org/#/map
+    config:
+      tags: Cultural Infrastructure
+      alias: Cultural Infrastructure
+    meta:
+      granularity: "MSOA"
+      data_relates_to: "N/A"
+      latest_release: "2024"
+      next_release: "TBC"
+      update_frequency: "TBC"
+
+    columns:
+      - name: msoa21
+        data_type: string
+        description: The code for the MSOA
+
+      - name: service_type
+        data_type: string
+        description: The type of cultural infrastructure
+
+      - name: service_count
+        data_type: int
+        description: How many of that infrastructure type in the MSOA
+
+  
+  - name: annual_population_survey_economic_measures
+    description: |
+      # Annual Population Survey Economic Measures
+
+      Contains data on economic factors from the Annual Population Survey.
+
+      Missing values in the dataset exist for the following reasons:
+      -   Figures are statistically unreliable
+      -   Estimate and confidence interval not available since the group
+          sample size is zero or disclosive (0-2)
+      -   Estimate and confidence interval unreliable since the group sample
+          size is small (3-9).
+      -   Estimate is less than 500
+      -   Figures are missing
+
+      The economic factors available and included in the dataset are:
+      - Economic activity rate - aged 16-64
+      - Employment rate - aged 16-64
+      - % aged 16-64 who are employees
+      - % aged 16-64 who are self employed
+      - Unemployment rate - aged 16-64
+      - Unemployment rate - aged 16+
+      - % who are economically inactive - aged 16-64
+      - % of economically inactive who want a job
+      - % of economically inactive who do not want a job
+      - Economic activity rate males - aged 16-64
+      - Employment rate males - aged 16-64
+      - % of males aged 16-64 who are employees
+      - % of males aged 16-64 who are self employed
+      - Unemployment rate males - aged 16-64
+      - Unemployment rate males - aged 16+
+      - % of  males who are economically inactive - aged 16-64
+      - % of economically inactive males who want a job
+      - % of economically inactive males who do not want a job
+      - Economic activity rate females - aged 16-64
+      - Employment rate females - aged 16-64
+      - % of females aged 16-64 who are employees
+      - % of females aged 16-64 who are self employed
+      - Unemployment rate females - aged 16-64
+      - Unemployment rate females - aged 16+
+      - % of females who are economically inactive - aged 16-64
+      - % of economically inactive females who want a job
+      - % of economically inactive females who do not want a job
+      - % all in employment who are - 1: managers, directors and senior officials (SOC2020)
+      - % all in employment who are - 2: professional occupations (SOC2020)
+      - % all in employment who are - 3: associate professional occupations (SOC2020)
+      - % all in employment who are - 4: administrative and secretarial occupations (SOC2020)
+      - % all in employment who are - 5: skilled trades occupations (SOC2020)
+      - % all in employment who are - 6: caring, leisure and other service occupations (SOC2020)
+      - % all in employment who are - 7: sales and customer service occupations (SOC2020)
+      - % all in employment who are - 8: process, plant and machine operatives (SOC2020)
+      - % all in employment who are - 9: elementary occupations (SOC2020)
+      - aged 16-64 employment rate - ethnic minority
+      - 16+ unemployment rate - ethnic minority
+      - % of  ethnic minority aged 16-64 who are economically inactive
+      - % with RQF4+ - aged 16-64
+      - % with RQF3+ - aged 16-64
+      - % with RQF2+ - aged 16-64
+      - % with RQF1+ - aged 16-64
+      - % with other qualifications (RQF) - aged 16-64
+      - % with no qualifications (RQF) - aged 16-64
+      
+      source: https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17
+
+    config:
+      tags: Economic
+      alias: Annual Population Survey Economic Measures
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "July 2023 - June 2024"
+      latest_release: "January 2025"
+      next_release: "April 2025 (TBC)"
+      update_frequency: "Quarterly"
+    
+
+    columns:
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+      
+      - name: lad22nm
+        data_type: string
+        description: The name of the local authority district
+      
+      - name: measure
+        data_type: string
+        description: The specific factor which the data relates to e.g. unemployment rate
+      
+      - name: value
+        data_type: float
+        description: The percentage value of that factor
+      
+      - name: margin_of_error
+        data_type: string
+        description: The approximate margin of error on the value. Calculated with a 95% confidence level
+    
+  
+  - name: grant360_funding_data
+    description: |
+      # Grant360 Funding Data
+
+      The GrantNav portal allows for the searching of funding awards by funder, region and date.
+      We carried out a search for funding awards in the West Midlands in the previous year.
+
+      A funder must be registered to submit their data to this service for it to be present, 
+      so there will likely be additional funding from other funders which have not submitted
+      their data.
+      
+      The table contains funding data from The Foyle Foundation, Paul Hamlyn Foundation,
+      and Esmée Fairbairn Foundation.
+      
+      source: https://grantnav.threesixtygiving.org
+    config:
+      tags: Funding
+      alias: Grant360 Funding Data
+    meta:
+      granularity: "Postcode"
+      data_relates_to: "2024"
+      latest_release: "2024"
+      next_release: "N/A"
+      update_frequency: "Continual"
+
+    columns:
+      - name: msoa21cd
+        data_type: string
+        description: The code for the MSOA
+
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+
+      - name: lad22nm
+        data_type: string
+        description: The name of the local authority district
+
+      - name: amount_awarded
+        data_type: float
+        description: The funding amount awarded in GBO
+
+      - name: award_date
+        data_type: date
+        description: The date that the award was approved
+
+      - name: recipient_org_name
+        data_type: string
+        description: The name of the organisation receiving the funding
+
+      - name: recipient_org_postal_code
+        data_type: string
+        description: The postcode of the organisation receiving the funding
+
+      - name: funding_org_name
+        data_type: string
+        description: The name of the funder
+
+
+  - name: indices_of_deprivation
+    description: |
+      # Indices of Deprivation
+
+      A table containing values for the ONS indices of multiple deprivation for each MSOA.
+
+      For the ease of use, the deprivation scores are typically ranked into deciles or quantiles,
+      providing a simple ranking of 1-10 or 1-5 for an area based on how the deprivation score
+      sits compared to other areas.
+      
+      source: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019
+    config:
+      tags: Place Characteristics
+      alias: Indices of Deprivation
+    meta:
+      granularity: "LSOA"
+      data_relates_to: "2015-2016"
+      latest_release: "2019"
+      next_release: "Late 2025 (TBC)"
+      update_frequency: "3-4 years"
+
+    columns:
+      - name: msoa21cd
+        data_type: string
+        description: The code for the MSOA
+
+      - name: msoa21nm
+        data_type: string
+        description: The name of the MSOA
+
+      - name: local_authority
+        data_type: string
+        description: The name of the local authority district
+
+      - name: imd_score
+        data_type: float
+        description: The deprivation score. Higher is more deprived
+
+      - name: imd_decile_msoa
+        data_type: int
+        description: The decile rank of the MSO (1-10)
+
+      - name: imd_quantile_msoa
+        data_type: int
+        description: The quartile rank of the MSOA (1-5) 
+
+      - name: msoa_2021_status
+        data_type: string
+        description: Whether that MSOA is new in 2021
+
+
+  - name: rural_urban_classification
+    description: |
+      # Rural Urban Classification
+
+      A table containing the ONS Rural/Urban Classification for each MSOA.
+      
+      The potential categories that an area can be tagged with are:
+      - Urban major conurbation
+      - Urban minor conurbation
+      - Urban city and town in a sparse setting
+      - Urban city and town
+      - Rural town and fringe in a sparse setting
+      - Rural town and fringe
+      - Rural village and dispersed in a sparse setting
+      - Rural village and dispersed
+      
+      source: https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about
+    config:
+      tags: Place Characteristics
+      alias: Rural Urban Classification
+    meta:
+      granularity: "MSOA"
+      data_relates_to: "August 2013"
+      latest_release: "August 2022"
+      next_release: "N/A"
+      update_frequency: "N/A"
+
+    columns:
+      - name: msoa11cd
+        data_type: string
+        description: The code for the MSOA
+
+      - name: msoa11nm
+        data_type: string
+        description: The name of the MSOA
+
+      - name: ruc11cd
+        data_type: string
+        description: The Rural/Urban Classification code
+
+      - name: ruc11
+        data_type: string
+        description: The Rural/Urban Classification description
+
+
+  - name: annual_population_survey_welbeing_estimates
+    description: |
+      # Annual Population Survey Wellbeing Estimates
+
+      A table containing averages for the four ONS wellbeing measures for each local authority.
+
+      The wellbeing measures and their associated questions are as follows:
+      1. Life satisfaction: Overall, how satisfied are you with your life nowadays, where 0 is "not at all satisfied" and 10 is "completely satisfied"?
+      2. Worthwhile: Overall, to what extent do you feel that the things you do in your life are worthwhile, where 0 is "not at all worthwhile" and 10 is "completely worthwhile"?
+      3. Happiness: Overall, how happy did you feel yesterday, where 0 is "not at all happy" and 10 is "completely happy"?
+      4. Anxiety: On a scale where 0 is "not at all anxious" and 10 is "completely anxious", overall, how anxious did you feel yesterday?
+      
+      source: https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing
+    config:
+      tags: Wellbeing
+      alias: Annual Population Survey Wellbeing Estimates
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "2023-2024"
+      latest_release: "November 2023"
+      next_release: "TBA"
+      update_frequency: "Annual"
+
+    columns:
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+
+      - name: lad22nm
+        data_type: string
+        description: The name of the local authority district
+
+      - name: wellbeing_factor
+        data_type: string
+        description: The specific factor of wellbeing (life satisfaction, worthwhile, happiness, or anxiety)
+
+      - name: value
+        data_type: float
+        description: The average score against the specific wellbeing factor in that local authority
+
+      - name: margin_of_error
+        data_type: string
+        description: The approximate margin of error on the value. Calculated with a 95% confidence level
