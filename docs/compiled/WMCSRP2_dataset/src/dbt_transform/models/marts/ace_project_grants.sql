@@ -1,0 +1,1 @@
+select * from "WMCSRP2"."main_warehouse"."int__ace_project_grants_aggregated"

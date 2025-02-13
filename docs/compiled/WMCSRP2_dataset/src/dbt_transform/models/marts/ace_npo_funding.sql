@@ -1,0 +1,1 @@
+select * from "WMCSRP2"."main_warehouse"."int__ace_npo_funding_aggregated"

@@ -1,0 +1,1 @@
+select * from "WMCSRP2"."gcs_data"."ace_project_grants"

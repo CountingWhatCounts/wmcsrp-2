@@ -1,0 +1,1 @@
+select * from "dev"."main_warehouse"."int__cultural_infrastructure_msoa"
