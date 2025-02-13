@@ -1,1 +1,0 @@
-select * from "dev"."main_warehouse"."int__census_msoa_with_error"

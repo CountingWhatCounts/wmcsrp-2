@@ -1,1 +1,0 @@
-select * from "dev"."main_warehouse"."int__grant360"
