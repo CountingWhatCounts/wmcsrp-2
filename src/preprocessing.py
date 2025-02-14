@@ -23,7 +23,7 @@ from .helper_functions import (
 
 def ace_project_grants(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -36,7 +36,7 @@ def ace_project_grants(
     df = df.iloc[2:, :]
     df.columns = [x.lower().replace(' ','_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -44,7 +44,7 @@ def ace_project_grants(
 
 def ace_npo_funding(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -55,7 +55,7 @@ def ace_npo_funding(
     df = pd.read_excel(os.path.join(data_dir, files[0]), sheet_name='data')
     df.columns = [x.lower().replace(' ','_').replace('\n', '_').replace('/','_').replace('(','_').replace(')','_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -63,7 +63,7 @@ def ace_npo_funding(
 
 def economic_data(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -118,7 +118,7 @@ def economic_data(
     melted_df['margin of error'] = melted_df['margin of error'].apply(lambda x: float(x) / 100)
     melted_df.columns = [x.lower().replace(' ','_') for x in melted_df.columns]
     
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     melted_df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -126,7 +126,7 @@ def economic_data(
 
 def grant360_data(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -145,7 +145,7 @@ def grant360_data(
     df['award_date'] = df['award_date'].apply(lambda x: x.replace('/', '-'))
     df['award_date'] = df['award_date'].apply(lambda x: pd.to_datetime(x).strftime('%Y-%m-%d'))
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -153,7 +153,7 @@ def grant360_data(
 
 def imd_data(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -164,7 +164,7 @@ def imd_data(
     df = pd.read_csv(os.path.join(data_dir, files[0]))
     df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -172,7 +172,7 @@ def imd_data(
 
 def cultural_infrastructure(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -188,7 +188,7 @@ def cultural_infrastructure(
     df = pd.concat(frames)
     df = df.drop('amount_awarded', axis=1)
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -196,7 +196,7 @@ def cultural_infrastructure(
 
 def wellbeing(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -248,7 +248,7 @@ def wellbeing(
     df = df.reset_index(names='ID')
     df.columns = [x.lower().replace(' ','_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -256,7 +256,7 @@ def wellbeing(
 
 def census_data(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -309,7 +309,7 @@ def census_data(
     df = pd.concat(frames)
     df.columns = [x.lower().replace(' ','_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -317,7 +317,7 @@ def census_data(
 
 def yougov(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -335,7 +335,7 @@ def yougov(
     df = label_duplicate_columns(df)
     df = append_underscore_if_number(df)
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -343,7 +343,7 @@ def yougov(
 
 def rural_urban_classification(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -355,7 +355,7 @@ def rural_urban_classification(
         'Rural_Urban_Classification_(2011)_of_Middle_Layer_Super_Output_Areas_in_England_and_Wales.csv'
     ))
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -363,7 +363,7 @@ def rural_urban_classification(
 
 def ace_priority_places(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -373,7 +373,7 @@ def ace_priority_places(
     df = pd.read_csv(os.path.join(data_dir,'ace_priority_places.csv'))
     df.columns = [x.lower() for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -381,7 +381,7 @@ def ace_priority_places(
 
 def postcode_mapping(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -392,7 +392,7 @@ def postcode_mapping(
     df = df.replace(r'^\s*$', np.nan, regex=True)
     df.columns = [x.lower() for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -400,7 +400,7 @@ def postcode_mapping(
 
 def msoa_mapping(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -410,7 +410,7 @@ def msoa_mapping(
     df = pd.read_csv(os.path.join(data_dir, 'MSOA_(2011)_to_MSOA_(2021)_to_Local_Authority_District_(2022)_Lookup_for_England_and_Wales_-5379446518771769392.csv'))
     df.columns = [x.lower() for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
@@ -418,7 +418,7 @@ def msoa_mapping(
 
 def msoa_population(
         downloaded_data_dir: str,
-        preprocessed_data_dir: str,
+        seed_data_dir: str,
         output_filename: str
     ) -> None:
 
@@ -431,6 +431,6 @@ def msoa_population(
     df = df[['MSOA 2021 Code', 'Total']]
     df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 
-    output_path = os.path.join(preprocessed_data_dir, output_filename)
+    output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")

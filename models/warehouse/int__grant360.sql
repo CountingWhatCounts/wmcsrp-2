@@ -26,7 +26,7 @@ grant360 as (
         replace(recipient_org_postal_code, ' ', '') as recipient_org_postal_code,
         funding_org_name
     from
-        {{ ref('raw__grant360') }}
+        {{ ref('stg__grant360_funding') }}
 ),
 
 

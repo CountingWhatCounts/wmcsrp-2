@@ -1,11 +1,11 @@
 with
 
 ruc as (
-    select * from {{ ref('raw__rural_urban_classification') }}
+    select * from {{ ref('stg__rural_urban_classification') }}
 ),
 
 msoa_mapping as (
-    select * from {{ ref('raw__msoa_mapping') }}
+    select * from {{ ref('stg__msoa_mapping') }}
 ),
 
 combined as (

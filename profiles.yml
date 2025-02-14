@@ -1,7 +1,7 @@
 
 main:
   
-  target: local
+  target: remote
 
   outputs:
 
@@ -10,3 +10,13 @@ main:
       path: WMCSRP2.duckdb
       schema: md
       threads: 4
+
+    remote:
+      type: postgres
+      host: aws-0-eu-west-2.pooler.supabase.com
+      user: postgres.xoelzzgpxyiwjnjcozqm 
+      pass: "{{ env_var('SUPABASE_PASSWORD') }}"
+      port: 6543
+      dbname: postgres
+      schema: public
+

@@ -7,7 +7,7 @@ economic_data as (
         value,
         margin_of_error
     from
-        {{ ref('raw__economic') }}
+        {{ ref('stg__economic') }}
 ),
 
 local_authority_codes as (

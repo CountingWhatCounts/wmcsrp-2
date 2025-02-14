@@ -14,8 +14,8 @@ services_msoa as (
         name as service_name,
         source,
         category,
-    from {{ ref('raw__cultural_infrastructure') }} as ci
-    left join {{ ref('raw__postcode_mapping') }} as pm
+    from {{ ref('stg__cultural_infrastructure') }} as ci
+    left join {{ ref('stg__postcode_mapping') }} as pm
     on ci.postcode = pm.pcd_no_space
 ),
 

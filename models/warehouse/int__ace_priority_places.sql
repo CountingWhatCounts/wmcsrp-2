@@ -1,7 +1,7 @@
 with
 
 priority_places as (
-    select * from {{ ref('raw__ace_priority_places') }}
+    select * from {{ ref('stg__ace_priority_places') }}
 ),
 
 local_authority_codes as (

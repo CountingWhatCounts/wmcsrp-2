@@ -4,7 +4,7 @@ with npo_funding as (
         annual_funding__extension_year_2022_23,
         annual_funding__offered_4_nov_2022_2023_26,
         average_annual_funding_2018_22,
-    from {{ ref('raw__ace_npo_funding') }}
+    from {{ ref('stg__ace_npo_funding') }}
 ),
 
 

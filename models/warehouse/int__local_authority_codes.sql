@@ -44,7 +44,7 @@ target_areas as (
         lad22cd,
         lad22nm
     from
-        {{ ref('raw__msoa_mapping') }}
+        {{ ref('stg__msoa_mapping') }}
 ),
 
 filter_areas as (
