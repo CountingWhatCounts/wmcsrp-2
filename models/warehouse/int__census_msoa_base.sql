@@ -1,11 +1,11 @@
 with
 
-wmca_area_codes as (
+msoa_codes as (
     select
         distinct msoa21cd,
         msoa21nm
     from
-        {{ ref('int__area_codes') }}
+        {{ ref('int__msoa_codes') }}
 ),
 
 msoa_census as (
@@ -19,7 +19,7 @@ msoa_census as (
     from
         {{ ref('raw__census') }} as t
     inner join
-        wmca_area_codes as wac
+        msoa_codes as wac
     on
         wac.msoa21cd = t.geography_code
 )

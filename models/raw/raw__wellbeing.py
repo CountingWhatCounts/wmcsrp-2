@@ -9,8 +9,7 @@ from dotenv import load_dotenv
 def model(dbt, session):
 
     pd.set_option('future.no_silent_downcasting', True)
-    load_dotenv('.env', override=True)
-    bucket_name = os.getenv('gcp_bucket')
+    bucket_name = os.getenv('WMCSRP_BUCKET')
     client = storage.Client.create_anonymous_client()
     bucket = client.bucket(bucket_name)
     blobs = bucket.list_blobs(prefix='wellbeing')

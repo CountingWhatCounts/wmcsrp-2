@@ -10,12 +10,12 @@ wellbeing_data as (
         {{ ref('raw__wellbeing') }}
 ),
 
-wmca_area_codes as (
+local_authority_codes as (
     select
         lad22cd,
         lad22nm
     from
-        {{ ref('int__area_codes') }}
+        {{ ref('int__local_authority_codes') }}
 )
 
 select
@@ -25,7 +25,7 @@ select
     wd.value,
     wd.margin_of_error,
 from
-    wmca_area_codes as ac
+    local_authority_codes as ac
 left join
     wellbeing_data as wd
 on

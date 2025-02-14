@@ -114,8 +114,7 @@ def process_age_data(age_data: pd.DataFrame) -> pd.DataFrame:
 
 def model(dbt, session):
 
-    load_dotenv('.env', override=True)
-    bucket_name = os.getenv('gcp_bucket')
+    bucket_name = os.getenv('WMCSRP_BUCKET')
     client = storage.Client.create_anonymous_client()
     bucket = client.bucket(bucket_name)
     blobs = bucket.list_blobs(prefix='census')

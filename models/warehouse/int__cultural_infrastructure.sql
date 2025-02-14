@@ -1,14 +1,14 @@
 with
 
-lad_codes as (
+local_authority_codes as (
     select distinct lad22nm, lad22cd
-    from {{ ref('int__area_codes') }}
+    from {{ ref('int__local_authority_codes') }}
 ),
 
 services_msoa as (
     select
         area_name as ladnm,
-        msoa21,
+        msoa21 as msoa21cd,
         postcode,
         service_type,
         name as service_name,
@@ -23,7 +23,7 @@ services_lad as (
     select
         *
     from services_msoa
-    join lad_codes on services_msoa.ladnm = lad_codes.lad22nm
+    join local_authority_codes on services_msoa.ladnm = local_authority_codes.lad22nm
 )
 
 select * from services_lad

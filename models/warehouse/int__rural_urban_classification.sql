@@ -10,8 +10,8 @@ msoa_mapping as (
 
 combined as (
     select
-        ruc.msoa11cd,
-        ruc.msoa11nm,
+        msoa21cd,
+        msoa21nm,
         ruc11cd,
         ruc11
     from ruc

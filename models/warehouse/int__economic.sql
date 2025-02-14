@@ -10,12 +10,12 @@ economic_data as (
         {{ ref('raw__economic') }}
 ),
 
-wmca_area_codes as (
+local_authority_codes as (
     select
         lad22cd,
         lad22nm,
     from
-        {{ ref('int__area_codes') }}
+        {{ ref('int__local_authority_codes') }}
 )
 
 select
@@ -31,6 +31,6 @@ select
 from
     economic_data as ed
 inner join
-    wmca_area_codes as ac
+    local_authority_codes as ac
 on
     ed.local_authority = ac.lad22nm

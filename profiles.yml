@@ -1,10 +1,12 @@
 
 main:
+  
+  target: local
+
   outputs:
-    dev:
+
+    local:
       type: duckdb
       path: WMCSRP2.duckdb
       schema: md
       threads: 4
-
-  target: dev

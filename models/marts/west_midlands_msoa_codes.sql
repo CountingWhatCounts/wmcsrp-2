@@ -1,0 +1,1 @@
+select * from {{ ref('int__msoa_codes') }}

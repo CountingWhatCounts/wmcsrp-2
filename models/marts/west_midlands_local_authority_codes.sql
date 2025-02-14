@@ -1,0 +1,1 @@
+select * from {{ ref('int__local_authority_codes') }}

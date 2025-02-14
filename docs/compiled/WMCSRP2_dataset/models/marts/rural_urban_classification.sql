@@ -1,1 +1,0 @@
-select * from "WMCSRP2"."md_warehouse"."int__rural_urban_classification"

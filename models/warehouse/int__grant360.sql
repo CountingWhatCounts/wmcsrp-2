@@ -11,11 +11,10 @@ postcodes as (
 
 area_codes as (
     select
-        lad22cd,
-        lad22nm,
+        distinct lad22cd,
         msoa21cd,
     from
-        {{ ref('int__area_codes') }}
+        {{ ref('int__msoa_codes') }}
 ),
 
 
@@ -35,7 +34,6 @@ combined as (
     select
         distinct area_codes.msoa21cd,
         area_codes.lad22cd,
-        area_codes.lad22nm,
         grant360.amount_awarded,
         grant360.award_date,
         grant360.recipient_org_name,

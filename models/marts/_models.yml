@@ -16,7 +16,11 @@ models:
       source: https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data
     config:
       tags: Funding
-      alias: Arts Council England NPO Funding
+      alias: ACE_NPO_Funding
+      contract:
+        enforced: true
+      post-hook:
+        - "ALTER TABLE {{ this }} ADD CONSTRAINT fk_lad22cd FOREIGN KEY (lad22cd) REFERENCES west_midlands_area_codes(lad22cd)"
     meta:
       granularity: "Local Authority"
       data_relates_to: "2023-2026"
@@ -28,6 +32,11 @@ models:
       - name: lad22cd
         data_type: string
         description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
       
       - name: lad22nm
         data_type: string
@@ -56,7 +65,9 @@ models:
       source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
     config:
       tags: Place Characteristics
-      alias: Arts Council England Priority Places
+      alias: ACE_Priority_Places
+      contract:
+        enforced: true
     meta:
       granularity: "Local Authority"
       data_relates_to: "2021-2024"
@@ -65,7 +76,17 @@ models:
       update_frequency: "N/A"
     
     columns:
-      - name: ladnm
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
+    
+    columns:
+      - name: lad22nm
         data_type: string
         description: The name of the local authority district
       
@@ -84,7 +105,9 @@ models:
       source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
     config:
       tags: Place Characteristics
-      alias: Arts Council England Levelling Up for Culture Places
+      alias: ACE_Levelling_Up_for_Culture_Places
+      contract:
+        enforced: true
     meta:
       granularity: "Local Authority"
       data_relates_to: "2022-2026"
@@ -93,7 +116,17 @@ models:
       update_frequency: "N/A"
     
     columns:
-      - name: ladnm
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [lad22nm]
+    
+    columns:
+      - name: lad22nm
         data_type: string
         description: The name of the local authority district
       
@@ -104,7 +137,7 @@ models:
 
   - name: ace_project_grants_funding
     description: |
-      # Arts Council England Project Grants Funding
+      # ACE Project Grants Funding
 
       This table contains the amount of Arts Council England funding provided as
       Project Grants, grouped by local authority district.
@@ -116,7 +149,9 @@ models:
       source: https://www.artscouncil.org.uk/ProjectGrants/project-grants-data
     config:
       tags: Funding
-      alias: Arts Council England Project Grants Funding
+      alias: ACE_Project_Grants_Funding
+      contract:
+        enforced: true
     meta:
       granularity: "Local Authority"
       data_relates_to: "2024-2025"
@@ -128,6 +163,11 @@ models:
       - name: lad22cd
         data_type: string
         description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
       
       - name: lad22nm
         data_type: string
@@ -143,9 +183,9 @@ models:
         description: The average annual funding in that local authority for the period 2018-22
 
     
-  - name: west_midlands_area_codes
+  - name: west_midlands_local_authority_codes
     description: |
-      # West Midlands Area Codes
+      # West Midlands Local Authority Codes
 
       Contains names and codes for all MSOAs and local authority districts. Also
       indicates whether each local authority is a constituent or non-constituent
@@ -160,28 +200,79 @@ models:
       - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
     config:
       tags: Area Mapping
-      alias: West Midlands Area Codes
+      alias: West_Midlands_Local_Authority_Codes
+      contract:
+        enforced: true
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "2024"
+      latest_release: "December 2024"
+      next_release: "N/A"
+      update_frequency: "N/A"
+    
+    columns:
+      - name: area
+        data_type: string
+        description: Whether the local authority is part of WMCA
+
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: primary_key
+          - type: unique
+      
+      - name: lad22nm
+        data_type: string
+        description: The name for the local authority district
+
+    
+  - name: west_midlands_msoa_codes
+    description: |
+      # West Midlands MSOA Codes
+
+      Contains names and codes for all MSOAs and local authority districts. Also
+      indicates whether each local authority is a constituent or non-constituent
+      member of the WMCA. Compiled from the ONS Postcode Directory and the MSOA
+      to Local Authority District Mapping.
+
+      This table is used to link up tables which are at different levels of
+      granularity and allows for searching of data by geography.
+
+      sources:
+      - https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about
+      - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
+    config:
+      tags: Area Mapping
+      alias: West_Midlands_MSOA_Codes
+      contract:
+        enforced: true
     meta:
       granularity: "MSOA"
       data_relates_to: "2024"
       latest_release: "December 2024"
       next_release: "N/A"
       update_frequency: "N/A"
-
     
     columns:
-      - name: area
-        data_type: string
-        description: Whether the local authority is part of WMCA
       - name: lad22cd
         data_type: string
         description: The code for the local authority district
-      - name: lad22nm
-        data_type: string
-        description: The name for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
+      
       - name: msoa21cd
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: not_null
+          - type: primary_key
+          - type: unique
+      
       - name: msoa21nm
         data_type: string
         description: The name for the MSOA
@@ -231,7 +322,9 @@ models:
       source: https://www.nomisweb.co.uk/sources/census_2021_bulk
     config:
       tags: Demographics
-      alias: Census 2021 Data
+      alias: Census_2021_Data
+      contract:
+        enforced: true
     meta:
       granularity: "MSOA"
       data_relates_to: "2021"
@@ -243,8 +336,13 @@ models:
       - name: msoa21cd
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_msoa_codes')
+            to_columns: [msoa21cd]
       
-      - name: msoa21n
+      - name: msoa21nm
         data_type: string
         description: The name for the MSOA
       
@@ -287,8 +385,10 @@ models:
       
       source: https://culture.localinsight.org/#/map
     config:
-      tags: Cultural Infrastructure
-      alias: Cultural Infrastructure
+      tags: Place Characteristics
+      alias: Cultural_Infrastructure
+      contract:
+        enforced: true
     meta:
       granularity: "MSOA"
       data_relates_to: "N/A"
@@ -297,9 +397,14 @@ models:
       update_frequency: "TBC"
 
     columns:
-      - name: msoa21
+      - name: msoa21cd
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_msoa_codes')
+            to_columns: [msoa21cd]
 
       - name: service_type
         data_type: string
@@ -375,20 +480,26 @@ models:
       source: https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17
 
     config:
-      tags: Economic
-      alias: Annual Population Survey Economic Measures
+      tags: Demographics
+      alias: Annual_Population_Survey_Economic_Measures
+      contract:
+        enforced: true
     meta:
       granularity: "Local Authority"
       data_relates_to: "July 2023 - June 2024"
       latest_release: "January 2025"
       next_release: "April 2025 (TBC)"
       update_frequency: "Quarterly"
-    
 
     columns:
       - name: lad22cd
         data_type: string
         description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
       
       - name: lad22nm
         data_type: string
@@ -424,7 +535,9 @@ models:
       source: https://grantnav.threesixtygiving.org
     config:
       tags: Funding
-      alias: Grant360 Funding Data
+      alias: Grant360_Funding_Data
+      contract:
+        enforced: true
     meta:
       granularity: "Postcode"
       data_relates_to: "2024"
@@ -436,6 +549,11 @@ models:
       - name: msoa21cd
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_msoa_codes')
+            to_columns: [msoa21cd]
 
       - name: lad22cd
         data_type: string
@@ -479,7 +597,9 @@ models:
       source: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019
     config:
       tags: Place Characteristics
-      alias: Indices of Deprivation
+      alias: Indices_of_Deprivation
+      contract:
+        enforced: true
     meta:
       granularity: "LSOA"
       data_relates_to: "2015-2016"
@@ -491,6 +611,11 @@ models:
       - name: msoa21cd
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_msoa_codes')
+            to_columns: [msoa21cd]
 
       - name: msoa21nm
         data_type: string
@@ -536,7 +661,9 @@ models:
       source: https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about
     config:
       tags: Place Characteristics
-      alias: Rural Urban Classification
+      alias: Rural_Urban_Classification
+      contract:
+        enforced: true
     meta:
       granularity: "MSOA"
       data_relates_to: "August 2013"
@@ -548,6 +675,11 @@ models:
       - name: msoa11cd
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_msoa_codes')
+            to_columns: [msoa21cd]
 
       - name: msoa11nm
         data_type: string
@@ -562,7 +694,7 @@ models:
         description: The Rural/Urban Classification description
 
 
-  - name: annual_population_survey_welbeing_estimates
+  - name: annual_population_survey_wellbeing_estimates
     description: |
       # Annual Population Survey Wellbeing Estimates
 
@@ -576,8 +708,10 @@ models:
       
       source: https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing
     config:
-      tags: Wellbeing
-      alias: Annual Population Survey Wellbeing Estimates
+      tags: Demographics
+      alias: Annual_Population_Survey_Wellbeing_Estimates
+      contract:
+        enforced: true
     meta:
       granularity: "Local Authority"
       data_relates_to: "2023-2024"
@@ -589,6 +723,11 @@ models:
       - name: lad22cd
         data_type: string
         description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
 
       - name: lad22nm
         data_type: string

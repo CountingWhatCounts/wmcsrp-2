@@ -42,11 +42,17 @@ target_areas as (
             else 'Ignore'
         end as area,
         lad22cd,
-        lad22nm,
-        msoa21cd,
-        msoa21nm
+        lad22nm
     from
-        "WMCSRP2"."md_raw"."raw__msoa_mapping"
+        {{ ref('raw__msoa_mapping') }}
+),
+
+filter_areas as (
+    select
+        distinct lad22cd,
+        lad22nm,
+        area
+    from target_areas where area != 'Ignore'
 )
 
-select * from target_areas where area != 'Ignore'
+select * from filter_areas

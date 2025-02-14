@@ -35,4 +35,4 @@ For information or support, please contact Counting What Counts at marc.dunford@
 | Place Characteristics     | Rural Urban Classification                    | https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about |
 | Place Characteristics     | Levelling Up and Priority Places              | https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places#t-in-page-nav-3 |
 | Area Mapping              | ONS Postcode Directory (November 2024)        | https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about |
-| Area Mapping              | MSOA to Local Authority District Mapping       | https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about |
+| Area Mapping              | MSOA to Local Authority District Mapping      | https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about |
