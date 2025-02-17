@@ -379,6 +379,24 @@ def ace_priority_places(
 
 
 
+def ace_levelling_up_places(
+        downloaded_data_dir: str,
+        seed_data_dir: str,
+        output_filename: str
+    ) -> None:
+
+    logger.info(f"Pre-processing ACE Levelling Up for Culture Places data")
+    data_dir = os.path.join(downloaded_data_dir, 'levelling_up_places')
+
+    df = pd.read_excel(os.path.join(data_dir,'levelling_up_places.xlsx'), sheet_name='Sheet1', engine='openpyxl')
+    df.columns = [x.lower() for x in df.columns]
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+
 def postcode_mapping(
         downloaded_data_dir: str,
         seed_data_dir: str,
