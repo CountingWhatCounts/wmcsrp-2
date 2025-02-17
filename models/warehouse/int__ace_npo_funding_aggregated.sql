@@ -3,7 +3,7 @@ with npo_funding as (
         local_authority,
         annual_funding__extension_year_2022_23,
         annual_funding__offered_4_nov_2022_2023_26,
-        average_annual_funding_2018_22,
+        average_annual_funding_2018_22
     from {{ ref('stg__ace_npo_funding') }}
 ),
 
@@ -44,7 +44,7 @@ combined as (
         case
             when sum_average_annual_funding_2018_2022 is null then 0
             else sum_average_annual_funding_2018_2022
-        end as sum_average_annual_funding_2018_2022,
+        end as sum_average_annual_funding_2018_2022
     from local_authority_codes
     left join aggregated on local_authority_codes.lad22nm = aggregated.local_authority
 ),

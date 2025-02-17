@@ -1,12 +1,7 @@
 select
-    CAST(area_name as text) as area_name,
-    CAST(postcode as text) as postcode,
-    CAST(service_type as text) as service_type,
-    CAST(name as text) as service_name,
-    CAST(source as text) as source,
-    CAST(website as text) as website,
-    CAST(category as text) as category,
-    CAST(funding_year as text) as funding_year,
-    CAST(lead_partner_organisation_ as text) as lead_partner_organisation
+    CAST(local_authority as text) as local_authority,
+    CAST(measure as text) as measure,
+    CAST(value as float) as value,
+    CAST(margin_of_error as float) as margin_of_error
 from
-    {{ source('preprocessed_data', 'raw__cultural_infrastructure') }}
+    {{ source('preprocessed_data', 'raw__economic') }}

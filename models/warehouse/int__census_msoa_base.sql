@@ -21,7 +21,7 @@ msoa_census as (
     inner join
         msoa_codes as wac
     on
-        wac.msoa21cd = t.geography_code
+        wac.msoa21cd = t.msoa21cd
 )
 
 select

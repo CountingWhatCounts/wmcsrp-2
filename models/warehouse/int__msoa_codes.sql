@@ -6,7 +6,7 @@ all_msoas as (
         msoa21cd,
         msoa21nm
     from
-        {{ ref('raw__msoa_mapping') }}
+        {{ ref('stg__msoa_mapping') }}
 ),
 
 target_msoas as (

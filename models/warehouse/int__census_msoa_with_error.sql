@@ -2,8 +2,7 @@ with msoa_census as (
     select * from {{ ref('int__census_msoa_with_population') }}
 ),
 
-
-msoa_errors as (
+msoa_with_p as (
     select
         msoa21cd,
         msoa21nm,
@@ -12,10 +11,24 @@ msoa_errors as (
         count as count_of_answer,
         n as sample_size,
         population as population_size,
-        count / n as p,
-        1.96 * sqrt( (p * (1-p)) / ((population - 1) * n / (population - n)) ) as margin_of_error
+        count / n as p
     from
         msoa_census
+),
+
+msoa_errors as (
+    select
+        msoa21cd,
+        msoa21nm,
+        census_question,
+        answer,
+        count_of_answer,
+        sample_size,
+        population_size,
+        p,
+        1.96 * sqrt( (p * (1-p)) / ((population_size - 1) * sample_size / (population_size - sample_size)) ) as margin_of_error
+    from
+        msoa_with_p
 )
 
 

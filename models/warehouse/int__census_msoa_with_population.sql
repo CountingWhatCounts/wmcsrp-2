@@ -18,7 +18,7 @@ combined as (
         case
             when n >= population then n+5
             else population
-        end as population,
+        end as population
     from msoa_census
     join msoa_population on msoa_census.msoa21cd = msoa_population.msoa21cd
 )

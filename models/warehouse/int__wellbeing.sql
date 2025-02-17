@@ -23,7 +23,7 @@ select
     ac.lad22nm,
     wd.wellbeing_factor,
     wd.value,
-    wd.margin_of_error,
+    wd.margin_of_error
 from
     local_authority_codes as ac
 left join

@@ -2,17 +2,17 @@ with
 
 postcodes as (
     select
-        msoa21,
-        pcd_no_space as postcode
+        msoa21cd,
+        postcode
     from
-        {{ ref('raw__postcode_mapping')}}
+        {{ ref('stg__postcode_mapping')}}
 ),
 
 
 area_codes as (
     select
         distinct lad22cd,
-        msoa21cd,
+        msoa21cd
     from
         {{ ref('int__msoa_codes') }}
 ),
@@ -41,7 +41,7 @@ combined as (
         grant360.funding_org_name
     from grant360
     join postcodes on grant360.recipient_org_postal_code = postcodes.postcode
-    join area_codes on area_codes.msoa21cd = postcodes.msoa21
+    join area_codes on area_codes.msoa21cd = postcodes.msoa21cd
 )
 
 

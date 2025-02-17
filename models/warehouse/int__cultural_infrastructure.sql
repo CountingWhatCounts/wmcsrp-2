@@ -8,15 +8,15 @@ local_authority_codes as (
 services_msoa as (
     select
         area_name as ladnm,
-        msoa21 as msoa21cd,
-        postcode,
+        msoa21cd,
+        pm.postcode,
         service_type,
         name as service_name,
         source,
-        category,
+        category
     from {{ ref('stg__cultural_infrastructure') }} as ci
     left join {{ ref('stg__postcode_mapping') }} as pm
-    on ci.postcode = pm.pcd_no_space
+    on ci.postcode = pm.postcode
 ),
 
 services_lad as (
