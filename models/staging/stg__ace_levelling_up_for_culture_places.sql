@@ -1,5 +1,4 @@
 select
-    CAST(LADNM as text) as lad22nm,
-    CAST(LEVELLING_UP_PLACE as boolean) as levelling_up_place
+    CAST(local_authority as text) as lad22nm
 from
-    {{ ref('seed_ace_levelling_up_for_culture_places') }}
+    {{ source('preprocessed_data', 'raw__ace_levelling_up_for_culture_places') }}

@@ -9,6 +9,6 @@ select
     CAST(local_authority as text) as local_authority,
     CAST(main_discipline as text) as main_discipline,
     CAST(strand as text) as strand,
-    CAST("time-limited_priority" as text) as time_limited_priority,
+    CAST("time-limited_priority" as text) as time_limited_priority
 from
-    {{ ref('seed_ace_project_grants_funding') }}
+    {{ source('preprocessed_data', 'raw__ace_project_grants') }}

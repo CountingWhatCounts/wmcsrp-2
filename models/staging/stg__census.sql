@@ -3,6 +3,6 @@ select
     CAST(n as integer) as n,
     CAST(measure as text) as measure,
     CAST(count as integer) as count,
-    CAST(content as text) as content,
+    CAST(content as text) as content
 from
-    {{ ref('seed_census') }}
+    {{ source('preprocessed_data', 'raw__census') }}

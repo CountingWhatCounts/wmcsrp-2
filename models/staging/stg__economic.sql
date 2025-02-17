@@ -9,4 +9,4 @@ select
     CAST(funding_year as text) as funding_year,
     CAST(lead_partner_organisation_ as text) as lead_partner_organisation
 from
-    {{ ref('seed_cultural_infrastructure') }}
+    {{ source('preprocessed_data', 'raw__cultural_infrastructure') }}

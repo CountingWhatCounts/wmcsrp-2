@@ -22,6 +22,6 @@ select
     CAST(grant_programme_code as text) as grant_programme_code,
     CAST(grant_programme_title as text) as grant_programme_title,
     CAST(grant_type as text) as grant_type,
-    CAST(type_of_recipient as text) as type_of_recipient,
+    CAST(type_of_recipient as text) as type_of_recipient
 from
-    {{ ref('seed_grant360') }}
+    {{ source('preprocessed_data', 'raw__grant360') }}

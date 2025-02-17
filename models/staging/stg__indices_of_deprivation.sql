@@ -5,6 +5,6 @@ select
     CAST(imd_score as float) as imd_score,
     CAST(imd_decile_msoa as integer) as imd_decile_msoa,
     CAST(imd_quantile_msoa as integer) as imd_quantile_msoa,
-    CAST(msoa_2021_status as text) as msoa_2021_status,
+    CAST(msoa_2021_status as text) as msoa_2021_status
 from
-    {{ ref('seed_indices_of_deprivation') }}
+    {{ source('preprocessed_data', 'raw__indices_of_deprivation') }}

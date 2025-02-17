@@ -7,6 +7,6 @@ select
     CAST(lad22cd as text) as lad22cd,
     CAST(lad22nm as text) as lad22nm,
     CAST(lad22nmw as text) as lad22nmw,
-    CAST(objectid as integer) as objectid,
+    CAST(objectid as integer) as objectid
 from
-    {{ ref('seed_msoa_mapping') }}
+    {{ source('preprocessed_data', 'raw__msoa_mapping') }}

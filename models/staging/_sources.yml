@@ -1,0 +1,21 @@
+version: 1
+
+sources:
+  - name: preprocessed_data
+    database: wmcsrp2
+    schema: public
+    tables:
+      - name: raw__ace_levelling_up_for_culture_places 
+      - name: raw__ace_npo_funding 
+      - name: raw__ace_priority_places 
+      - name: raw__ace_project_grants 
+      - name: raw__census 
+      - name: raw__cultural_infrastructure 
+      - name: raw__economic 
+      - name: raw__grant360 
+      - name: raw__indices_of_deprivation 
+      - name: raw__msoa_mapping 
+      - name: raw__msoa_population
+      - name: raw__postcode_mapping
+      - name: raw__rural_urban_classification
+      - name: raw__wellbeing
