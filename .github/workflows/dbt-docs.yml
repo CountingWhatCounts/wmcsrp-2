@@ -24,6 +24,9 @@ jobs:
           pip install -r requirements.txt
           
       - name: Generate dbt Docs
+        env:
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          WMCSRP_DB_PASS: ${{ secrets.WMCSRP_DB_PASS }}
         run: dbt docs generate
 
       - name: Move docs to docs/ folder
