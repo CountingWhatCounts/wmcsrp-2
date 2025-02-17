@@ -13,10 +13,10 @@ main:
 
     remote:
       type: postgres
-      host: aws-0-eu-west-2.pooler.supabase.com
-      user: postgres.xoelzzgpxyiwjnjcozqm 
-      pass: "{{ env_var('SUPABASE_PASSWORD') }}"
-      port: 6543
-      dbname: postgres
+      host: cwc-db-2-do-user-15270656-0.l.db.ondigitalocean.com
+      user: doadmin
+      pass: "{{ env_var('WMCSRP_DB_PASS') }}"
+      port: 25060
+      dbname: wmcsrp2
       schema: public
 
