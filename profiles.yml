@@ -13,7 +13,7 @@ main:
 
     remote:
       type: postgres
-      host: cwc-db-2-do-user-15270656-0.l.db.ondigitalocean.com
+      host: "{{ env_var('POSTGRES_HOST') }}"
       user: doadmin
       pass: "{{ env_var('WMCSRP_DB_PASS') }}"
       port: 25060
