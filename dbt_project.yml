@@ -8,9 +8,9 @@ test-paths: ["tests"]
 
 models:
   WMCSRP2_dataset:
-    raw:
+    staging:
       +materialized: view
-      +schema: raw
+      +schema: staging
     warehouse:
       +materialized: view
       +schema: warehouse
