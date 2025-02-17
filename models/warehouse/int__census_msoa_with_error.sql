@@ -25,8 +25,8 @@ msoa_errors as (
         count_of_answer,
         sample_size,
         population_size,
-        p,
-        1.96 * sqrt( (p * (1-p)) / ((population_size - 1) * sample_size / (population_size - sample_size)) ) as margin_of_error
+        CAST(p as float),
+        CAST(1.96 * sqrt( (p * (1-p)) / ((population_size - 1) * sample_size / (population_size - sample_size)) ) as float) as margin_of_error
     from
         msoa_with_p
 )

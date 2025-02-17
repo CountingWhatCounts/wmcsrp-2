@@ -19,8 +19,6 @@ models:
       alias: ACE_NPO_Funding
       contract:
         enforced: true
-      post-hook:
-        - "ALTER TABLE {{ this }} ADD CONSTRAINT fk_lad22cd FOREIGN KEY (lad22cd) REFERENCES west_midlands_area_codes(lad22cd)"
     meta:
       granularity: "Local Authority"
       data_relates_to: "2023-2026"
@@ -84,11 +82,6 @@ models:
           - type: foreign_key
             to: ref('west_midlands_local_authority_codes')
             to_columns: [lad22cd]
-    
-    columns:
-      - name: lad22nm
-        data_type: string
-        description: The name of the local authority district
       
       - name: priority_place
         data_type: bool
@@ -122,13 +115,8 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_area_codes')
-            to_columns: [lad22nm]
-    
-    columns:
-      - name: lad22nm
-        data_type: string
-        description: The name of the local authority district
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
       
       - name: levelling_up_place
         data_type: bool
@@ -169,18 +157,9 @@ models:
             to: ref('west_midlands_local_authority_codes')
             to_columns: [lad22cd]
       
-      - name: lad22nm
-        data_type: string
-        description: The name of the local authority district
-      
-      - name: sum_annual_funding_extension_year
-        description: The total funding in that local authority district for the 2022-23 extension year
-      
-      - name: sum_annual_funding_2023_2026
-        description: The planned average annual funding in that local authority for the period 2023-26
-      
-      - name: sum_average_annual_funding_2018_2022
-        description: The average annual funding in that local authority for the period 2018-22
+      - name: sum_award_amount
+        data_type: integer
+        description: Total award amount for project grants
 
     
   - name: west_midlands_local_authority_codes
@@ -342,10 +321,6 @@ models:
             to: ref('west_midlands_msoa_codes')
             to_columns: [msoa21cd]
       
-      - name: msoa21nm
-        data_type: string
-        description: The name for the MSOA
-      
       - name: census_question
         data_type: string
         description: The question from the Census
@@ -501,10 +476,6 @@ models:
             to: ref('west_midlands_local_authority_codes')
             to_columns: [lad22cd]
       
-      - name: lad22nm
-        data_type: string
-        description: The name of the local authority district
-      
       - name: measure
         data_type: string
         description: The specific factor which the data relates to e.g. unemployment rate
@@ -555,17 +526,9 @@ models:
             to: ref('west_midlands_msoa_codes')
             to_columns: [msoa21cd]
 
-      - name: lad22cd
-        data_type: string
-        description: The code for the local authority district
-
-      - name: lad22nm
-        data_type: string
-        description: The name of the local authority district
-
       - name: amount_awarded
-        data_type: float
-        description: The funding amount awarded in GBO
+        data_type: integer
+        description: The funding amount awarded in GBP
 
       - name: award_date
         data_type: date
@@ -616,10 +579,6 @@ models:
           - type: foreign_key
             to: ref('west_midlands_msoa_codes')
             to_columns: [msoa21cd]
-
-      - name: msoa21nm
-        data_type: string
-        description: The name of the MSOA
 
       - name: local_authority
         data_type: string
@@ -672,7 +631,7 @@ models:
       update_frequency: "N/A"
 
     columns:
-      - name: msoa11cd
+      - name: msoa21cd
         data_type: string
         description: The code for the MSOA
         constraints:
@@ -680,10 +639,6 @@ models:
           - type: foreign_key
             to: ref('west_midlands_msoa_codes')
             to_columns: [msoa21cd]
-
-      - name: msoa11nm
-        data_type: string
-        description: The name of the MSOA
 
       - name: ruc11cd
         data_type: string
@@ -728,10 +683,6 @@ models:
           - type: foreign_key
             to: ref('west_midlands_local_authority_codes')
             to_columns: [lad22cd]
-
-      - name: lad22nm
-        data_type: string
-        description: The name of the local authority district
 
       - name: wellbeing_factor
         data_type: string

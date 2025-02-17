@@ -1,4 +1,5 @@
 select
-    *
+    lad22cd,
+    priority_place
 from
-    {{ ref('raw__ace_priority_places')}}
+    {{ ref('int__ace_priority_places')}}

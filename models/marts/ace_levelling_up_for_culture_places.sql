@@ -1,4 +1,5 @@
 select
-    *
+    lad22cd,
+    levelling_up_place
 from
-    {{ ref('raw__ace_levelling_up_for_culture_places')}}
+    {{ ref('int__ace_levelling_up_for_culture_places')}}

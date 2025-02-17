@@ -1,6 +1,8 @@
-select *
-from {{ ref('raw__indices_of_deprivation') }}
-where
-    msoa21cd in (
-        select msoa21cd from {{ ref('int__msoa_codes') }}
-    )
+select
+    msoa21cd,
+    local_authority,
+    imd_score,
+    imd_decile_msoa,
+    imd_quantile_msoa,
+    msoa_2021_status
+from {{ ref('int__indices_of_deprivation') }}

@@ -4,6 +4,12 @@ import yaml
 from tempfile import TemporaryDirectory
 
 
+
+def get_table_name_from_csv(csv_name):
+    return csv_name.split('__')[1].split('.')[0]
+
+
+
 def filter_columns(df: pd.DataFrame):
     column_indices = [0]
     i = 0

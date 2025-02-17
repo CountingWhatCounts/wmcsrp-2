@@ -22,7 +22,7 @@ select
     distinct ac.lad22cd,
     ac.lad22nm,
     ed.measure,
-    round(ed.value::NUMERIC, 5) as value,
+    CAST(round(ed.value::numeric, 5) as float) as value,
     case
         when margin_of_error < 0.05 then '<5%'
         when margin_of_error < 0.1 then '5-10%'

@@ -17,6 +17,11 @@ combined as (
     from ruc
     left join msoa_mapping
     on ruc.msoa11cd = msoa_mapping.msoa11cd
+),
+
+filtered as (
+    select * from combined
+    where msoa21cd in (select msoa21cd from {{ ref('int__msoa_codes') }})
 )
 
-select * from combined
+select * from filtered

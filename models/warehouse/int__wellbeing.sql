@@ -22,7 +22,7 @@ select
     distinct ac.lad22cd,
     ac.lad22nm,
     wd.wellbeing_factor,
-    wd.value,
+    CAST(wd.value as float),
     wd.margin_of_error
 from
     local_authority_codes as ac
