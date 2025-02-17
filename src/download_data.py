@@ -3,14 +3,13 @@ from google.cloud import storage
 
 from .logger import logger
 
+
 def download_from_gcs(
         bucket_name: str,
         downloaded_data_dir: str
     ) -> None:
     
     """Downloads all files from a GCS bucket to a local directory."""
-    
-    os.makedirs(downloaded_data_dir, exist_ok=True)
 
     client = storage.Client.create_anonymous_client()
     bucket = client.bucket(bucket_name)
