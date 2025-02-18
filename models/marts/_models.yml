@@ -25,6 +25,8 @@ models:
       latest_release: "March 2023"
       next_release: "Unknown"
       update_frequency: "3-4 years"
+    docs:
+      node_color: purple
     
     columns:
       - name: lad22cd
@@ -72,6 +74,8 @@ models:
       latest_release: "2021"
       next_release: "N/A"
       update_frequency: "N/A"
+    docs:
+      node_color: purple
     
     columns:
       - name: lad22cd
@@ -107,6 +111,8 @@ models:
       latest_release: "2022"
       next_release: "N/A"
       update_frequency: "N/A"
+    docs:
+      node_color: purple
     
     columns:
       - name: lad22cd
@@ -146,6 +152,8 @@ models:
       latest_release: "December 2024"
       next_release: "N/A"
       update_frequency: "Annual"
+    docs:
+      node_color: purple
 
     columns:
       - name: lad22cd
@@ -188,6 +196,8 @@ models:
       latest_release: "December 2024"
       next_release: "N/A"
       update_frequency: "N/A"
+    docs:
+      node_color: purple
     
     columns:
       - name: area
@@ -233,6 +243,8 @@ models:
       latest_release: "December 2024"
       next_release: "N/A"
       update_frequency: "N/A"
+    docs:
+      node_color: purple
     
     columns:
       - name: lad22cd
@@ -263,28 +275,70 @@ models:
 
       Contains data from the 2021 Census at the MSOA level.
 
-      ### Census data margin of error
+      The questions included in the dataset are:
+      - Accommodation type
+      - Age
+      - Disability
+      - Distance travelled to work
+      - Economic activity status
+      - Ethnic group
+      - Ethnic group (detailed)
+      - Gender identity
+      - General health
+      - Highest level of qualification
+      - Hours worked
+      - Household composition
+      - Household deprivation
+      - Household size
+      - Industry (current)
+      - Living arrangements
+      - Marital and civil partnership status
+      - Method of travel to workplace
+      - Migrant indicator
+      - Multiple ethnic groups in household
+      - Number of cars or vans
+      - Occupation (current)
+      - Passports held
+      - Proficiency in English language
+      - Religion
+      - Religion (detailed)
+      - Sex
+      - Sexual orientation
+      - UK armed forces veteran indicator
+      - Unemployment history
+      - Year of arrival in the UK
+
+      source: https://www.nomisweb.co.uk/sources/census_2021_bulk
+
+
+      ### Margin of error calculation
 
       The raw data for the census is provided as counts for each category
-      along with the total sample size count for that census question. For
-      example:
-
-      [Distance travelled to work]{.underline}
-
-      Total people who responded about distance travelled to work: 2829
-
-      People who answered "less than 2km": 118
+      along with the total sample size count for that census question.
 
       We combined these counts with the estimated population for each
-      MSOA[^17] to calculate the margin of error for each answer using a
-      finite population correction. The margin of error provided is a 95%
-      confidence level.
+      MSOA to calculate the margin of error for each answer using a
+      finite population correction.
 
-      ![](media/image1.png){width="2.9843755468066493in"
-      height="0.7533377077865266in"}
+      The finite population correction accounts for the fact that a
+      large proportion of the total population is included in the sample.
+      
+      For example:
 
-      *Figure 3: Formula for calculating margin of error with finite
-      population correction*
+      **Distance travelled to work**
+
+      ```
+      - Population of MSOA: N = 3500
+      - Total people who responded about distance travelled to work: n = 2829
+      - People who answered "less than 2km": 118
+      - Proportion of people who answered "less than 2km": p = 118 / 2829 = 0.042
+
+      MOE = z * sqrt(p * (1 - p) / ((N - 1) / (n / (N - n))))
+      MOE = 1.96 * sqrt(0.042 * (1 - 0.042) / ((3500 - 1) / (2829 / (3500 - 2829))))
+      MOE = 1.36%
+      ```
+
+      The margin of error provided is at a 95% confidence level.
 
       #### Census age data
 
@@ -297,8 +351,6 @@ models:
 
       The result is age data grouped into 5 year bins to match the
       participation survey data.
-      
-      source: https://www.nomisweb.co.uk/sources/census_2021_bulk
     config:
       tags: Demographics
       alias: Census_2021_Data
@@ -310,6 +362,8 @@ models:
       latest_release: "2022"
       next_release: "Post 2031"
       update_frequency: "10 years"
+    docs:
+      node_color: purple
     
     columns:
       - name: msoa21cd
@@ -370,6 +424,8 @@ models:
       latest_release: "2024"
       next_release: "TBC"
       update_frequency: "TBC"
+    docs:
+      node_color: purple
 
     columns:
       - name: msoa21cd
@@ -465,6 +521,8 @@ models:
       latest_release: "January 2025"
       next_release: "April 2025 (TBC)"
       update_frequency: "Quarterly"
+    docs:
+      node_color: purple
 
     columns:
       - name: lad22cd
@@ -515,6 +573,8 @@ models:
       latest_release: "2024"
       next_release: "N/A"
       update_frequency: "Continual"
+    docs:
+      node_color: purple
 
     columns:
       - name: msoa21cd
@@ -569,6 +629,8 @@ models:
       latest_release: "2019"
       next_release: "Late 2025 (TBC)"
       update_frequency: "3-4 years"
+    docs:
+      node_color: purple
 
     columns:
       - name: msoa21cd
@@ -629,6 +691,8 @@ models:
       latest_release: "August 2022"
       next_release: "N/A"
       update_frequency: "N/A"
+    docs:
+      node_color: purple
 
     columns:
       - name: msoa21cd
@@ -673,6 +737,8 @@ models:
       latest_release: "November 2023"
       next_release: "TBA"
       update_frequency: "Annual"
+    docs:
+      node_color: purple
 
     columns:
       - name: lad22cd
