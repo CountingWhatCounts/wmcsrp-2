@@ -8,7 +8,7 @@ This repository contains the data sources and processing for the West Midlands C
 Openness is a core principal of this project, and therefore all code and access to the data is being published here.
 
 The list of sourcess is in the table below. To ease replication of the data processing, data from the various sources
-has been downloaded and stored in a Google Cloud bucket which supports download ßusing this project.
+has been downloaded and stored in a Google Cloud bucket which is downloaded and processed using this project.
 
 For information or support, please contact Counting What Counts at marc.dunford@culturecounts.cc.
 
