@@ -7,8 +7,6 @@
 
 This documentation summarises the data which has been brought together for the West Midlands Cultural Sector Research Project 2.0 and the process used to do so.
 
-To produce the dataset on your own computer, you can follow the instructiong on the GitHub page here: https://github.com/CountingWhatCounts/wmcsrp-2. 
-
 
 
 ## How to use this website
@@ -25,7 +23,7 @@ The data used for the project is in the final data models in public_marts. If yo
 * The source of the data
 * The columns present the table with a description of their content
 
-In the bottom right-hand side of the page there is a **View Lineage Graph** button which shows you the flow of data from the raw data to the marts. If you click on a table in this graph you can see how other tables were combined to produce this output.
+In the bottom right-hand side of the page there is a [View Lineage Graph](https://countingwhatcounts.github.io/wmcsrp-2/#!/overview?g_v=1) button which shows you the flow of data from the raw data to the marts. If you click on a table in this graph you can see how other tables were combined to produce this output.
 
 
 
