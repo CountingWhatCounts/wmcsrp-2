@@ -27,7 +27,7 @@ target_areas as (
             when lad22nm in (
                 'Bromsgrove',
                 'East Staffordshire',
-                'Herefordshire, County of',
+                'Herefordshire',
                 'Lichfield',
                 'Malvern Hills',
                 'Newcastle-under-Lyme',

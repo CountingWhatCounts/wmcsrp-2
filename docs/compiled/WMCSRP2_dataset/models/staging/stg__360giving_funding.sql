@@ -24,4 +24,4 @@ select
     CAST(grant_type as text) as grant_type,
     CAST(type_of_recipient as text) as type_of_recipient
 from
-    "wmcsrp2"."public"."raw__grant360"
+    "wmcsrp2"."public"."raw__360giving"

@@ -26,7 +26,7 @@ grant360 as (
         replace(recipient_org_postal_code, ' ', '') as recipient_org_postal_code,
         funding_org_name
     from
-        "wmcsrp2"."public_staging"."stg__grant360_funding"
+        "wmcsrp2"."public_staging"."stg__360giving_funding"
 ),
 
 
