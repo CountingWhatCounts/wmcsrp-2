@@ -18,11 +18,10 @@ lad_codes as (
 combined as (
     select
         lad22cd,
-        levelling_up_place
-    from levelling_up
-    left join lad_codes
+        coalesce(levelling_up_place, FALSE) as levelling_up_place
+    from lad_codes
+    left join levelling_up
     on lad_codes.lad22nm = levelling_up.lad22nm
-    where lad22cd is not null
 )
 
 select * from combined

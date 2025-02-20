@@ -11,8 +11,8 @@ local_authority_codes as (
 combined as (
     select
         lad22cd,
-        priority_place
-    from priority_places join local_authority_codes
+        coalesce(priority_place, FALSE) as priority_place
+    from local_authority_codes left join priority_places
     on priority_places.lad22nm = local_authority_codes.lad22nm
 )
 

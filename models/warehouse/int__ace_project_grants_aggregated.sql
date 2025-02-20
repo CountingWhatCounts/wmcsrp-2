@@ -29,10 +29,7 @@ combined as (
     select
         distinct lad22cd,
         lad22nm,
-        case
-            when sum_award_amount is null then 0
-            else sum_award_amount
-        end as sum_award_amount
+        coalesce(sum_award_amount, 0) as sum_award_amount
     from local_authority_codes
     left join aggregated on local_authority_codes.lad22nm = aggregated.local_authority
 )
