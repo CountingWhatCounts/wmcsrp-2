@@ -29,8 +29,8 @@ select
         when margin_of_error < 0.2 then '10-20%'
     end as margin_of_error
 from
-    economic_data as ed
-inner join
     local_authority_codes as ac
+join
+    economic_data as ed
 on
     ed.local_authority = ac.lad22nm
