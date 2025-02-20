@@ -12,7 +12,7 @@ sources:
       - name: raw__census 
       - name: raw__cultural_infrastructure 
       - name: raw__economic 
-      - name: raw__grant360 
+      - name: raw__360giving 
       - name: raw__indices_of_deprivation 
       - name: raw__msoa_mapping 
       - name: raw__msoa_population

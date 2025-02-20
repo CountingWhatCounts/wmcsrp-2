@@ -547,9 +547,9 @@ models:
         description: The approximate margin of error on the value. Calculated with a 95% confidence level
     
   
-  - name: grant360_funding_data
+  - name: 360giving_funding_data
     description: |
-      # Grant360 Funding Data
+      # 360Giving Funding Data
 
       The GrantNav portal allows for the searching of funding awards by funder, region and date.
       We carried out a search for funding awards in the West Midlands in the previous year.
@@ -564,7 +564,7 @@ models:
       source: https://grantnav.threesixtygiving.org
     config:
       tags: Funding
-      alias: Grant360_Funding_Data
+      alias: 360Giving_Funding_Data
       contract:
         enforced: true
     meta:

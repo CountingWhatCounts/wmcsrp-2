@@ -23,7 +23,7 @@ The data used for the project is in the final data models in public_marts. If yo
 * The source of the data
 * The columns present the table with a description of their content
 
-In the bottom right-hand side of the page there is a [View Lineage Graph](https://countingwhatcounts.github.io/wmcsrp-2/#!/overview?g_v=1) button which shows you the flow of data from the raw data to the marts. If you click on a table in this graph you can see how other tables were combined to produce this output.
+In the bottom right-hand side of the page there is a **View Lineage Graph** button which shows you the flow of data from the raw data to the marts. If you click on a table in this graph you can see how other tables were combined to produce this output.
 
 
 
@@ -32,7 +32,7 @@ In the bottom right-hand side of the page there is a [View Lineage Graph](https:
 | :------------------------------------------ | :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
 | Arts Council England NPO Funding            | Funding                 | https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data                   |
 | Arts Council England Project Grants Funding | Funding                 | https://www.artscouncil.org.uk/ProjectGrants/project-grants-data                                                                           |
-| Grant360                                    | Funding                 | https://grantnav.threesixtygiving.org/                                                                                                     |
+| 360Giving                                   | Funding                 | https://grantnav.threesixtygiving.org/                                                                                                     |
 | Census 2021                                 | Demographics            | https://www.nomisweb.co.uk/sources/census_2021_bulk                                                                                        |
 | Annual Survey Economic Data                 | Economic                | https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17                                                 |
 | Annual Personal Wellbeing Estimates         | Wellbeing               | https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing                                |

@@ -24,4 +24,4 @@ select
     CAST(grant_type as text) as grant_type,
     CAST(type_of_recipient as text) as type_of_recipient
 from
-    {{ source('preprocessed_data', 'raw__grant360') }}
+    {{ source('preprocessed_data', 'raw__360giving') }}
