@@ -26,22 +26,26 @@ The data used for the project is in the final data models in public_marts. If yo
 In the bottom right-hand side of the page there is a **View Lineage Graph** button which shows you the flow of data from the raw data to the marts. If you click on a table in this graph you can see how other tables were combined to produce this output.
 
 
-
 ## Data Sources
-| Data Source                                 | Data Theme              | Link                                                                                                                                       |
-| :------------------------------------------ | :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
-| Arts Council England NPO Funding            | Funding                 | https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data                   |
-| Arts Council England Project Grants Funding | Funding                 | https://www.artscouncil.org.uk/ProjectGrants/project-grants-data                                                                           |
-| 360Giving                                   | Funding                 | https://grantnav.threesixtygiving.org/                                                                                                     |
-| Census 2021                                 | Demographics            | https://www.nomisweb.co.uk/sources/census_2021_bulk                                                                                        |
-| Annual Survey Economic Data                 | Economic                | https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17                                                 |
-| Annual Personal Wellbeing Estimates         | Wellbeing               | https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing                                |
-| Cultural and Place Data Explorer            | Cultural Infrastructure | https://culture.localinsight.org/#/map                                                                                                     |
-| Indices of Multiple Deprivation             | Place Characteristics   | https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17                                                 |
-| Rural Urban Classification                  | Place Characteristics   | https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about                                     |
-| Levelling Up and Priority Places            | Place Characteristics   | https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places#t-in-page-nav-3                                      |
-| ONS Postcode Directory (November 2024)      | Area Mapping            | https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about                                                        |
-| MSOA to Local Authority District Mapping    | Area Mapping            | https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about |
+
+| Data Theme             | Data Source                                 | Link                                                                                                                                       |
+| :--------------------- | :------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| Funding                | Arts Council England NPO Funding            | https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data                   |
+| Funding                | Arts Council England Project Grants Funding | https://www.artscouncil.org.uk/ProjectGrants/project-grants-data                                                                           |
+| Funding                | 360Giving                                   | https://grantnav.threesixtygiving.org/                                                                                                     |
+| Demographics           | Census 2021                                 | https://www.nomisweb.co.uk/sources/census_2021_bulk                                                                                        |
+| Demographics           | Annual Survey Economic Data                 | https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17                                                 |
+| Demographics           | Annual Personal Wellbeing Estimates         | https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing                                |
+| Place Characteristics  | Cultural and Place Data Explorer            | https://culture.localinsight.org/#/map                                                                                                     |
+| Place Characteristics  | Indices of Multiple Deprivation             | https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17                                                 |
+| Place Characteristics  | Rural Urban Classification                  | https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about                                     |
+| Place Characteristics  | Levelling Up and Priority Places            | https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places#t-in-page-nav-3                                      |
+| Area Mapping           | ONS Postcode Directory (November 2024)      | https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about                                                        |
+| Area Mapping           | MSOA to Local Authority District Mapping    | https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about |
+| Cultural Participation | Participation Survey                        |                                                                                                                                            |
+| Cultural Participation | YouGov Residents Survey                     |                                                                                                                                            |
+| Experience             | Indigo Share                                |                                                                                                                                            |
+| Experience             | Impact & Insight Toolkit                    |                                                                                                                                            |
 
 
 
