@@ -1,5 +1,6 @@
 import os
 from dbt.cli.main import dbtRunner
+from google.cloud import storage
 import shutil
 import psycopg2
 from sqlalchemy import create_engine
@@ -34,14 +35,17 @@ if __name__ == "__main__":
         "raw__msoa_mapping.csv": preprocess.msoa_mapping,
         "raw__msoa_population.csv": preprocess.msoa_population,
         "raw__ace_levelling_up_for_culture_places.csv": preprocess.ace_levelling_up_places,
+        "raw__impact_and_insight_toolkit_local_authority_benchmarks.csv": preprocess.impact_and_insight_toolkit,
     }
 
     # Download data from google cloud bucket
     logger.info("======== INITIALISING FILE DOWNLOAD ========")
     os.makedirs(RAW_DATA_DIRECTORY, exist_ok=True)
-    download_from_gcs(
-        bucket_name=os.getenv("WMCSRP_BUCKET"), downloaded_data_dir=RAW_DATA_DIRECTORY
-    )
+    client = storage.Client.create_anonymous_client()
+    bucket = client.bucket(os.getenv("WMCSRP_BUCKET"))
+    blobs = bucket.list_blobs()
+    for blob in blobs:
+        download_from_gcs(blob=blob, downloaded_data_dir=RAW_DATA_DIRECTORY)
     logger.info("======== FILE DOWNLOAD COMPLETE =========\n\n")
 
     logger.info("======== PREPROCESSING DATA FILES ========")
@@ -94,4 +98,8 @@ if __name__ == "__main__":
     try:
         shutil.rmtree(RAW_DATA_DIRECTORY)
     except OSError as e:
-        print("Error: %s - %s." % (e.filename, e.strerror))
+        logger.error("Error: %s - %s." % (e.filename, e.strerror))
+    try:
+        shutil.rmtree(PREPROCESSED_DATA_DIRECTORY)
+    except OSError as e:
+        logger.error("Error: %s - %s." % (e.filename, e.strerror))
