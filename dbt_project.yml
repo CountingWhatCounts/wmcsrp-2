@@ -15,5 +15,7 @@ models:
       +materialized: view
       +schema: warehouse
     marts:
+      +quoting:
+        identifier: true
       +materialized: table
       +schema: marts
