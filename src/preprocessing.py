@@ -443,3 +443,19 @@ def msoa_population(
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_csv(output_path, index=False)
     logger.info(f"Saved to {output_path}")
+
+
+def impact_and_insight_toolkit(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Impact & Insight Toolkit data")
+    data_dir = os.path.join(
+        downloaded_data_dir, "impact_and_insight_toolkit_local_authority_benchmarks"
+    )
+
+    df = pd.read_csv(os.path.join(data_dir, "iit_lad_dimension_benchmarks.csv"))
+    df.columns = [x.lower().replace(" ", "_") for x in df.columns]
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_csv(output_path, index=False)
+    logger.info(f"Saved to {output_path}")

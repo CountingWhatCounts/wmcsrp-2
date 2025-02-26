@@ -761,3 +761,78 @@ models:
       - name: margin_of_error
         data_type: string
         description: The approximate margin of error on the value. Calculated with a 95% confidence level
+
+  - name: impact_and_insight_toolkit_local_authority_benchmarks
+    description: |
+      # Impact & Insight Toolkit Local Authority Benchmarks
+
+      Benchmarks from public survey responses to dimension questions in Impact & Insight Toolkit surveys which took place since April 2023.
+
+      The benchmarks are created by taking the postcode of the person who responded to the survey and linking that postcode to the relevant local authority.
+
+      n counts are provided for the number of survey responses, the number of different surveys responded to, and the number of different organisations which distributed the surveys.
+
+      Includes benchmarks for the following dimensions questions:
+
+      | Dimension Name    | Dimension Statement                                       |
+      | :---              | :---                                                      |
+      | Captivation       | It was absorbing and held my attention                    |
+      | Concept           | It was an interesting idea                                |
+      | Distinctiveness   | It was different from things I've experienced before      |
+      | Relevance         | It had something to say about the world in which we live  |
+      | Rigour            | It was well thought through and put together              |
+      | Thought Provoking | It was thought provoking                                  |
+
+      For more information about the Impact & Insight Toolkit project see the website [here](https://impactandinsight.co.uk)
+      
+    config:
+      tags: Experience
+      alias: Impact_and_Insight_Toolkit_Local_Authority_Benchmarks
+      contract:
+        enforced: true
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "April 2023 - February 2025"
+      latest_release: "February 2025"
+      next_release: "May 2025"
+      update_frequency: "Quarterly"
+    docs:
+      node_color: purple
+
+    columns:
+      - name: lad22cd
+        data_type: string
+        description: The code for the local authority district
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_local_authority_codes')
+            to_columns: [lad22cd]
+
+      - name: dimension_name
+        data_type: string
+        description: The name of the dimension question
+
+      - name: dimension_statement
+        data_type: string
+        description: The statement that a survey respondents agrees/disagrees with
+
+      - name: average
+        data_type: float
+        description: The average agreement level between 0 (least agree) and 1 (most agree)
+
+      - name: margin_of_error
+        data_type: float
+        description: The 95% confidence margin of error on the average
+
+      - name: response_n
+        data_type: integer
+        description: The number of survey responses included in that benchmark
+
+      - name: evaluation_n
+        data_type: integer
+        description: The number of different surveys responded to
+
+      - name: organisation_n
+        data_type: integer
+        description: The number of different organisations which distributed the surveys
