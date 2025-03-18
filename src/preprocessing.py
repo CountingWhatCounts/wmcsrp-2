@@ -3,6 +3,7 @@ import numpy as np
 import os
 import pyreadstat
 
+
 from .logger import logger
 from .helper_functions import (
     get_data_folders,
@@ -34,7 +35,7 @@ def ace_project_grants(
     df.columns = [x.lower().replace(" ", "_") for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -56,8 +57,10 @@ def ace_npo_funding(
         for x in df.columns
     ]
 
+    df["applicant_name"] = df["applicant_name"].astype(str)
+
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -120,7 +123,7 @@ def economic_data(
     melted_df.columns = [x.lower().replace(" ", "_") for x in melted_df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    melted_df.to_csv(output_path, index=False)
+    melted_df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -145,6 +148,8 @@ def giving360_data(
         frames.append(df)
     df = pd.concat(frames)
 
+    df["recipient_org_company_number"] = df["recipient_org_company_number"].astype(str)
+
     df["award_date"] = df["award_date"].astype(str)
     df["award_date"] = df["award_date"].apply(lambda x: x.replace("/", "-"))
     df["award_date"] = df["award_date"].apply(
@@ -152,7 +157,7 @@ def giving360_data(
     )
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -167,7 +172,7 @@ def imd_data(
     df.columns = [x.lower().replace(" ", "_") for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -194,7 +199,7 @@ def cultural_infrastructure(
     df = df.drop("amount_awarded", axis=1)
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -249,7 +254,7 @@ def wellbeing(
     df.columns = [x.lower().replace(" ", "_") for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -308,7 +313,7 @@ def census_data(
     df.columns = [x.lower().replace(" ", "_") for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -337,7 +342,7 @@ def yougov(downloaded_data_dir: str, seed_data_dir: str, output_filename: str) -
     df = append_underscore_if_number(df)
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -355,7 +360,7 @@ def rural_urban_classification(
     )
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -369,7 +374,7 @@ def ace_priority_places(
     df.columns = [x.lower() for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -387,7 +392,7 @@ def ace_levelling_up_places(
     df.columns = [x.lower() for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -401,8 +406,12 @@ def postcode_mapping(
     df = df.replace(r"^\s*$", np.nan, regex=True)
     df.columns = [x.lower() for x in df.columns]
 
+    df["streg"] = df["streg"].astype(str)
+    df["ur01ind"] = df["ur01ind"].astype(str)
+    df["ru11ind"] = df["ru11ind"].astype(str)
+
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -421,7 +430,7 @@ def msoa_mapping(
     df.columns = [x.lower() for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -441,7 +450,7 @@ def msoa_population(
     df.columns = [x.lower().replace(" ", "_") for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
 
 
@@ -457,5 +466,83 @@ def impact_and_insight_toolkit(
     df.columns = [x.lower().replace(" ", "_") for x in df.columns]
 
     output_path = os.path.join(seed_data_dir, output_filename)
-    df.to_csv(output_path, index=False)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+def participation_survey_data(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Participation Survey data")
+    data_dir = os.path.join(downloaded_data_dir, "participation_survey")
+    df = pd.read_csv(
+        os.path.join(data_dir, "participation_2023-24_annual_data_open.tab"),
+        sep="\t",
+        encoding="cp1252",
+    )
+
+    for col in df.select_dtypes(include="object").columns:
+        try:
+            df[col] = df[col].str.encode("utf-8", errors="strict").str.decode("utf-8")
+        except Exception as e:
+            print(f"Column {col} has problematic characters: {e}")
+
+    int32_cols = ["ArchYcserial", "ArchIndivSerial", "ArchHHSerial"]
+    df[int32_cols] = df[int32_cols].astype("int32")
+
+    float32_cols = [
+        "rimweightPS_trim2",
+        "finalweight",
+        "rimweightwebPS_trim2",
+        "finalweightweb",
+        "Y3GrossingWeight",
+        "Y3GrossingWeight_WebOnly",
+        "Y3SampleSizeWeight",
+        "Y3SampleSizeWeight_WebOnly",
+    ]
+    df[float32_cols] = df[float32_cols].map(
+        lambda x: x if isinstance(x, (float, int)) else np.nan
+    )
+    df[float32_cols] = df[float32_cols].astype("Float32")
+
+    category_cols = ["gor11nm", "gor11cd", "LAU121CD"]
+    df[category_cols] = df[category_cols].astype("category")
+
+    int16_cols = [
+        col
+        for col in df.columns
+        if col not in int32_cols + float32_cols + category_cols
+    ]
+    df[int16_cols] = df[int16_cols].map(lambda x: x if isinstance(x, int) else pd.NA)
+    df[int16_cols] = df[int16_cols].astype("Int16")
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+def participation_survey_variable_dictionary(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Participation Survey variables dictionary")
+    data_dir = os.path.join(downloaded_data_dir, "participation_survey")
+
+    _, meta = pyreadstat.read_sav(
+        os.path.join(data_dir, "participation_2023-24_annual_data_open.sav"),
+        metadataonly=True,
+    )
+
+    df = pd.DataFrame(
+        {
+            "variable_name": meta.column_names,
+            "variable_label": meta.column_labels,
+            "value_map": [
+                str(meta.variable_value_labels.get(var, None))
+                for var in meta.column_names
+            ],
+        }
+    )
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
