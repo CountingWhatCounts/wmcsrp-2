@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from src.download_data import download_from_gcs
 import src.preprocessing as preprocess
 from src.logger import logger
-from src.load_data import create_table_with_pandas, load_csv_to_postgres
+from src.load_data import create_table_with_pandas, load_parquet_to_postgres
 
 
 if __name__ == "__main__":
@@ -21,21 +21,23 @@ if __name__ == "__main__":
 
     # Define the output file names and associated processing functions
     data_spec = {
-        "raw__ace_project_grants.csv": preprocess.ace_project_grants,
-        "raw__ace_npo_funding.csv": preprocess.ace_npo_funding,
-        "raw__economic.csv": preprocess.economic_data,
-        "raw__360giving.csv": preprocess.giving360_data,
-        "raw__indices_of_deprivation.csv": preprocess.imd_data,
-        "raw__cultural_infrastructure.csv": preprocess.cultural_infrastructure,
-        "raw__wellbeing.csv": preprocess.wellbeing,
-        "raw__census.csv": preprocess.census_data,
-        "raw__rural_urban_classification.csv": preprocess.rural_urban_classification,
-        "raw__ace_priority_places.csv": preprocess.ace_priority_places,
-        "raw__postcode_mapping.csv": preprocess.postcode_mapping,
-        "raw__msoa_mapping.csv": preprocess.msoa_mapping,
-        "raw__msoa_population.csv": preprocess.msoa_population,
-        "raw__ace_levelling_up_for_culture_places.csv": preprocess.ace_levelling_up_places,
-        "raw__impact_and_insight_toolkit_local_authority_benchmarks.csv": preprocess.impact_and_insight_toolkit,
+        "raw__ace_project_grants.parquet": preprocess.ace_project_grants,
+        "raw__ace_npo_funding.parquet": preprocess.ace_npo_funding,
+        "raw__economic.parquet": preprocess.economic_data,
+        "raw__360giving.parquet": preprocess.giving360_data,
+        "raw__indices_of_deprivation.parquet": preprocess.imd_data,
+        "raw__cultural_infrastructure.parquet": preprocess.cultural_infrastructure,
+        "raw__wellbeing.parquet": preprocess.wellbeing,
+        "raw__census.parquet": preprocess.census_data,
+        "raw__rural_urban_classification.parquet": preprocess.rural_urban_classification,
+        "raw__ace_priority_places.parquet": preprocess.ace_priority_places,
+        "raw__postcode_mapping.parquet": preprocess.postcode_mapping,
+        "raw__msoa_mapping.parquet": preprocess.msoa_mapping,
+        "raw__msoa_population.parquet": preprocess.msoa_population,
+        "raw__ace_levelling_up_for_culture_places.parquet": preprocess.ace_levelling_up_places,
+        "raw__impact_and_insight_toolkit_local_authority_benchmarks.parquet": preprocess.impact_and_insight_toolkit,
+        "raw__participation_survey_data.parquet": preprocess.participation_survey_data,
+        "raw__participation_survey_variable_dictionary.parquet": preprocess.participation_survey_variable_dictionary,
     }
 
     # Download data from google cloud bucket
@@ -66,26 +68,25 @@ if __name__ == "__main__":
     # Pandas easily creates a correctly specified table from a dataframe
     # posycopg2 uses copy instead of insert which is much faster
     logger.info("======== LOADING DATA ========")
-    for csv_file, _ in data_spec.items():
+    for filename, _ in data_spec.items():
         try:
             create_table_with_pandas(
                 data_dir=PREPROCESSED_DATA_DIRECTORY,
-                csv_file=csv_file,
-                table_name=csv_file.split(".")[0],
+                filename=filename,
+                table_name=filename.split(".")[0],
                 engine=engine,
             )
 
             with psycopg2.connect(DB_CONN) as conn:
-                logger.info(f"Loading data for {csv_file}")
-                load_csv_to_postgres(
+                logger.info(f"Loading data for {filename}")
+                load_parquet_to_postgres(
                     data_dir=PREPROCESSED_DATA_DIRECTORY,
-                    csv_file=csv_file,
-                    table_name=csv_file.split(".")[0],
+                    filename=filename,
+                    table_name=filename.split(".")[0],
                     conn=conn,
                 )
-
         except ValueError:
-            logger.info(f"Table already present for {csv_file}")
+            logger.info(f"Table already present for {filename}")
 
     logger.info("======== DATA LOADED ========\n\n")
 
