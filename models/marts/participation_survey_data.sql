@@ -1,0 +1,1 @@
+select * from {{ ref('stg__participation_survey_data') }}
