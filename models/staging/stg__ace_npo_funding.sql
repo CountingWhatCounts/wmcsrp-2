@@ -1,4 +1,4 @@
-select
+select distinct
     CAST(applicant_name as text) as applicant_name,
     CAST(type_of_organisation__npo_ipso_transfer_ as text) as type_of_organisation,
     CAST(national_youth_music_organisation as text) as national_youth_music_organisation,
@@ -9,6 +9,9 @@ select
     CAST(ace_area as text) as ace_area,
     CAST(ons_region as text) as ons_region,
     CAST(constituency as text) as constituency,
-    CAST(local_authority as text) as local_authority
+    case 
+        when local_authority = 'Herefordshire, County of' then 'Herefordshire'
+        else local_authority
+    end as local_authority
 from
     {{ source('preprocessed_data', 'raw__ace_npo_funding') }}
