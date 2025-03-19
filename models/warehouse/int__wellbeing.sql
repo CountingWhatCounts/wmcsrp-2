@@ -8,6 +8,8 @@ wellbeing_data as (
         margin_of_error 
     from
         {{ ref('stg__wellbeing') }}
+    where
+        date = 'April 2022 to March 2023'
 ),
 
 local_authority_codes as (
