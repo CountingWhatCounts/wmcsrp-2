@@ -1,5 +1,13 @@
 with msoa_census as (
-    select * from {{ ref('int__census_msoa_with_population') }}
+    select
+        msoa21cd,
+        msoa21nm,
+        content,
+        measure,
+        cast(count as float),
+        cast(n as float),
+        population
+    from {{ ref('int__census_msoa_with_population') }}
 ),
 
 msoa_with_p as (

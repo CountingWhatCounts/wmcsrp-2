@@ -1,9 +1,9 @@
-select
+select distinct
     msoa21cd,
     census_question,
     answer,
-    count_of_answer,
-    sample_size,
+    CAST(count_of_answer as integer),
+    CAST(sample_size as integer),
     population_size,
     CAST(p as float),
     CAST(margin_of_error as float)

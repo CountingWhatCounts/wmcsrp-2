@@ -1,4 +1,4 @@
-select
+select distinct
     CAST(recipient as text) as recipient,
     CAST(activity_name as text) as activity_name,
     CAST(award_amount as integer) as award_amount,
