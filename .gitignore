@@ -183,3 +183,7 @@ metadata/
 *.sav
 .DS_Store
 *.duckdb
+
+/raw_data
+/preprocessed_data
+*.ipynb
