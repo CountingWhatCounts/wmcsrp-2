@@ -536,12 +536,36 @@ def participation_survey_variable_dictionary(
         {
             "variable_name": meta.column_names,
             "variable_label": meta.column_labels,
-            "value_map": [
-                str(meta.variable_value_labels.get(var, None))
-                for var in meta.column_names
-            ],
         }
     )
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+def participation_survey_values_dictionary(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Participation Survey values dictionary")
+    data_dir = os.path.join(downloaded_data_dir, "participation_survey")
+
+    _, meta = pyreadstat.read_sav(
+        os.path.join(data_dir, "participation_2023-24_annual_data_open.sav"),
+        metadataonly=True,
+    )
+
+    value_map = {
+        var: meta.variable_value_labels.get(var)
+        for var in meta.column_names
+        if meta.variable_value_labels.get(var)
+    }
+
+    rows = []
+    for variable, mapping in value_map.items():
+        for key, value in mapping.items():
+            rows.append({"variable": variable, "key": key, "value": value})
+    df = pd.DataFrame(rows)
 
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_parquet(output_path, index=False)

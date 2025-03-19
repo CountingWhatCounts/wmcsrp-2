@@ -38,6 +38,7 @@ if __name__ == "__main__":
         "raw__impact_and_insight_toolkit_local_authority_benchmarks.parquet": preprocess.impact_and_insight_toolkit,
         "raw__participation_survey_data.parquet": preprocess.participation_survey_data,
         "raw__participation_survey_variable_dictionary.parquet": preprocess.participation_survey_variable_dictionary,
+        "raw__participation_survey_values_dictionary.parquet": preprocess.participation_survey_values_dictionary,
     }
 
     # Download data from google cloud bucket
@@ -95,12 +96,12 @@ if __name__ == "__main__":
     dbt.invoke(["run"])
     logger.info("======== RUN COMPLETE ========\n\n")
 
-    logger.info("======== CLEANING DATA ========")
-    try:
-        shutil.rmtree(RAW_DATA_DIRECTORY)
-    except OSError as e:
-        logger.error("Error: %s - %s." % (e.filename, e.strerror))
-    try:
-        shutil.rmtree(PREPROCESSED_DATA_DIRECTORY)
-    except OSError as e:
-        logger.error("Error: %s - %s." % (e.filename, e.strerror))
+    # logger.info("======== CLEANING DATA ========")
+    # try:
+    #     shutil.rmtree(RAW_DATA_DIRECTORY)
+    # except OSError as e:
+    #     logger.error("Error: %s - %s." % (e.filename, e.strerror))
+    # try:
+    #     shutil.rmtree(PREPROCESSED_DATA_DIRECTORY)
+    # except OSError as e:
+    #     logger.error("Error: %s - %s." % (e.filename, e.strerror))

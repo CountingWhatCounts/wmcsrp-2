@@ -20,3 +20,6 @@ sources:
       - name: raw__rural_urban_classification
       - name: raw__wellbeing
       - name: raw__impact_and_insight_toolkit_local_authority_benchmarks
+      - name: raw__participation_survey_data
+      - name: raw__participation_survey_variable_dictionary
+      - name: raw__participation_survey_values_dictionary
