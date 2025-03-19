@@ -1,8 +1,3 @@
-{{ config(
-    tags=["participation"]
-) }}
-
-
 select
     CAST(lower("variable_name") as text),
     CAST("variable_label" as text)

@@ -1,8 +1,3 @@
-{{ config(
-    tags=["participation"]
-) }}
-
-
 select
     CAST("variable" as text),
     CAST("key" as text),
