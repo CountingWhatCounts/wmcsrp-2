@@ -1,0 +1,1 @@
+select * from {{ ref('stg__community_life_survey') }}

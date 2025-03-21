@@ -224,6 +224,7 @@ def wellbeing(
         df.columns = df.iloc[columns_row, :]
         df = df.iloc[columns_row + 1 :, 1:]
 
+        pd.set_option("future.no_silent_downcasting", True)
         df = df.replace("[cv1]", "<5%")
         df = df.replace("[cv2]", "5-10%")
         df = df.replace("[cv3]", "10-20%")
@@ -566,6 +567,191 @@ def participation_survey_values_dictionary(
         for key, value in mapping.items():
             rows.append({"variable": variable, "key": key, "value": value})
     df = pd.DataFrame(rows)
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+def community_life_survey(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    def process_community_life_sheet(df: pd.DataFrame):
+        header_row = 6
+        data_row = 7
+
+        if df.iloc[header_row, 0] != "Question":
+            raise ValueError(
+                f"Sheet configuration incorrect, header check value: {df.iloc[header_row, 0]}"
+            )
+
+        df.columns = df.iloc[header_row, :]
+        data = df.iloc[data_row:, :].reset_index(drop=True)
+        data = data.rename(columns={"Response Breakdown ": "Local Authority"})
+        data = data.drop(["Question"], axis=1)
+        data.iloc[0, 1] = "All"
+        data = data.iloc[:, :8]
+
+        return data
+
+    logger.info("Pre-processing Community Life Survey data")
+    data_dir = os.path.join(downloaded_data_dir, "community_life_survey")
+    processing_spec = {
+        "A1c": {
+            "description": "Frequency of feelings of loneliness, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "How often do you feel lonely?: Often/Always",
+        },
+        "A3c": {
+            "description": "Indirect Loneliness Composite Score, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Indirect Loneliness: Score of 8 or 9",
+        },
+        "B1c": {
+            "description": "Strength of feelings of belonging to immediate neighbourhood, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "How strongly do you feel you belong to your immediate neighbourhood?: Total",
+        },
+        "B2c": {
+            "description": "Perception of change to local area over the past two years, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Do you think that over the past two years your area has…: Got better to live in",
+        },
+        "B3c": {
+            "description": "Extent of agreement that people in the neighbourhood pull together to improve the neighbourhood, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "To what extent would you agree or disagree that people in your neighbourhood pull together to improve the neighbourhood?: Agree",
+        },
+        "B4c": {
+            "description": "Extent of agreement that people in the neighbourhood can be trusted, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Thinking about the people who live in this neighbourhood, to what extent do you believe they can be trusted?: Many of the people can be trusted",
+        },
+        "B5c": {
+            "description": "Extent of agreement that you can personally influence decisions affecting the local area, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "To what extent do you agree or disagree that you personally can influence decisions affecting your local area?: Agree",
+        },
+        "B6c": {
+            "description": "Extent of agreement that your local area is a place where people from different backgrounds get on well together, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "To what extent do you agree or disagree that this local area is a place where people from different backgrounds get on well together?: Agree",
+        },
+        "B7c": {
+            "description": "Satisfaction with green and natural spaces in the local area, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "How satisfied or dissatisfied are you with the green and natural spaces in your local area? : Satisfied",
+        },
+        "B10c": {
+            "description": "Levels of agreement that you are proud to live in your local area, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "How much do you agree or disagree with the following statements? - I am proud to live in my local area : Agree",
+        },
+        "B11c": {
+            "description": "Levels of agreement that in five years you would still like to be living in the local area, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "How much do you agree or disagree with the following statements? - In five years’ time I would like to still be living in my local area: Agree",
+        },
+        "B12c": {
+            "description": "Levels of agreement that you would recommend your local area to others as a good place to live, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "How much do you agree or disagree with the following statements? - I would recommend my local area to others as a good place to live: Agree",
+        },
+        "B15c": {
+            "description": "Satisfaction with local area as a place to live, by local authority, people aged 16 and over, England, January to March 2024",
+            "metric": "Overall, how satisfied or dissatisfied are you with your local area as a place to live? : Satisfied",
+        },
+        "B16c": {
+            "description": "Extent of agreement that if you needed help there would be people there for you, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "To what extent do you agree or disagree that 'if I needed help, there are people who would be there for me'?: Agree",
+        },
+        "B17c": {
+            "description": "Extent of agreement that if you wanted company there would be people to call on, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "To what extent do you agree or disagree that 'if I wanted company or to socialise, there are people I can call on'?: Agree",
+        },
+        "B18c": {
+            "description": "Number of people who you can really count on to listen to you when you need to talk, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Is there anyone who you can really count on to listen to you when you need to talk?: Yes",
+        },
+        "B19c": {
+            "description": "Attractiveness of local area, by local authority, people aged 16 and over England, October 2023 to March 2024",
+            "metric": "Attractiveness of local area: Agree",
+        },
+        "C1c(A)": {
+            "description": "Formal Volunteering at least once a month in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Formal volunteering: At least once in the last month",
+        },
+        "C1c(B)": {
+            "description": "Formal Volunteering at least once in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Formal volunteering: At least once in the last 12 months",
+        },
+        "C1c(C)": {
+            "description": "Informal Volunteering at least once a month in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Informal volunteering: At least once in the last month",
+        },
+        "C1c(D)": {
+            "description": "Informal Volunteering at least once in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Informal volunteering: At least once in the last 12 months",
+        },
+        "C1c(E)": {
+            "description": "Any Volunteering at least once a month in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Any volunteering: At least once in the last month",
+        },
+        "C1c(F)": {
+            "description": "Any Volunteering at least once in the last 12 months, by local authority, England, October 2023 to March 2024",
+            "metric": "Any volunteering: At least once in the last 12 months",
+        },
+        "C4c": {
+            "description": "Percentage who have given to charitable causes in the last four weeks, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Gave to charitable causes in the last four weeks: Total",
+        },
+        "C6c": {
+            "description": "Frequency of chatting to neighbours more than once a month, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Frequency of chatting to neighbours more than to just say hello: At least once a month",
+        },
+        "X1c": {
+            "description": "Engagement in civic participation activities in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Civic participation at least once in the last 12 months: Total",
+        },
+        "X2c": {
+            "description": "Engagement in civic activism in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Civic activism at least once in the last 12 months: Total",
+        },
+        "X9c": {
+            "description": "Engagement in civic participation, activism or consultation activities in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Civic engagement at least once in the last 12 months: Total",
+        },
+        "X3c": {
+            "description": "Engagement in civic consultation in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Civic consultation at least once in the last 12 months: Total",
+        },
+        "X8c": {
+            "description": "Involvement in social action in the last 12 months, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Social action at least once in last 12 months : Total",
+        },
+        "X4c": {
+            "description": "Importance of personally feeling that you can influence decisions in your local area, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "How important is it for you personally to feel that you can influence decisions in your local area?: Important",
+        },
+        "X5c": {
+            "description": "Whether people would like to be more involved in local decisions, by local authority, people aged 16 and over, England, October 2023 to March 2024",
+            "metric": "Generally speaking, would you like to be more involved in the decisions your council makes that affect your local area?: Yes",
+        },
+    }
+
+    frames = []
+    for sheet, info in processing_spec.items():
+        df = pd.read_excel(
+            os.path.join(
+                data_dir,
+                "Community_Life_Survey_2023_24_Annual_tables_-_for_publication.xlsx",
+            ),
+            sheet_name=sheet,
+        )
+        df = process_community_life_sheet(df=df)
+        df.insert(0, "Metric", info.get("metric"))
+        frames.append(df)
+    df = pd.concat(frames)
+    df = df[df["2023/24 Percentage (%)"] != "All"]
+
+    df.columns = [
+        x.lower()
+        .replace(" ", "_")
+        .replace("(", "")
+        .replace(")", "")
+        .replace(":", "_")
+        .replace("%", "")
+        .replace("/", "_")
+        for x in df.columns
+    ]
 
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_parquet(output_path, index=False)
