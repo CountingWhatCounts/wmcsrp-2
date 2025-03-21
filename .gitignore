@@ -187,3 +187,4 @@ metadata/
 /raw_data
 /preprocessed_data
 *.ipynb
+*.ods

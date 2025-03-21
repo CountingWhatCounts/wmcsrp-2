@@ -39,69 +39,76 @@ if __name__ == "__main__":
         "raw__participation_survey_data.parquet": preprocess.participation_survey_data,
         "raw__participation_survey_variable_dictionary.parquet": preprocess.participation_survey_variable_dictionary,
         "raw__participation_survey_values_dictionary.parquet": preprocess.participation_survey_values_dictionary,
+        "raw__community_life_survey.parquet": preprocess.community_life_survey,
     }
 
-    # Download data from google cloud bucket
-    logger.info("======== INITIALISING FILE DOWNLOAD ========")
-    os.makedirs(RAW_DATA_DIRECTORY, exist_ok=True)
-    client = storage.Client.create_anonymous_client()
-    bucket = client.bucket(os.getenv("WMCSRP_BUCKET"))
-    blobs = bucket.list_blobs()
-    for blob in blobs:
-        download_from_gcs(blob=blob, downloaded_data_dir=RAW_DATA_DIRECTORY)
-    logger.info("======== FILE DOWNLOAD COMPLETE =========\n\n")
+    to_run = ["download", "preprocess", "load", "dbt", "clean"]
 
-    logger.info("======== PREPROCESSING DATA FILES ========")
-    os.makedirs(PREPROCESSED_DATA_DIRECTORY, exist_ok=True)
-    for file, processor in data_spec.items():
-        if not os.path.exists(os.path.join(PREPROCESSED_DATA_DIRECTORY, file)):
-            processor(
-                downloaded_data_dir=RAW_DATA_DIRECTORY,
-                seed_data_dir=PREPROCESSED_DATA_DIRECTORY,
-                output_filename=file,
-            )
-        else:
-            logger.info(f"{file} already present")
-    logger.info("======== PREPROCESSING COMPLETED ========\n\n")
+    # Download data from google cloud bucket
+    if "download" in to_run:
+        logger.info("======== INITIALISING FILE DOWNLOAD ========")
+        os.makedirs(RAW_DATA_DIRECTORY, exist_ok=True)
+        client = storage.Client.create_anonymous_client()
+        bucket = client.bucket(os.getenv("WMCSRP_BUCKET"))
+        blobs = bucket.list_blobs()
+        for blob in blobs:
+            download_from_gcs(blob=blob, downloaded_data_dir=RAW_DATA_DIRECTORY)
+        logger.info("======== FILE DOWNLOAD COMPLETE =========\n\n")
+
+        if "preprocess" in to_run:
+            logger.info("======== PREPROCESSING DATA FILES ========")
+            os.makedirs(PREPROCESSED_DATA_DIRECTORY, exist_ok=True)
+            for file, processor in data_spec.items():
+                if not os.path.exists(os.path.join(PREPROCESSED_DATA_DIRECTORY, file)):
+                    processor(
+                        downloaded_data_dir=RAW_DATA_DIRECTORY,
+                        seed_data_dir=PREPROCESSED_DATA_DIRECTORY,
+                        output_filename=file,
+                    )
+                else:
+                    logger.info(f"{file} already present")
+            logger.info("======== PREPROCESSING COMPLETED ========\n\n")
 
     # Load the processed data into the database
     # Use pandas to create the table, but use psycopg2 to load the data
     # Pandas easily creates a correctly specified table from a dataframe
     # posycopg2 uses copy instead of insert which is much faster
-    logger.info("======== LOADING DATA ========")
-    for filename, _ in data_spec.items():
-        try:
-            create_table_with_pandas(
-                data_dir=PREPROCESSED_DATA_DIRECTORY,
-                filename=filename,
-                table_name=filename.split(".")[0],
-                engine=engine,
-            )
-
-            with psycopg2.connect(DB_CONN) as conn:
-                logger.info(f"Loading data for {filename}")
-                load_parquet_to_postgres(
+    if "load" in to_run:
+        logger.info("======== LOADING DATA ========")
+        for filename, _ in data_spec.items():
+            try:
+                create_table_with_pandas(
                     data_dir=PREPROCESSED_DATA_DIRECTORY,
                     filename=filename,
                     table_name=filename.split(".")[0],
-                    conn=conn,
+                    engine=engine,
                 )
-        except ValueError:
-            logger.info(f"Table already present for {filename}")
 
-    logger.info("======== DATA LOADED ========\n\n")
+                with psycopg2.connect(DB_CONN) as conn:
+                    logger.info(f"Loading data for {filename}")
+                    load_parquet_to_postgres(
+                        data_dir=PREPROCESSED_DATA_DIRECTORY,
+                        filename=filename,
+                        table_name=filename.split(".")[0],
+                        conn=conn,
+                    )
+            except ValueError:
+                logger.info(f"Table already present for {filename}")
+        logger.info("======== DATA LOADED ========\n\n")
 
-    logger.info("======== RUNNING DBT ========")
-    dbt = dbtRunner()
-    dbt.invoke(["run"])
-    logger.info("======== RUN COMPLETE ========\n\n")
+    if "dbt" in to_run:
+        logger.info("======== RUNNING DBT ========")
+        dbt = dbtRunner()
+        dbt.invoke(["run"])
+        logger.info("======== RUN COMPLETE ========\n\n")
 
-    # logger.info("======== CLEANING DATA ========")
-    # try:
-    #     shutil.rmtree(RAW_DATA_DIRECTORY)
-    # except OSError as e:
-    #     logger.error("Error: %s - %s." % (e.filename, e.strerror))
-    # try:
-    #     shutil.rmtree(PREPROCESSED_DATA_DIRECTORY)
-    # except OSError as e:
-    #     logger.error("Error: %s - %s." % (e.filename, e.strerror))
+    if "clean" in to_run:
+        logger.info("======== CLEANING DATA ========")
+        try:
+            shutil.rmtree(RAW_DATA_DIRECTORY)
+        except OSError as e:
+            logger.error("Error: %s - %s." % (e.filename, e.strerror))
+        try:
+            shutil.rmtree(PREPROCESSED_DATA_DIRECTORY)
+        except OSError as e:
+            logger.error("Error: %s - %s." % (e.filename, e.strerror))
