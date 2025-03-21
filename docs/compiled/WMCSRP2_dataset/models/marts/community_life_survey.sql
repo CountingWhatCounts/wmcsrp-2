@@ -1,0 +1,1 @@
+select * from "wmcsrp2"."public_staging"."stg__community_life_survey"
