@@ -5085,6 +5085,57 @@ models:
         description: "Final weight (sums to sample size, all Y3 web cases"
 
 
+  - name: community_life_survey
+    description: |
+      # Community Life Survey
+
+      A nationally representative annual survey of adults (16+) in England that tracks the latest trends and developments across areas that are key to encouraging social action and empowering communities.
+
+      source: https://www.gov.uk/government/statistics/community-life-survey-202324-annual-publication
+
+    config:
+      tags: Place Characteristics
+      alias: Community_Life_Survey
+      contract:
+        enforced: true
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "October 2023 to March 2024"
+      latest_release: "4 December 2024"
+      next_release: "Spring 2025"
+      update_frequency: "Annual"
+    docs:
+      node_color: purple
+    
+    columns:
+
+      - name: metric
+        data_type: text
+
+      - name: local_authority
+        data_type: text
+ 
+      - name: percentage_of_respondents
+        data_type: float
+ 
+      - name: percentage_lower
+        data_type: float
+ 
+      - name: percentage_upper
+        data_type: float
+ 
+      - name: number_of_respondents
+        data_type: integer
+ 
+      - name: unweighted_base
+        data_type: integer
+ 
+      - name: lad23cd
+        data_type: text
+ 
+      - name: itl2nm
+        data_type: text
+ 
   # - name: participation_survey_variable_dictionary
   #   description: |
   #     # Participation Survey Variables Dictionary
