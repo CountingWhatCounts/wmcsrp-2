@@ -24,3 +24,4 @@ sources:
       - name: raw__participation_survey_variable_dictionary
       - name: raw__participation_survey_values_dictionary
       - name: raw__community_life_survey
+      - name: raw__modelled_participation_statistics

@@ -1,0 +1,1 @@
+select * from {{ ref('stg__modelled_participation_statistics') }}

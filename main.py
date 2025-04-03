@@ -40,6 +40,7 @@ if __name__ == "__main__":
         "raw__participation_survey_variable_dictionary.parquet": preprocess.participation_survey_variable_dictionary,
         "raw__participation_survey_values_dictionary.parquet": preprocess.participation_survey_values_dictionary,
         "raw__community_life_survey.parquet": preprocess.community_life_survey,
+        "raw__modelled_participation_statistics.parquet": preprocess.modelled_participation_statistics,
     }
 
     to_run = ["download", "preprocess", "load", "dbt", "clean"]

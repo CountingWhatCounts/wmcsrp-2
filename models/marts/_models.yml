@@ -17,6 +17,7 @@ models:
     config:
       tags: Funding
       alias: ACE_NPO_Funding
+      quote: true
       contract:
         enforced: true
     meta:
@@ -66,6 +67,7 @@ models:
     config:
       tags: Place Characteristics
       alias: ACE_Priority_Places
+      quote: true
       contract:
         enforced: true
     meta:
@@ -103,6 +105,7 @@ models:
     config:
       tags: Place Characteristics
       alias: ACE_Levelling_Up_for_Culture_Places
+      quote: true
       contract:
         enforced: true
     meta:
@@ -144,6 +147,7 @@ models:
     config:
       tags: Funding
       alias: ACE_Project_Grants_Funding
+      quote: true
       contract:
         enforced: true
     meta:
@@ -188,6 +192,7 @@ models:
     config:
       tags: Area Mapping
       alias: West_Midlands_Local_Authority_Codes
+      quote: true
       contract:
         enforced: true
     meta:
@@ -235,6 +240,7 @@ models:
     config:
       tags: Area Mapping
       alias: West_Midlands_MSOA_Codes
+      quote: true
       contract:
         enforced: true
     meta:
@@ -354,6 +360,7 @@ models:
     config:
       tags: Demographics
       alias: Census_2021_Data
+      quote: true
       contract:
         enforced: true
     meta:
@@ -416,6 +423,7 @@ models:
     config:
       tags: Place Characteristics
       alias: Cultural_Infrastructure
+      quote: true
       contract:
         enforced: true
     meta:
@@ -513,6 +521,7 @@ models:
     config:
       tags: Demographics
       alias: Annual_Population_Survey_Economic_Measures
+      quote: true
       contract:
         enforced: true
     meta:
@@ -565,6 +574,7 @@ models:
     config:
       tags: Funding
       alias: 360Giving_Funding_Data
+      quote: true
       contract:
         enforced: true
     meta:
@@ -621,6 +631,7 @@ models:
     config:
       tags: Place Characteristics
       alias: Indices_of_Deprivation
+      quote: true
       contract:
         enforced: true
     meta:
@@ -683,6 +694,7 @@ models:
     config:
       tags: Place Characteristics
       alias: Rural_Urban_Classification
+      quote: true
       contract:
         enforced: true
     meta:
@@ -729,6 +741,7 @@ models:
     config:
       tags: Demographics
       alias: Annual_Population_Survey_Wellbeing_Estimates
+      quote: true
       contract:
         enforced: true
     meta:
@@ -788,6 +801,7 @@ models:
     config:
       tags: Experience
       alias: Impact_and_Insight_Toolkit_Local_Authority_Benchmarks
+      quote: true
       contract:
         enforced: true
     meta:
@@ -5136,10 +5150,38 @@ models:
       - name: itl2nm
         data_type: text
  
-  # - name: participation_survey_variable_dictionary
-  #   description: |
-  #     # Participation Survey Variables Dictionary
 
-  #     Shows the description of each of the fields in the participation survey.
 
-  #   config
+  - name: modelled_participation_statistics
+    description: |
+      # Modelled Participation Statistics
+
+      Participation statistics modelled at the local authority level using the respondent level data provided by the ONS.
+
+    config:
+      tags: Participation
+      alias: Modelled_Participation_Statistics
+      contract:
+        enforced: true
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "May 2023 to March 2024"
+      latest_release: "14 March 2025"
+      next_release: "N/A"
+      update_frequency: "Annual"
+    docs:
+      node_color: purple
+
+    columns:
+
+      - name: lad23cd
+        data_type: text
+
+      - name: participation_type
+        data_type: text
+        
+      - name: demographic
+        data_type: text
+ 
+      - name: value
+        data_type: float

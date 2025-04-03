@@ -756,3 +756,126 @@ def community_life_survey(
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
+
+
+def modelled_participation_statistics(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Modelled Participation Statistics")
+    data_dir = os.path.join(downloaded_data_dir, "participation_survey")
+
+    def process_sheet(input, column_name):
+        df = input.copy()
+        df = df.dropna(axis=1, how="all")
+
+        row_A = df.loc[3, :].ffill(axis=0).astype(str).str.strip()
+        row_B = df.loc[4, :].astype(str).str.strip()
+
+        df.loc[4, :] = row_A + ": " + row_B
+        df.loc[4, :] = df.loc[4, :].apply(lambda x: x.replace("nan: ", ""))
+
+        df.columns = df.loc[4, :]
+        df = df.rename(
+            columns={
+                "Has Not Physically Engaged With Events": "Not Engaged",
+                "Has Physically Engaged With Events": "Engaged",
+                "Engagement With Digital Activities": "Engaged",
+                "No Engagment With Digital Activities": "Not Engaged",
+                "Not Participated With Creative Activities": "Not Engaged",
+                "Participated With Creative Activities": "Engaged",
+            }
+        )
+        df = df.drop(["Not Engaged", "Local Authority Name"], axis=1)
+
+        df = df.loc[5:, :]
+
+        multiply_columns = [
+            col for col in df.columns if col not in ("LAD23CD", "Engaged")
+        ]
+        df[multiply_columns] = df[multiply_columns].apply(
+            pd.to_numeric, errors="coerce"
+        )
+        df[multiply_columns] = df[multiply_columns].multiply(df["Engaged"], axis=0)
+
+        df = df.rename(columns={"Engaged": "Total Engaged"})
+        df = df.melt(id_vars="LAD23CD", var_name="demographic", value_name="value")
+
+        df["participation_type"] = column_name
+
+        df = df[
+            [
+                "LAD23CD",
+                "participation_type",
+                "demographic",
+                "value",
+            ]
+        ]
+
+        return df
+
+    sheets = [
+        "A1 - Physical Engagement",
+        "A2 - Exhibitions",
+        "A3 - Theatre",
+        "A4 - Literature Event",
+        "A5 - Cinema",
+        "A6 - Craft Exhibition",
+        "A7 - Live Music ",
+        "A8 - Arts Festival",
+        "A9 - Street Art Event",
+        "A10 - Live Dance",
+        "A11 - Fashion Show",
+        "A12 - Comedy Event",
+        "A13 - Esports Event",
+        "A14 - Other Cultural Event",
+        "A15 - No Events",
+        "A16 - Written Stories",
+        "A17 - Reading Books",
+        "A18 - Written Music",
+        "A19 - Painting",
+        "A20 - Crafts",
+        "A21 - Choreographed",
+        "A22 - Designed Video Games",
+        "A23 - Made Films",
+        "A24 - Photography",
+        "A25 - Reading News",
+        "A26 - Other Arts",
+        "A27 - Not Participated",
+        "B1 - Digital Engagement",
+        "B2 - e-book",
+        "B3 - Read News",
+        "B4 - Video Games",
+        "B5 - Live TV",
+        "B6 - Streaming Service TV",
+        "B7 - Live Films",
+        "B8 - Streaming Service Films",
+        "B9 - Live Radio",
+        "B10 - Streamed Music",
+        "B11 - Downloaded Music",
+        "B12 - Audiobook",
+        "B13 - Podcast",
+        "B14 - No Digital Activities",
+        "B15 - Live Arts",
+        "B16 - Pre-recorded Arts",
+        "B17 - Live Music or Dance",
+        "B18 - Pre-recorded Music",
+        "B19 - None",
+    ]
+
+    frames = []
+    for sheet in sheets:
+        df = pd.read_excel(
+            os.path.join(
+                data_dir,
+                "WM Participation Survey Breakdown - Physical and Digital Participation.xlsx",
+            ),
+            sheet_name=sheet,
+        )
+        column_name = sheet.split(" - ")[1]
+        df = process_sheet(input=df, column_name=column_name)
+        frames.append(df)
+    df = pd.concat(frames)
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
