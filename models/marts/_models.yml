@@ -16,7 +16,7 @@ models:
       source: https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data
     config:
       tags: Funding
-      alias: ACE_NPO_Funding
+      alias: ace_npo_funding
       quote: true
       contract:
         enforced: true
@@ -66,7 +66,7 @@ models:
       source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
     config:
       tags: Place Characteristics
-      alias: ACE_Priority_Places
+      alias: ace_priority_places
       quote: true
       contract:
         enforced: true
@@ -104,7 +104,7 @@ models:
       source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
     config:
       tags: Place Characteristics
-      alias: ACE_Levelling_Up_for_Culture_Places
+      alias: ace_levelling_up_for_culture_places
       quote: true
       contract:
         enforced: true
@@ -191,7 +191,7 @@ models:
       - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
     config:
       tags: Area Mapping
-      alias: West_Midlands_Local_Authority_Codes
+      alias: west_midlands_local_authority_codes
       quote: true
       contract:
         enforced: true
@@ -239,7 +239,7 @@ models:
       - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
     config:
       tags: Area Mapping
-      alias: West_Midlands_MSOA_Codes
+      alias: west_midlands_msoa_codes
       quote: true
       contract:
         enforced: true
@@ -258,21 +258,24 @@ models:
         description: The code for the local authority district
         constraints:
           - type: not_null
-          - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
-      
-      - name: msoa21cd
+
+      - name: code_type
         data_type: string
-        description: The code for the MSOA
+        description: The type of area e.g. region or msoa
+        constraints:
+          - type: not_null
+      
+      - name: area_code
+        data_type: string
+        description: The code for the area
         constraints:
           - type: not_null
           - type: primary_key
           - type: unique
       
-      - name: msoa21nm
+      - name: area_name
         data_type: string
-        description: The name for the MSOA
+        description: The name for the area
 
 
   - name: census
@@ -359,7 +362,7 @@ models:
       participation survey data.
     config:
       tags: Demographics
-      alias: Census_2021_Data
+      alias: census_2021_data
       quote: true
       contract:
         enforced: true
@@ -373,14 +376,13 @@ models:
       node_color: purple
     
     columns:
-      - name: msoa21cd
+      - name: area_type
+        data_type: string
+        description: The area the data relates to e.g. MSOA or local authority
+
+      - name: area_code
         data_type: string
         description: The code for the MSOA
-        constraints:
-          - type: not_null
-          - type: foreign_key
-            to: ref('west_midlands_msoa_codes')
-            to_columns: [msoa21cd]
       
       - name: census_question
         data_type: string
@@ -422,7 +424,7 @@ models:
       source: https://culture.localinsight.org/#/map
     config:
       tags: Place Characteristics
-      alias: Cultural_Infrastructure
+      alias: cultural_infrastructure
       quote: true
       contract:
         enforced: true
@@ -439,19 +441,32 @@ models:
       - name: msoa21cd
         data_type: string
         description: The code for the MSOA
-        constraints:
-          - type: not_null
-          - type: foreign_key
-            to: ref('west_midlands_msoa_codes')
-            to_columns: [msoa21cd]
 
       - name: service_type
         data_type: string
         description: The type of cultural infrastructure
 
-      - name: service_count
-        data_type: int
-        description: How many of that infrastructure type in the MSOA
+      # - name: service_count
+      #   data_type: int
+      #   description: How many of that infrastructure type in the MSOA
+
+      - name: category
+        data_type: text
+
+      - name: lad22nm
+        data_type: text
+
+      - name: lad22cd
+        data_type: text
+
+      - name: postcode
+        data_type: text
+
+      - name: service_name
+        data_type: text
+
+      - name: source
+        data_type: text
 
   
   - name: annual_population_survey_economic_measures
@@ -520,7 +535,7 @@ models:
 
     config:
       tags: Demographics
-      alias: Annual_Population_Survey_Economic_Measures
+      alias: annual_population_survey_economic_measures
       quote: true
       contract:
         enforced: true
@@ -594,7 +609,7 @@ models:
           - type: not_null
           - type: foreign_key
             to: ref('west_midlands_msoa_codes')
-            to_columns: [msoa21cd]
+            to_columns: [area_code]
 
       - name: amount_awarded
         data_type: integer
@@ -630,7 +645,7 @@ models:
       source: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019
     config:
       tags: Place Characteristics
-      alias: Indices_of_Deprivation
+      alias: indices_of_deprivation
       quote: true
       contract:
         enforced: true
@@ -651,7 +666,7 @@ models:
           - type: not_null
           - type: foreign_key
             to: ref('west_midlands_msoa_codes')
-            to_columns: [msoa21cd]
+            to_columns: [area_code]
 
       - name: local_authority
         data_type: string
@@ -693,7 +708,7 @@ models:
       source: https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about
     config:
       tags: Place Characteristics
-      alias: Rural_Urban_Classification
+      alias: rural_urban_classification
       quote: true
       contract:
         enforced: true
@@ -714,7 +729,7 @@ models:
           - type: not_null
           - type: foreign_key
             to: ref('west_midlands_msoa_codes')
-            to_columns: [msoa21cd]
+            to_columns: [area_code]
 
       - name: ruc11cd
         data_type: string
@@ -740,7 +755,7 @@ models:
       source: https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing
     config:
       tags: Demographics
-      alias: Annual_Population_Survey_Wellbeing_Estimates
+      alias: annual_population_survey_wellbeing_estimates
       quote: true
       contract:
         enforced: true
@@ -754,14 +769,11 @@ models:
       node_color: purple
 
     columns:
-      - name: lad22cd
+      - name: area_code
         data_type: string
         description: The code for the local authority district
         constraints:
           - type: not_null
-          - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
 
       - name: wellbeing_factor
         data_type: string
@@ -774,6 +786,7 @@ models:
       - name: margin_of_error
         data_type: string
         description: The approximate margin of error on the value. Calculated with a 95% confidence level
+
 
   - name: impact_and_insight_toolkit_local_authority_benchmarks
     description: |
@@ -800,7 +813,7 @@ models:
       
     config:
       tags: Experience
-      alias: Impact_and_Insight_Toolkit_Local_Authority_Benchmarks
+      alias: impact_and_insight_toolkit_local_authority_benchmarks
       quote: true
       contract:
         enforced: true
@@ -851,6 +864,7 @@ models:
         data_type: integer
         description: The number of different organisations which distributed the surveys
 
+
   - name: participation_survey_data
     description: |
       # Participation Survey Respondent Level Data
@@ -869,7 +883,8 @@ models:
 
     config:
       tags: Participation
-      alias: Participation_Survey_Respondent_Level_Data
+      alias: participation_survey_respondent_level_data
+      quote: true
       contract:
         enforced: true
     meta:
@@ -900,6 +915,9 @@ models:
       - name: wave
         data_type: int
         description: "Wave"
+      - name: dill_dv
+        data_type: int
+        description: "Dill_DV"
       - name: mode
         data_type: int
         description: "Online or paper mode"
@@ -5109,7 +5127,8 @@ models:
 
     config:
       tags: Place Characteristics
-      alias: Community_Life_Survey
+      alias: community_life_survey
+      quote: true
       contract:
         enforced: true
     meta:
@@ -5160,7 +5179,8 @@ models:
 
     config:
       tags: Participation
-      alias: Modelled_Participation_Statistics
+      alias: modelled_participation_statistics
+      quote: true
       contract:
         enforced: true
     meta:
@@ -5185,3 +5205,59 @@ models:
  
       - name: value
         data_type: float
+      
+      - name: margin_of_error
+        data_type: float
+
+
+
+  - name: residents_survey_local_authority_results
+    description: |
+      # Residents Survey Local Authority Results
+
+    config:
+      tags: Participation
+      alias: residents_survey_local_authority_results
+      quote: true
+      contract:
+        enforced: true
+    meta:
+      granularity: "Local Authority"
+      data_relates_to: "November/December 2024"
+      latest_release: "December 2024"
+      next_release: "N/A"
+      update_frequency: "One-off"
+    docs:
+      node_color: purple
+
+    columns:
+
+      - name: lad22cd
+        data_type: text
+
+      - name: question
+        data_type: text
+
+      - name: answer
+        data_type: text
+ 
+      - name: p
+        data_type: float
+      
+      - name: n
+        data_type: integer
+
+      - name: population
+        data_type: integer
+
+      - name: margin_of_error
+        data_type: float
+
+
+
+  - name: populations
+    description: |
+      # Population Figures for Regions of England and Wales
+
+      source: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/estimatesofthepopulationforenglandandwales
+
