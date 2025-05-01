@@ -40,10 +40,14 @@ if __name__ == "__main__":
         "raw__participation_survey_variable_dictionary.parquet": preprocess.participation_survey_variable_dictionary,
         "raw__participation_survey_values_dictionary.parquet": preprocess.participation_survey_values_dictionary,
         "raw__community_life_survey.parquet": preprocess.community_life_survey,
+        "raw__community_life_survey_benchmarks.parquet": preprocess.community_life_survey_benchmarks,
         "raw__modelled_participation_statistics.parquet": preprocess.modelled_participation_statistics,
+        "raw__dcms_participation_statistics.parquet": preprocess.participation_survey_dcms_data_tables,
+        "raw__residents_survey_local_authority_results.parquet": preprocess.residents_survey_local_authority_results,
+        "raw__region_populations.parquet": preprocess.region_populations,
     }
 
-    to_run = ["download", "preprocess", "load", "dbt", "clean"]
+    to_run = ["download", "preprocess", "load"]  # , "dbt"]  # , "clean"]
 
     # Download data from google cloud bucket
     if "download" in to_run:
