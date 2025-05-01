@@ -9,7 +9,7 @@ services_msoa as (
     select
         area_name as ladnm,
         msoa21cd,
-        pm.postcode,
+        ci.postcode,
         service_type,
         name as service_name,
         source,
@@ -21,7 +21,14 @@ services_msoa as (
 
 services_lad as (
     select
-        *
+        lad22cd,
+        lad22nm,
+        msoa21cd,
+        postcode,
+        service_type,
+        category,
+        source,
+        service_name
     from services_msoa
     join local_authority_codes on services_msoa.ladnm = local_authority_codes.lad22nm
 )

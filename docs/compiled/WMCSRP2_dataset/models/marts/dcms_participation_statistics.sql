@@ -1,0 +1,1 @@
+select * from "wmcsrp2"."public_warehouse"."int__dcms_participation_statistics"
