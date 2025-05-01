@@ -5194,19 +5194,46 @@ models:
 
     columns:
 
+      - name: lookup_code
+        data_type: text
+
       - name: lad23cd
         data_type: text
 
-      - name: participation_type
+      - name: local_authority_name
         data_type: text
-        
-      - name: demographic
+
+      - name: category
         data_type: text
- 
-      - name: value
+
+      - name: physical_or_digital
+        data_type: text
+
+      - name: participation_domain
+        data_type: text
+
+      - name: protected_characteristic
+        data_type: text
+
+      - name: protected_characteristic_sub_domain
+        data_type: text
+
+      - name: not_participated
         data_type: float
-      
-      - name: margin_of_error
+
+      - name: participated
+        data_type: float
+
+      - name: age_16_plus_population_count
+        data_type: integer
+
+      - name: characteristic_sub_domain_population_count
+        data_type: integer
+
+      - name: estimated_number_of_people_participating
+        data_type: integer
+
+      - name: percentage_of_overall_16_plus_population
         data_type: float
 
 
