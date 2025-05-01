@@ -197,7 +197,11 @@ def get_geography_from_filename(filename: str) -> str:
 
 
 def get_total_column_name(df):
-    return [col for col in df.columns if "Total" in col or "All persons" in col][0]
+    return [
+        col
+        for col in df.columns
+        if "Total" in col or "All persons" in col or "Number of households" in col
+    ][0]
 
 
 def get_data_content_from_total_column(total_column) -> str:
