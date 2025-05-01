@@ -1,0 +1,1 @@
+select * from "wmcsrp2"."public_staging"."stg__modelled_participation_statistics"
