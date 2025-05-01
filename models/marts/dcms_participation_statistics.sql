@@ -1,0 +1,1 @@
+select * from {{ ref('int__dcms_participation_statistics') }}

@@ -1,5 +1,5 @@
 select
-    lad22cd,
+    area_code,
     wellbeing_factor,
     value,
     margin_of_error
