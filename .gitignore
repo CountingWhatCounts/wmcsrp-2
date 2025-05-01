@@ -188,3 +188,4 @@ metadata/
 /preprocessed_data
 *.ipynb
 *.ods
+/analysis
