@@ -13,6 +13,7 @@ select
     CAST("SEX" as int) as sex,
     CAST("COHAB" as int) as cohab,
     CAST("CHILDHH" as int) as childhh,
+    CAST("Dill_DV" as int) as dill_dv,
     CAST("CARTS1_001" as int) as carts1_001,
     CAST("CARTS1_002" as int) as carts1_002,
     CAST("CARTS1_003" as int) as carts1_003,

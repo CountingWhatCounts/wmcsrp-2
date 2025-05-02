@@ -1,5 +1,6 @@
 select distinct
-    msoa21cd,
+    area_type,
+    area_code,
     census_question,
     answer,
     CAST(count_of_answer as integer),
@@ -7,4 +8,4 @@ select distinct
     population_size,
     CAST(p as float),
     CAST(margin_of_error as float)
-from "wmcsrp2"."public_warehouse"."int__census_msoa_with_error"
+from "wmcsrp2"."public_warehouse"."int__census_with_error"

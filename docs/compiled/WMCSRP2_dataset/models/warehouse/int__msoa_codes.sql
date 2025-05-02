@@ -3,6 +3,7 @@ with
 all_msoas as (
     select
         distinct lad22cd,
+        lad22nm,
         msoa21cd,
         msoa21nm
     from
