@@ -33,7 +33,7 @@ npo_funding as (
 -- Project Grants Funding
 project_grants_funding as (
     select lad22cd, sum_award_amount
-    from "wmcsrp2"."public_marts"."ACE_Project_Grants_Funding"
+    from "wmcsrp2"."public_marts"."ace_project_grants_funding"
 ),
 
 -- Community Life Metrics

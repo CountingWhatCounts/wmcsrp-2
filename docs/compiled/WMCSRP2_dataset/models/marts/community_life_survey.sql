@@ -1,1 +1,1 @@
-select * from "wmcsrp2"."public_staging"."stg__community_life_survey"
+select * from "wmcsrp2"."public_warehouse"."int__community_life_survey"
