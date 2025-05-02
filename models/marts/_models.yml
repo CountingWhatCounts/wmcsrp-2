@@ -13,7 +13,6 @@ models:
       in the data to populate at the MSOA level i.e. the majority of MSOAs will have
       zero funding, which is not informative when it comes to analysing the data.
 
-      source: https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data
     config:
       tags: Funding
       alias: ace_npo_funding
@@ -21,6 +20,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.artscouncil.org.uk/how-we-invest-public-money/2023-26-Investment-Programme/2023-26-investment-programme-data
       granularity: "Local Authority"
       data_relates_to: "2023-2026"
       latest_release: "March 2023"
@@ -36,8 +36,8 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
       
       - name: lad22nm
         data_type: string
@@ -63,7 +63,6 @@ models:
       A table showing whether each local authority district in the West Midlands
       is an Arts Council England Priority Place.
       
-      source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
     config:
       tags: Place Characteristics
       alias: ace_priority_places
@@ -71,6 +70,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
       granularity: "Local Authority"
       data_relates_to: "2021-2024"
       latest_release: "2021"
@@ -86,8 +86,8 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
       
       - name: priority_place
         data_type: bool
@@ -101,7 +101,6 @@ models:
       A table showing whether each local authority district in the West Midlands
       is an Arts Council England Levelling Up for Culture Place.
       
-      source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
     config:
       tags: Place Characteristics
       alias: ace_levelling_up_for_culture_places
@@ -109,6 +108,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.artscouncil.org.uk/your-area/priority-places-and-levelling-culture-places
       granularity: "Local Authority"
       data_relates_to: "2022-2026"
       latest_release: "2022"
@@ -124,8 +124,8 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
       
       - name: levelling_up_place
         data_type: bool
@@ -143,14 +143,14 @@ models:
       in the data to populate at the MSOA level i.e. the majority of MSOAs will have
       zero funding, which is not informative when it comes to analysing the data.
       
-      source: https://www.artscouncil.org.uk/ProjectGrants/project-grants-data
     config:
       tags: Funding
-      alias: ACE_Project_Grants_Funding
+      alias: ace_project_grants_funding
       quote: true
       contract:
         enforced: true
     meta:
+      source: https://www.artscouncil.org.uk/ProjectGrants/project-grants-data
       granularity: "Local Authority"
       data_relates_to: "2024-2025"
       latest_release: "December 2024"
@@ -166,8 +166,8 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
       
       - name: sum_award_amount
         data_type: integer
@@ -186,9 +186,6 @@ models:
       This table is used to link up tables which are at different levels of
       granularity and allows for searching of data by geography.
 
-      sources:
-      - https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about
-      - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
     config:
       tags: Area Mapping
       alias: west_midlands_local_authority_codes
@@ -196,6 +193,9 @@ models:
       contract:
         enforced: true
     meta:
+      sources:
+      - https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about
+      - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
       granularity: "Local Authority"
       data_relates_to: "2024"
       latest_release: "December 2024"
@@ -214,8 +214,9 @@ models:
         description: The code for the local authority district
         constraints:
           - type: not_null
-          - type: primary_key
-          - type: unique
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
       
       - name: lad22nm
         data_type: string
@@ -234,9 +235,6 @@ models:
       This table is used to link up tables which are at different levels of
       granularity and allows for searching of data by geography.
 
-      sources:
-      - https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about
-      - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
     config:
       tags: Area Mapping
       alias: west_midlands_msoa_codes
@@ -244,6 +242,9 @@ models:
       contract:
         enforced: true
     meta:
+      sources:
+      - https://geoportal.statistics.gov.uk/datasets/ons::msoa-2011-to-msoa-2021-to-local-authority-district-2022-exact-fit-lookup-for-ew-v2/about
+      - https://geoportal.statistics.gov.uk/datasets/b54177d3d7264cd6ad89e74dd9c1391d/about
       granularity: "MSOA"
       data_relates_to: "2024"
       latest_release: "December 2024"
@@ -317,8 +318,6 @@ models:
       - Unemployment history
       - Year of arrival in the UK
 
-      source: https://www.nomisweb.co.uk/sources/census_2021_bulk
-
 
       ### Margin of error calculation
 
@@ -367,6 +366,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.nomisweb.co.uk/sources/census_2021_bulk
       granularity: "MSOA"
       data_relates_to: "2021"
       latest_release: "2022"
@@ -383,6 +383,11 @@ models:
       - name: area_code
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
       
       - name: census_question
         data_type: string
@@ -421,7 +426,6 @@ models:
       This data is sourced from Arts Council Englands's Culture and Place Data Explorer
       which allows for a list of services to be downloaded for each local authority.
       
-      source: https://culture.localinsight.org/#/map
     config:
       tags: Place Characteristics
       alias: cultural_infrastructure
@@ -429,6 +433,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://culture.localinsight.org/#/map
       granularity: "MSOA"
       data_relates_to: "N/A"
       latest_release: "2024"
@@ -441,14 +446,14 @@ models:
       - name: msoa21cd
         data_type: string
         description: The code for the MSOA
+        constraints:
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
 
       - name: service_type
         data_type: string
         description: The type of cultural infrastructure
-
-      # - name: service_count
-      #   data_type: int
-      #   description: How many of that infrastructure type in the MSOA
 
       - name: category
         data_type: text
@@ -531,7 +536,6 @@ models:
       - % with other qualifications (RQF) - aged 16-64
       - % with no qualifications (RQF) - aged 16-64
       
-      source: https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17
 
     config:
       tags: Demographics
@@ -540,6 +544,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.nomisweb.co.uk/query/construct/summary.asp?mode=construct&version=0&dataset=17
       granularity: "Local Authority"
       data_relates_to: "July 2023 - June 2024"
       latest_release: "January 2025"
@@ -555,8 +560,8 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
       
       - name: measure
         data_type: string
@@ -585,14 +590,14 @@ models:
       The table contains funding data from The Foyle Foundation, Paul Hamlyn Foundation,
       and Esmée Fairbairn Foundation.
       
-      source: https://grantnav.threesixtygiving.org
     config:
       tags: Funding
-      alias: 360Giving_Funding_Data
+      alias: 360giving_funding_data
       quote: true
       contract:
         enforced: true
     meta:
+      source: https://grantnav.threesixtygiving.org
       granularity: "Postcode"
       data_relates_to: "2024"
       latest_release: "2024"
@@ -608,7 +613,7 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_msoa_codes')
+            to: ref('west_midlands_area_codes')
             to_columns: [area_code]
 
       - name: amount_awarded
@@ -642,7 +647,6 @@ models:
       providing a simple ranking of 1-10 or 1-5 for an area based on how the deprivation score
       sits compared to other areas.
       
-      source: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019
     config:
       tags: Place Characteristics
       alias: indices_of_deprivation
@@ -650,6 +654,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019
       granularity: "LSOA"
       data_relates_to: "2015-2016"
       latest_release: "2019"
@@ -665,7 +670,7 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_msoa_codes')
+            to: ref('west_midlands_area_codes')
             to_columns: [area_code]
 
       - name: local_authority
@@ -705,7 +710,6 @@ models:
       - Rural village and dispersed in a sparse setting
       - Rural village and dispersed
       
-      source: https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about
     config:
       tags: Place Characteristics
       alias: rural_urban_classification
@@ -713,6 +717,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2011-of-msoas-in-ew/about
       granularity: "MSOA"
       data_relates_to: "August 2013"
       latest_release: "August 2022"
@@ -728,7 +733,7 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_msoa_codes')
+            to: ref('west_midlands_area_codes')
             to_columns: [area_code]
 
       - name: ruc11cd
@@ -752,7 +757,6 @@ models:
       3. Happiness: Overall, how happy did you feel yesterday, where 0 is "not at all happy" and 10 is "completely happy"?
       4. Anxiety: On a scale where 0 is "not at all anxious" and 10 is "completely anxious", overall, how anxious did you feel yesterday?
       
-      source: https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing
     config:
       tags: Demographics
       alias: annual_population_survey_wellbeing_estimates
@@ -760,6 +764,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing
       granularity: "Local Authority"
       data_relates_to: "2023-2024"
       latest_release: "November 2023"
@@ -774,6 +779,9 @@ models:
         description: The code for the local authority district
         constraints:
           - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
 
       - name: wellbeing_factor
         data_type: string
@@ -833,8 +841,8 @@ models:
         constraints:
           - type: not_null
           - type: foreign_key
-            to: ref('west_midlands_local_authority_codes')
-            to_columns: [lad22cd]
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
 
       - name: dimension_name
         data_type: string
@@ -878,8 +886,6 @@ models:
       * Underpin further research on driving engagement and the value and benefits of engagement.
 
       Further information on the survey can be found on the gov.uk [Participation Survey](https://www.gov.uk/guidance/participation-survey) webpage.
-      
-      source: https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9351
 
     config:
       tags: Participation
@@ -888,6 +894,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9351
       granularity: "Respondent"
       data_relates_to: "May 2023 to March 2024"
       latest_release: "14 March 2025"
@@ -5123,7 +5130,6 @@ models:
 
       A nationally representative annual survey of adults (16+) in England that tracks the latest trends and developments across areas that are key to encouraging social action and empowering communities.
 
-      source: https://www.gov.uk/government/statistics/community-life-survey-202324-annual-publication
 
     config:
       tags: Place Characteristics
@@ -5132,6 +5138,7 @@ models:
       contract:
         enforced: true
     meta:
+      source: https://www.gov.uk/government/statistics/community-life-survey-202324-annual-publication
       granularity: "Local Authority"
       data_relates_to: "October 2023 to March 2024"
       latest_release: "4 December 2024"
@@ -5165,11 +5172,15 @@ models:
  
       - name: lad23cd
         data_type: text
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
  
       - name: itl2nm
         data_type: text
  
-
 
   - name: modelled_participation_statistics
     description: |
@@ -5199,6 +5210,11 @@ models:
 
       - name: lad23cd
         data_type: text
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
 
       - name: local_authority_name
         data_type: text
@@ -5237,7 +5253,6 @@ models:
         data_type: float
 
 
-
   - name: residents_survey_local_authority_results
     description: |
       # Residents Survey Local Authority Results
@@ -5261,6 +5276,11 @@ models:
 
       - name: lad22cd
         data_type: text
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('west_midlands_area_codes')
+            to_columns: [area_code]
 
       - name: question
         data_type: text
@@ -5281,10 +5301,91 @@ models:
         data_type: float
 
 
-
   - name: populations
     description: |
       # Population Figures for Regions of England and Wales
 
       source: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/estimatesofthepopulationforenglandandwales
 
+
+  - name: west_midlands_area_codes
+    description: |
+      # West Midlands Area Codes
+  
+    config:
+      tags: Lookup
+      alias: west_midlands_area_codes
+      quote: true
+      contract:
+        enforced: true
+    meta:
+      granularity: "MSOA"
+    docs:
+      node_color: purple
+
+    columns:
+
+      - name: area_type
+        data_type: text
+
+      - name: area_code
+        data_type: text
+        constraints:
+          - type: not_null
+          - type: primary_key
+          - type: unique
+
+      - name: area_name
+        data_type: text
+
+      - name: parent_area_code
+        data_type: text
+
+      - name: parent_area_name
+        data_type: text
+
+
+  - name: dcms_participation_statistics
+    description: |
+      # DCMS Headline Participation Statistics
+
+    config:
+      tags: Participation
+      alias: dcms_participation_statistics
+      quote: true
+      contract:
+        enforced: true
+    meta:
+      source: https://www.gov.uk/government/statistics/participation-survey-2023-24-annual-publication
+      granularity: "Local Authority"
+      data_relates_to: "November/December 2024"
+      latest_release: "December 2024"
+      next_release: "N/A"
+      update_frequency: "One-off"
+    docs:
+      node_color: purple
+
+    columns:
+      - name: participation_type
+        data_type: text
+
+      - name: response_group
+        data_type: text
+
+      - name: response_breakdown
+        data_type: text
+
+      - name: percentage_of_respondents_2023_24
+        data_type: text
+
+      - name: percentage_of_respondents_2023_24_lower_estimate
+        data_type: text
+
+      - name: percentage_of_respondents_2023_24_upper_estimate
+        data_type: text
+
+      - name: number_of_respondents_2023_24
+        data_type: text
+
+      - name: number_of_respondents_2023_24_base
+        data_type: text

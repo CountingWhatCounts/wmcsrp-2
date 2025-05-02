@@ -1,1 +1,1 @@
-select * from {{ ref('stg__community_life_survey') }}
+select * from {{ ref('int__community_life_survey') }}

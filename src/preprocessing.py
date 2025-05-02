@@ -1127,3 +1127,35 @@ def region_populations(
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
+
+
+def region_mapping(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Region Mapping")
+    data_dir = os.path.join(downloaded_data_dir, "region_mapping")
+
+    df = pd.read_csv(
+        os.path.join(data_dir, "Regions_(December_2024)_Names_and_Codes_in_EN.csv")
+    )
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+def country_mapping(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Country Mapping")
+    data_dir = os.path.join(downloaded_data_dir, "country_mapping")
+
+    df = pd.read_csv(
+        os.path.join(
+            data_dir, "Countries_(December_2024)_Names_and_Codes_in_the_UK.csv"
+        )
+    )
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
