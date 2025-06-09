@@ -35,7 +35,6 @@ if __name__ == "__main__":
         "raw__msoa_mapping.parquet": preprocess.msoa_mapping,
         "raw__msoa_population.parquet": preprocess.msoa_population,
         "raw__ace_levelling_up_for_culture_places.parquet": preprocess.ace_levelling_up_places,
-        "raw__impact_and_insight_toolkit_local_authority_benchmarks.parquet": preprocess.impact_and_insight_toolkit,
         "raw__participation_survey_data.parquet": preprocess.participation_survey_data,
         "raw__participation_survey_variable_dictionary.parquet": preprocess.participation_survey_variable_dictionary,
         "raw__participation_survey_values_dictionary.parquet": preprocess.participation_survey_values_dictionary,
