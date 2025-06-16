@@ -846,6 +846,15 @@ def modelled_participation_statistics(
         )
     )
 
+    df[" Estimated Number of People Participating "] = (
+        df[" Estimated Number of People Participating "]
+        .replace("-", np.nan)
+        .replace(" -   ", np.nan)
+        .replace(r",", "", regex=True)
+        .astype(float)  # Convert to float
+    )
+    print(df[" Estimated Number of People Participating "].unique())
+
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
