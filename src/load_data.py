@@ -12,7 +12,7 @@ def create_table_with_pandas(
 ) -> None:
     file_path = os.path.join(data_dir, filename)
     df = pd.read_parquet(file_path)
-    df.head(0).to_sql(table_name, engine, if_exists="fail", index=False)
+    df.head(0).to_sql(table_name, engine, if_exists="fail", index=False, schema='public')
 
 
 def load_parquet_to_postgres(
@@ -29,7 +29,7 @@ def load_parquet_to_postgres(
         csv_buffer = io.StringIO()
         df.to_csv(csv_buffer, index=False)
         csv_buffer.seek(0)
-        copy_sql = f"COPY {table_name} FROM STDIN WITH CSV HEADER DELIMITER ','"
+        copy_sql = f"COPY public.{table_name} FROM STDIN WITH CSV HEADER DELIMITER ','"
         cursor.copy_expert(copy_sql, csv_buffer)
         conn.commit()
         cursor.close()
