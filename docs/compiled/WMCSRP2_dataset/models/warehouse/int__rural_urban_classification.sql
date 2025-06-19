@@ -16,7 +16,7 @@ combined as (
         ruc11
     from ruc
     left join msoa_mapping
-    on ruc.msoa11cd = msoa_mapping.msoa11cd
+    on ruc.msoa11cd = msoa_mapping.msoa21cd
 ),
 
 filtered as (
