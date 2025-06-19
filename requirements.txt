@@ -54,7 +54,7 @@ joblib==1.4.2
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 jupyter_client==8.6.3
-jupyter_core==5.7.2
+jupyter_core>=5.8.1
 kaleido==0.2.1
 kiwisolver==1.4.8
 leather==0.4.0
@@ -84,7 +84,7 @@ platformdirs==4.3.6
 plotly==6.0.1
 prompt_toolkit==3.0.50
 proto-plus==1.26.0
-protobuf==5.29.3
+protobuf>=5.29.5
 psutil==7.0.0
 psycopg2-binary==2.9.10
 ptyprocess==0.7.0
@@ -129,7 +129,7 @@ traitlets==5.14.3
 types-requests==2.32.0.20241016
 typing_extensions==4.12.2
 tzdata==2025.1
-urllib3==2.3.0
+urllib3>=2.5.0
 wcwidth==0.2.13
 xyzservices==2025.1.0
 zipp==3.21.0
