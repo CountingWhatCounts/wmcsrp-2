@@ -1000,63 +1000,31 @@ def participation_survey_dcms_data_tables(
     logger.info("Pre-processing DCMS Participation Statistics")
     data_dir = os.path.join(downloaded_data_dir, "participation_survey")
 
-    sheets = [
-        "Table_A2",
-        "Table_A4",
-        "Table_A6",
-        "Table_A8",
-        "Table_A10",
-        "Table_A12",
-        "Table_A14",
-        "Table_A16",
-        "Table_A18",
-        "Table_A20",
-        "Table_A22",
-        "Table_A24",
-        "Table_A26",
-        "Table_A28",
-        "Table_A30",
-        "Table_A32",
-        "Table_A34",
-        "Table_A36",
-        "Table_A38",
-        "Table_A40",
-        "Table_A42",
-        "Table_A44",
-        "Table_A46",
-        "Table_A48",
-        "Table_A50",
-        "Table_A52",
-        "Table_A54",
-        "Table_B2",
-        "Table_B4",
-        "Table_B6",
-        "Table_B8",
-        "Table_B10",
-        "Table_B12",
-        "Table_B14",
-        "Table_B16",
-        "Table_B18",
-        "Table_B20",
-        "Table_B22",
-        "Table_B24",
-        "Table_B26",
-        "Table_B28",
-        "Table_B30",
-        "Table_B32",
-        "Table_B34",
-        "Table_B36",
-        "Table_B38",
-        "Table_C2",
-        "Table_C5",
-        "Table_D2",
-        "Table_D5",
-        "Table_E2",
-        "Table_E5",
-    ]
+    sheets = {
+        "Table_A1": 3, "Table_A2": 2, "Table_A3": 3, "Table_A4": 2, "Table_A5": 3, "Table_A6": 2, "Table_A7": 3,
+        "Table_A8": 2, "Table_A9": 3, "Table_A10": 2, "Table_A11": 3, "Table_A12": 2, "Table_A13": 3,
+        "Table_A14": 2, "Table_A15": 3, "Table_A16": 2, "Table_A17": 3, "Table_A18": 2, "Table_A19": 3,
+        "Table_A20": 2, "Table_A21": 3, "Table_A22": 2, "Table_A23": 3, "Table_A24": 2, "Table_A25": 3,
+        "Table_A26": 2, "Table_A27": 3, "Table_A28": 2, "Table_A29": 3, "Table_A30": 2, "Table_A31": 3,
+        "Table_A32": 2, "Table_A33": 3, "Table_A34": 2, "Table_A35": 3, "Table_A36": 2, "Table_A37": 3,
+        "Table_A38": 2, "Table_A39": 3, "Table_A40": 2, "Table_A41": 3, "Table_A42": 2, "Table_A43": 3,
+        "Table_A44": 2, "Table_A45": 3, "Table_A46": 2, "Table_A47": 3, "Table_A48": 2, "Table_A49": 3,
+        "Table_A50": 2, "Table_A51": 3, "Table_A52": 2, "Table_A53": 3, "Table_A54": 2, "Table_A55": 3,
+        "Table_B1": 3, "Table_B2": 2, "Table_B3": 3, "Table_B4": 2, "Table_B5": 3, "Table_B6": 2,
+        "Table_B7": 3, "Table_B8": 2, "Table_B9": 3, "Table_B10": 2, "Table_B11": 3, "Table_B12": 2,
+        "Table_B13": 3, "Table_B14": 2, "Table_B15": 3, "Table_B16": 2, "Table_B17": 3, "Table_B18": 2,
+        "Table_B19": 3, "Table_B20": 2, "Table_B21": 3, "Table_B22": 2, "Table_B23": 3, "Table_B24": 2,
+        "Table_B25": 3, "Table_B26": 2, "Table_B27": 3, "Table_B28": 2, "Table_B29": 3, "Table_B30": 2,
+        "Table_B31": 3, "Table_B32": 2, "Table_B33": 3, "Table_B34": 2, "Table_B35": 3, "Table_B36": 2,
+        "Table_B37": 3, "Table_B38": 2,
+        "Table_C1": 2, "Table_C2": 2, "Table_C3": 3, "Table_C4": 2, "Table_C5": 2, "Table_C6": 3,
+        "Table_D1": 2, "Table_D2": 2, "Table_D3": 3, "Table_D4": 2, "Table_D5": 2, "Table_D6": 3,
+        "Table_E1": 2, "Table_E2": 2, "Table_E3": 3, "Table_E4": 2, "Table_E5": 2, "Table_E6": 3
+    }
 
     frames = []
-    for sheet in sheets:
+    for sheet, row_pos in sheets.items():
+        print(sheet)
         df = pd.read_excel(
             os.path.join(
                 data_dir,
@@ -1064,11 +1032,20 @@ def participation_survey_dcms_data_tables(
             ),
             sheet_name=sheet,
         )
-        df.columns = df.loc[2, :]
-        df.insert(0, "Participation Type", df.loc[3, "Question"])
-        df.loc[3, "Question"] = "Total"
-        df = df.iloc[3:, :]
+        df.columns = df.loc[row_pos, :]
+        df.insert(0, "Participation Type", df.loc[row_pos + 1, "Question"])
+        df.loc[row_pos + 1, "Question"] = "Total"
+        df = df.iloc[row_pos + 1:, :]
         df = df.rename(columns={"Question": "Response Group"})
+        df = df.rename(columns={'Response Breakdown ': 'Response Breakdown'})
+        df = df[[
+            "Participation Type", "Response Group", "Response Breakdown",
+            "Percentage of respondents 2023/24",
+            "Percentage of respondents 2023/24 Lower estimate",
+            "Percentage of respondents 2023/24 Upper estimate",
+            "2023/24 No. of respondents",
+            "2023/24 Base"
+        ]]
         frames.append(df)
     df = pd.concat(frames)
     df = df.astype(str)
@@ -1076,22 +1053,17 @@ def participation_survey_dcms_data_tables(
         df["Response Group"].str.replace(r"\[.*?\]", "", regex=True).str.strip()
     )
     df["Response Breakdown "] = (
-        df["Response Breakdown "].str.replace(r"\[.*?\]", "", regex=True).str.strip()
+        df["Response Breakdown"].str.replace(r"\[.*?\]", "", regex=True).str.strip()
     )
 
-    cols = [
+    numeric_cols = [
         "Percentage of respondents 2023/24",
         "Percentage of respondents 2023/24 Lower estimate",
         "Percentage of respondents 2023/24 Upper estimate",
         "2023/24 No. of respondents",
-        "2023/24 Base",
-        "Percentage of respondents 2022/23",
-        "Percentage of respondents 2022/23 Lower estimate",
-        "Percentage of respondents 2022/23 Upper estimate",
-        "2022/23 No. of respondents",
-        "2022/23 Base",
+        "2023/24 Base"
     ]
-    for col in cols:
+    for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
     output_path = os.path.join(seed_data_dir, output_filename)
@@ -1164,6 +1136,45 @@ def country_mapping(
             data_dir, "Countries_(December_2024)_Names_and_Codes_in_the_UK.csv"
         )
     )
+
+    output_path = os.path.join(seed_data_dir, output_filename)
+    df.to_parquet(output_path, index=False)
+    logger.info(f"Saved to {output_path}")
+
+
+def annual_household_income(
+    downloaded_data_dir: str, seed_data_dir: str, output_filename: str
+) -> None:
+    logger.info("Pre-processing Annual Household Income Estimates")
+    data_dir = os.path.join(downloaded_data_dir, "income")
+
+    sheets = [
+        'Net annual income', 'Net income before housing costs',
+        'Total annual income', 'Net income after housing costs'
+    ]
+
+    frames = []
+    for sheet in sheets:
+        temp_df = pd.read_excel(
+            os.path.join(
+                data_dir,
+                'saiefy1920finalqaddownload280923.xlsx'
+            ),
+            sheet_name=sheet
+        )
+        temp_df.columns = temp_df.loc[3, :]
+        temp_df = temp_df.iloc[4:, :]
+        temp_df['Type'] = sheet
+        temp_df = temp_df.rename(columns={
+            "Total annual income (£)": "Amount (£)",
+            "Net annual income (£)": "Amount (£)",
+            "Net annual income before housing costs (£)": "Amount (£)",
+            "Net annual income after housing costs (£)": "Amount (£)",
+        })
+        frames.append(temp_df)
+
+    df = pd.concat(frames)
+    df = df[['MSOA code', 'Type', 'Amount (£)', 'Upper confidence limit (£)', 'Lower confidence limit (£)', 'Confidence interval (£)']]
 
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_parquet(output_path, index=False)
