@@ -134,7 +134,7 @@ models:
 
   - name: ace_project_grants_funding
     description: |
-      # ACE Project Grants Funding
+      # Arts Council England Project Grants Funding
 
       This table contains the amount of Arts Council England funding provided as
       Project Grants, grouped by local authority district.
@@ -476,7 +476,7 @@ models:
   
   - name: annual_population_survey_economic_measures
     description: |
-      # Annual Population Survey Economic Measures
+      # Annual Population Survey Economic Indicators
 
       Contains data on economic factors from the Annual Population Survey.
 
@@ -766,7 +766,7 @@ models:
     meta:
       source: https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/datasets/headlineestimatesofpersonalwellbeing
       granularity: "Local Authority"
-      data_relates_to: "2023-2024"
+      data_relates_to: "2022-2023"
       latest_release: "November 2023"
       next_release: "TBA"
       update_frequency: "Annual"
@@ -5107,7 +5107,7 @@ models:
 
   - name: modelled_participation_statistics
     description: |
-      # Modelled Participation Statistics
+      # WBS Modelled Participation Statistics
 
       Participation statistics modelled at the local authority level using the respondent level data provided by the ONS.
 
@@ -5145,7 +5145,7 @@ models:
       - name: category
         data_type: text
 
-      - name: physical_or_digital
+      - name: subcategory
         data_type: text
 
       - name: participation_domain
@@ -5227,7 +5227,9 @@ models:
   - name: populations
     description: |
       # Population Figures for Regions of England and Wales
-
+    
+    meta:
+      granularity: "Local Authority"
       source: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/estimatesofthepopulationforenglandandwales
 
 
@@ -5299,16 +5301,57 @@ models:
         data_type: text
 
       - name: percentage_of_respondents_2023_24
-        data_type: text
+        data_type: float
 
       - name: percentage_of_respondents_2023_24_lower_estimate
-        data_type: text
+        data_type: float
 
       - name: percentage_of_respondents_2023_24_upper_estimate
-        data_type: text
+        data_type: float
 
       - name: number_of_respondents_2023_24
-        data_type: text
+        data_type: integer
 
       - name: number_of_respondents_2023_24_base
+        data_type: integer
+
+  - name: annual_household_income
+    description: |
+      # ONS Annual Household Income Estimates
+
+      Estimates of annual household income for the four income types for Middle layer Super Output Areas, or local areas, in England and Wales.
+
+    config:
+      tags: Place
+      alias: annual_household_income
+      quote: true
+      contract:
+        enforced: true
+    meta:
+      source: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/smallareaincomeestimatesformiddlelayersuperoutputareasenglandandwales
+      granularity: "MSOA"
+      data_relates_to: "April 2019-April 2020"
+      latest_release: "11 October 2023"
+      next_release: "N/A"
+      update_frequency: "Two years"
+    docs:
+      node_color: purple
+
+    columns:
+      - name: msoa_code
         data_type: text
+
+      - name: income_type
+        data_type: text
+
+      - name: amount_£
+        data_type: integer
+
+      - name: upper_confidence_limit_£
+        data_type: integer
+
+      - name: lower_confidence_limit_£
+        data_type: integer
+
+      - name: confidence_interval_£
+        data_type: integer

@@ -14,14 +14,12 @@ from src.load_data import create_table_with_pandas, load_parquet_to_postgres
 if __name__ == "__main__":
     RAW_DATA_DIRECTORY = "raw_data"
     PREPROCESSED_DATA_DIRECTORY = "preprocessed_data"
-    DB_CONN = f"postgresql://doadmin:{os.getenv('WMCSRP_DB_PASS')}@{os.getenv('POSTGRES_HOST')}:25060/wmcsrp2?sslmode=require"
+    DB_CONN = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASS')}@{os.getenv('POSTGRES_HOST')}:25060/wmcsrp2?sslmode=require"
     engine = create_engine(
-        f"postgresql://doadmin:{os.getenv('WMCSRP_DB_PASS')}@{os.getenv('POSTGRES_HOST')}:25060/wmcsrp2?sslmode=require"
+        f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASS')}@{os.getenv('POSTGRES_HOST')}:25060/wmcsrp2?sslmode=require"
     )
 
-    # Define the output file names and associated processing functions
     data_spec = {
-        "raw__ace_project_grants.parquet": preprocess.ace_project_grants,
         "raw__ace_npo_funding.parquet": preprocess.ace_npo_funding,
         "raw__economic.parquet": preprocess.economic_data,
         "raw__360giving.parquet": preprocess.giving360_data,
@@ -44,9 +42,12 @@ if __name__ == "__main__":
         "raw__dcms_participation_statistics.parquet": preprocess.participation_survey_dcms_data_tables,
         "raw__residents_survey_local_authority_results.parquet": preprocess.residents_survey_local_authority_results,
         "raw__region_populations.parquet": preprocess.region_populations,
+        "raw__region_mapping.parquet": preprocess.region_mapping,
+        "raw__country_mapping.parquet": preprocess.country_mapping,
+        "raw__annual_household_income.parquet": preprocess.annual_household_income
     }
 
-    to_run = ["download", "preprocess", "load"]  # , "dbt"]  # , "clean"]
+    to_run = ["download", "preprocess", "load"]#, "dbt"]  # , "clean"]
 
     # Download data from google cloud bucket
     if "download" in to_run:

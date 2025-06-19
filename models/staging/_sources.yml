@@ -31,3 +31,4 @@ sources:
       - name: raw__region_populations
       - name: raw__region_mapping
       - name: raw__country_mapping
+      - name: raw__annual_household_income
