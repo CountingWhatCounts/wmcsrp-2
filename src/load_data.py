@@ -3,6 +3,7 @@ import psycopg2
 import pandas as pd
 import sqlalchemy
 import io
+import duckdb
 
 from .logger import logger
 
@@ -56,3 +57,18 @@ def load_csv_to_postgres(
     except Exception as e:
         cursor.close()
         logger.error(f"Error loading CSV: {e}")
+
+
+def load_parquet_to_duckdb(data_dir, filename, db_path="wmcsrp2.duckdb", schema="public"):
+    table_name = filename.replace(".parquet", "")
+    parquet_path = os.path.join(data_dir, filename)
+
+    logger.info(f"Creating DuckDB table {table_name} from {parquet_path}")
+
+    conn = duckdb.connect(db_path)
+    conn.execute(f"CREATE SCHEMA IF NOT EXISTS {schema}")
+    conn.execute(f"""
+        CREATE OR REPLACE TABLE {schema}.{table_name} AS
+        SELECT * FROM read_parquet('{parquet_path}')
+    """)
+    conn.close()

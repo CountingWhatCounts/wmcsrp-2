@@ -2,7 +2,7 @@ select
     msoa21cd,
     msoa21nm,
     local_authority,
-    CAST(imd_score as float),
+    CAST(imd_score as float) as imd_score,
     imd_decile_msoa,
     imd_quantile_msoa,
     msoa_2021_status

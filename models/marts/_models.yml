@@ -279,7 +279,7 @@ models:
         description: The name for the area
 
 
-  - name: census
+  - name: census_2021_data
     description: |
       # Census 2021 Data
 
@@ -5314,6 +5314,7 @@ models:
 
       - name: number_of_respondents_2023_24_base
         data_type: integer
+
 
   - name: annual_household_income
     description: |

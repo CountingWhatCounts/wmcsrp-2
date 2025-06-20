@@ -17,5 +17,5 @@ models:
     marts:
       +quoting:
         identifier: true
-      +materialized: table
+      +materialized: "{{ 'view' if target.type == 'duckdb' else 'table' }}"
       +schema: marts

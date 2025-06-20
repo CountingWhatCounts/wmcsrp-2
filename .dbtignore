@@ -1,0 +1,6 @@
+stg__ace_npo_funding.sql
+stg__ace_project_grants_funding.sql
+int__ace_npo_funding_aggregated.sql
+int__ace_project_grants_aggregated.sql
+ace_npo_funding.sql
+ace_project_grants_funding.sql

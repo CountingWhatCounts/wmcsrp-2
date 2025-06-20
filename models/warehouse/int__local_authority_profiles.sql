@@ -7,6 +7,8 @@ wm_lads as (
 ),
 
 -- Population
+
+
 population_table as (
     select * from {{ ref('stg__region_populations') }}
 ),
@@ -30,8 +32,9 @@ households as (
     group by lad22cd
 ),
 
-
 -- Community Life Metrics
+
+
 community_life_metrics as (
     select
         lad23cd,
@@ -82,6 +85,8 @@ levelling_up as (
 ),
 
 -- Wellbeing
+
+
 wellbeing as (
     select
         area_code,
@@ -108,6 +113,8 @@ wellbeing as (
 ),
 
 -- Participation
+
+
 participation_table as (
     select
         lad23cd,
@@ -173,6 +180,8 @@ participation_table as (
 ),
 
 -- Residents Survey - where creative
+
+
 where_attended_culture as (
     SELECT
         lad22cd,
@@ -205,6 +214,8 @@ where_attended_culture as (
 ),
 
 -- Residents Survey - desire for creativity
+
+
 desire_for_creativity as (
     SELECT
         lad22cd,
@@ -228,6 +239,8 @@ desire_for_creativity as (
 ),
 
 -- Residents Survey - feeling creative
+
+
 feeling_creative as (
     SELECT
         lad22cd,
@@ -258,17 +271,17 @@ combined as (
         population_table.population,
         estimated_populations.estimated_age_16_plus_population_count,
         households.number_of_households,
-        community_life_metrics.proud_to_live_locally,
+        community_life_metrics.proud_to_live_locally as proud_to_live_locally,
         community_life_metrics.local_area_satisfaction,
         community_life_metrics.neighbourhood_belonging,
         community_life_metrics.social_cohesion,
         community_life_metrics.area_recommendation,
-        priority_places.priority_place::boolean,
-        levelling_up.levelling_up_place::boolean,
-        wellbeing.happiness_mean,
-        wellbeing.worthwhile_mean,
-        wellbeing.anxiety_mean,
-        wellbeing.life_satisfaction_mean,
+        priority_places.priority_place::boolean as priority_place,
+        levelling_up.levelling_up_place::boolean as levelling_up_place,
+        wellbeing.happiness_mean as happiness_mean,
+        wellbeing.worthwhile_mean as worthwhile_mean,
+        wellbeing.anxiety_mean as anxiety_mean,
+        wellbeing.life_satisfaction_mean as life_satisfaction_mean,
         participation_table.media_consumption,
         participation_table.any_library_engagement,
         participation_table.streamed_online_digital_events,

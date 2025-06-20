@@ -1,17 +1,19 @@
 
 main:
   
-  target: remote
+  target: "{{ env_var('DATA_BACKEND') }}"
 
   outputs:
 
-    local:
+    duckdb:
       type: duckdb
-      path: WMCSRP2.duckdb
-      schema: md
-      threads: 4
+      path: wmcsrp2.duckdb
+      extensions:
+        - parquet
+        - httpfs
+      schema: public
 
-    remote:
+    postgres:
       type: postgres
       host: "{{ env_var('POSTGRES_HOST') }}"
       user: "{{ env_var('POSTGRES_USER') }}"
