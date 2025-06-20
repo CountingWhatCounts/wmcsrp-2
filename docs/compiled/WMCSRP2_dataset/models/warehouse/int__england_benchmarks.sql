@@ -74,27 +74,30 @@ benchmarks AS (
         NULL::text AS area_code,
         clb.benchmark::text AS area,
 
-        /* --- things the benchmark has no data for --- */
-        NULL::bigint AS population,
+/* --- things the benchmark has no data for --- */
+NULL::bigint AS population,
         NULL::bigint AS number_of_households,
 
-        /* --- community-life metrics --- */
-        clb.proud_to_live_locally::float,
-        clb.local_area_satisfaction::float,
-        clb.neighbourhood_belonging::float,
-        clb.social_cohesion::float,
-        clb.area_recommendation::float,
+/* --- community-life metrics --- */
+
+
+clb.proud_to_live_locally::float as proud_to_live_locally,
+        clb.local_area_satisfaction::float as local_area_satisfaction,
+        clb.neighbourhood_belonging::float as neighbourhood_belonging,
+        clb.social_cohesion::float as social_cohesion,
+        clb.area_recommendation::float as area_recommendation,
 
         NULL::boolean AS priority_place,
         NULL::boolean AS levelling_up_place,
         /* --- wellbeing metrics --- */
-        wb.happiness_mean::float,
-        wb.worthwhile_mean::float,
-        wb.anxiety_mean::float,
-        wb.life_satisfaction_mean::float,
+        wb.happiness_mean::float as happiness_mean,
+        wb.worthwhile_mean::float as worthwhile_mean,
+        wb.anxiety_mean::float as anxiety_mean,
+        wb.life_satisfaction_mean::float as life_satisfaction_mean,
 
-        /* --- participation & resident-survey columns you don’t have here --- */
-        NULL::float as media_consumption,
+/* --- participation & resident-survey columns you don’t have here --- */
+
+NULL::float as media_consumption,
         NULL::float as any_library_engagement,
         NULL::float as streamed_online_digital_events,
         NULL::float as museums_and_galleries,

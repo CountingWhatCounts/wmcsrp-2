@@ -32,7 +32,7 @@ select
     distinct ac.area_code,
     ac.area_name,
     wd.wellbeing_factor,
-    CAST(wd.value as float),
+    CAST(wd.value as float) as value,
     wd.margin_of_error
 from
     area_codes as ac
