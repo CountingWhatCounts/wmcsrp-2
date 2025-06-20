@@ -25,6 +25,7 @@ jobs:
           
       - name: Generate dbt Docs
         env:
+          DATA_BACKEND: ${{ secrets.DATA_BACKEND }}
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASS: ${{ secrets.POSTGRES_PASS }}
