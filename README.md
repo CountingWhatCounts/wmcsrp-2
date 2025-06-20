@@ -17,6 +17,8 @@ It supports two modes:
 - **Postgres mode** (for private team members with DB access)
 - **DuckDB mode** (for public users)
 
+For both you will need the name of a Google Cloud storage bucket where the raw data is stored. This is available upon request from marc.dunford@culturecounts.cc.
+
 
 ### Setup Instructions
 
@@ -50,7 +52,7 @@ cp .env.example .env
 
 Edit `.env` to specify
 * whether to use postgres or duckdb
-* the name of the Google Cloud Bucket (available upon request)
+* the name of the Google Cloud storage bucket (see above)
 * the credentials of the postgres database (if you are using)
 * the location where you want the raw data and preprocessed data to be saved
 
@@ -78,15 +80,15 @@ Available steps:
 - `clean` – remove local data folders
 
 
-## 🙋 Need Help?
+## Need Help?
 
 For questions, contact: marc.dunford@culturecounts.cc
 
 
 
-
-
 ## Data Sources
+
+The following are the key data sources used in the project
 
 | Data Theme             | Data Source                                 | Link                                                                                                                                       |
 | :--------------------- | :------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------- |
