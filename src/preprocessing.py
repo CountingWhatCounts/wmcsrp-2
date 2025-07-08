@@ -1078,20 +1078,9 @@ def residents_survey_local_authority_results(
     data_dir = os.path.join(downloaded_data_dir, "residents_survey")
 
     df = pd.read_csv(
-        os.path.join(data_dir, "residents_survey_local_authority_results.csv")
+        os.path.join(data_dir, "YouGov Survey averages.csv")
     )
-
-    df = df.melt(
-        id_vars=["Question", "Answer"],
-        var_name="local_authority",
-        value_name="percentage",
-    )
-    left = df[df["Answer"] != "N"]
-    right = df[df["Answer"] == "N"].drop("Answer", axis=1)
-    df = left.merge(right, on=["Question", "local_authority"])
-    df = df.rename(columns={"percentage_x": "percentage", "percentage_y": "n"})
-    df["n"] = df["n"].astype(int)
-
+    
     output_path = os.path.join(seed_data_dir, output_filename)
     df.to_parquet(output_path, index=False)
     logger.info(f"Saved to {output_path}")
