@@ -22,8 +22,14 @@ select
     lad22cd,
     question,
     answer,
-    percentage as p,
+    p,
     n,
     population,
-    CAST(1.96 * sqrt( (percentage * (1-percentage)) / ((population - 1) * n / (population - n)) ) as float) as margin_of_error
+    CAST(
+        1.96 * sqrt(
+            (p * (1 - p)) / (
+                (population - 1) * n / (population - n)
+            )
+        ) as float
+    ) as margin_of_error
 from combined
