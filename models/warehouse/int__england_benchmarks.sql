@@ -98,6 +98,7 @@ clb.proud_to_live_locally::float as proud_to_live_locally,
 
 /* --- participation & resident-survey columns you don’t have here --- */
 
+
 NULL::float as media_consumption,
         NULL::float as any_library_engagement,
         NULL::float as streamed_online_digital_events,
@@ -112,7 +113,10 @@ NULL::float as media_consumption,
         NULL::float as feeling_creative,
         NULL::float as all_creative_activities_and_media_consumption,
         NULL::float as any_cultural_places_engagement,
-        NULL::float as attending_or_watching_cultural_events
+        NULL::float as attending_or_watching_cultural_events,
+        NULL::float as expectation_to_attend_events_next_12_months,
+        NULL::float as expectation_to_visit_places_next_12_months,
+        NULL::float as expectation_to_participate_in_activities_next_12_months
 
     FROM community_life_benchmarks AS clb
     LEFT JOIN wellbeing_benchmarks AS wb ON wb.area_code = clb.benchmark

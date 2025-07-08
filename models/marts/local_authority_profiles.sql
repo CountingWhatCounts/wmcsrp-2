@@ -1,3 +1,4 @@
+
 with
 
 profiles as (
@@ -31,7 +32,10 @@ profiles as (
         round(attending_in_person_events::numeric, 5) as attending_in_person_events,
         round(all_creative_activities_and_media_consumption::numeric, 5) as all_creative_activities_and_media_consumption,
         round(any_cultural_places_engagement::numeric, 5) as any_cultural_places_engagement,
-        round(attending_or_watching_cultural_events::numeric, 5) as attending_or_watching_cultural_events
+        round(attending_or_watching_cultural_events::numeric, 5) as attending_or_watching_cultural_events,
+        round(expectation_to_attend_events_next_12_months::numeric, 5) as expectation_to_attend_events_next_12_months,
+        round(expectation_to_participate_in_activities_next_12_months::numeric, 5) as expectation_to_participate_in_activities_next_12_months,
+        round(expectation_to_visit_places_next_12_months::numeric, 5) as expectation_to_visit_places_next_12_months
     from {{ ref('int__local_authority_profiles') }}
 ),
 
@@ -66,7 +70,10 @@ calculated_benchmarks as (
         round(attending_in_person_events::numeric, 5) as attending_in_person_events,
         round(all_creative_activities_and_media_consumption::numeric, 5) as all_creative_activities_and_media_consumption,
         round(any_cultural_places_engagement::numeric, 5) as any_cultural_places_engagement,
-        round(attending_or_watching_cultural_events::numeric, 5) as attending_or_watching_cultural_events
+        round(attending_or_watching_cultural_events::numeric, 5) as attending_or_watching_cultural_events,
+        round(expectation_to_attend_events_next_12_months::numeric, 5) as expectation_to_attend_events_next_12_months,
+        round(expectation_to_participate_in_activities_next_12_months::numeric, 5) as expectation_to_participate_in_activities_next_12_months,
+        round(expectation_to_visit_places_next_12_months::numeric, 5) as expectation_to_visit_places_next_12_months
     from {{ ref('int__west_midlands_benchmarks') }}
 ),
 
@@ -101,7 +108,10 @@ imported_benchmarks as (
         attending_in_person_events,
         all_creative_activities_and_media_consumption,
         any_cultural_places_engagement,
-        attending_or_watching_cultural_events
+        attending_or_watching_cultural_events,
+        expectation_to_attend_events_next_12_months,
+        expectation_to_participate_in_activities_next_12_months,
+        expectation_to_visit_places_next_12_months
     from {{ ref('int__england_benchmarks') }}
     where area = 'England'
 ),
@@ -116,7 +126,56 @@ combined as (
 
 dcms_stats as (
     select * from {{ ref('int__dcms_participation_lad_itl1_england') }}
+),
+
+combined_with_dcms as (
+    select * from combined full outer join dcms_stats using (area)
 )
 
-select * from combined
-full outer join dcms_stats using(area)
+select * from combined_with_dcms
+order by array_position(array[
+	'Herefordshire',
+	'Stafford',
+	'Lichfield',
+	'Wyre Forest',
+	'Stratford-on-Avon',
+	'Wolverhampton',
+	'Wychavon',
+	'Coventry',
+	'Shropshire',
+	'Warwick',
+	'Sandwell',
+	'Walsall',
+	'South Staffordshire',
+	'Tamworth',
+	'Bromsgrove',
+	'Birmingham',
+	'East Staffordshire',
+	'Redditch',
+	'Staffordshire Moorlands',
+	'Telford and Wrekin',
+	'North Warwickshire',
+	'Nuneaton and Bedworth',
+	'Rugby',
+	'Malvern Hills',
+	'Solihull',
+	'Cannock Chase',
+	'Dudley',
+	'Worcester',
+	'Newcastle-under-Lyme',
+	'Stoke-on-Trent',
+	'WMCA Constituent Members',
+	'WMCA Non-Constituent Members',
+	'WMCA Constituent and Non-Constituent Members',
+	'West Midlands',
+	'West Midlands Non-WMCA',
+	'England',
+	'East of England',
+	'South East',
+	'Yorkshire and The Humber',
+	'East Midlands',
+	'North West',
+	'North East',
+	'London',
+	'South West'
+], area)
