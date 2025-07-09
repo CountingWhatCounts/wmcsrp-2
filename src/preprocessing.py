@@ -480,7 +480,7 @@ def participation_survey_data(
     logger.info("Pre-processing Participation Survey data")
     data_dir = os.path.join(downloaded_data_dir, "participation_survey")
     df = pd.read_csv(
-        os.path.join(data_dir, "participation_2023-24_annual_data_safeguard.tab"),
+        os.path.join(data_dir, "participation_2023-24_annual_data_open.tab"),
         sep="\t",
         encoding="cp1252",
     )
@@ -532,7 +532,7 @@ def participation_survey_variable_dictionary(
     data_dir = os.path.join(downloaded_data_dir, "participation_survey")
 
     _, meta = pyreadstat.read_sav(
-        os.path.join(data_dir, "participation_2023-24_annual_data_safeguard.sav"),
+        os.path.join(data_dir, "participation_2023-24_annual_data_open.sav"),
         metadataonly=True,
     )
 
@@ -555,7 +555,7 @@ def participation_survey_values_dictionary(
     data_dir = os.path.join(downloaded_data_dir, "participation_survey")
 
     _, meta = pyreadstat.read_sav(
-        os.path.join(data_dir, "participation_2023-24_annual_data_safeguard.sav"),
+        os.path.join(data_dir, "participation_2023-24_annual_data_open.sav"),
         metadataonly=True,
     )
 
