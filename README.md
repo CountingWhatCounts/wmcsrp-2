@@ -14,8 +14,8 @@ has been downloaded and stored in a Google Cloud bucket which is automatically d
 ## How to use this project
 
 It supports two modes:
-- **Postgres mode** (for private team members with DB access)
-- **DuckDB mode** (for public users)
+- **Postgres mode**: loads the data into a Postgres database
+- **DuckDB mode**: loads the data into a local DuckDB database
 
 For both you will need the name of a Google Cloud storage bucket where the raw data is stored. This is available upon request from marc.dunford@culturecounts.cc.
 
@@ -78,6 +78,16 @@ Available steps:
 - `load` – load into Postgres or DuckDB depending on config
 - `dbt` – run dbt transformations
 - `clean` – remove local data folders
+
+
+### Testing the output
+
+If you are working from a DuckDB database, you can run the following script to view data tables and query some of the data.
+
+```bash
+python example.py
+```
+
 
 
 ## Need Help?
