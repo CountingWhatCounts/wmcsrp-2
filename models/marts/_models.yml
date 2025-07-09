@@ -845,9 +845,6 @@ models:
       - name: wave
         data_type: int
         description: "Wave"
-      - name: dill_dv
-        data_type: int
-        description: "Dill_DV"
       - name: mode
         data_type: int
         description: "Online or paper mode"
