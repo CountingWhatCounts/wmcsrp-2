@@ -187,23 +187,23 @@ where_attended_culture as (
         lad22cd,
 
         SUM(p) FILTER (
-            WHERE question = 'Where you attended arts and culture events in the last 12 months'
+            WHERE question = 'Where did you attend the cultural events?'
         ) AS attended_events_local,
 
         SUM(p) FILTER (
-            WHERE question = 'Where you took part in creative activities in the last 12 months'
+            WHERE question = 'Where did you do the creative activities?'
         ) AS participated_creative_activities_local,
 
         SUM(p) FILTER (
-            WHERE question = 'Where you visited arts and culture places in the last 12 months'
+            WHERE question = 'Where did you visit the cultural places?'
         ) AS visited_culture_places_local
 
-    FROM "wmcsrp2"."public_marts"."residents_survey_local_authority_results"
+    FROM "wmcsrp2"."public_warehouse"."int__residents_survey"
 
     WHERE question IN (
-        'Where you attended arts and culture events in the last 12 months',
-        'Where you took part in creative activities in the last 12 months',
-        'Where you visited arts and culture places in the last 12 months'
+        'Where did you attend the cultural events?',
+        'Where did you do the creative activities?',
+        'Where did you visit the cultural places?'
     )
     AND answer IN (
         'All in $profileoslaua',
@@ -221,13 +221,13 @@ desire_for_creativity as (
         lad22cd,
 
         SUM(p) FILTER (
-            WHERE question = 'Being creative in day-to-day life'
+            WHERE question = 'Which ONE of the following best applies to you in terms of being creative in your day to day life'
         ) AS desire_to_be_more_creative
 
-    FROM "wmcsrp2"."public_marts"."residents_survey_local_authority_results"
+    FROM "wmcsrp2"."public_warehouse"."int__residents_survey"
 
     WHERE question IN (
-        'Being creative in day-to-day life'
+        'Which ONE of the following best applies to you in terms of being creative in your day to day life'
     )
 
     AND answer IN (
@@ -246,18 +246,51 @@ feeling_creative as (
         lad22cd,
 
         SUM(p) FILTER (
-            WHERE question = 'Whether you feel you are a creative person'
+            WHERE question = 'To what extent do you feel that you are a creative person?'
         ) AS feeling_you_are_creative
 
-    FROM "wmcsrp2"."public_marts"."residents_survey_local_authority_results"
+    FROM "wmcsrp2"."public_warehouse"."int__residents_survey"
 
     WHERE question IN (
-        'Whether you feel you are a creative person'
+        'To what extent do you feel that you are a creative person?'
     )
     
     AND answer IN (
         'A lot',
         'A little'
+    )
+
+    GROUP BY lad22cd
+),
+
+expectation_to_attend as (
+    SELECT
+        lad22cd,
+
+        SUM(p) FILTER (
+            WHERE question = 'Compared with the last 12 months, in the coming 12 months do you expect to attend these kinds of events'
+        ) AS expectation_to_attend_events_next_12_months,
+
+        SUM(p) FILTER (
+            WHERE question = 'Compared with the last 12 months, in the coming 12 months do you expect to go to these kinds of places'
+        ) AS expectation_to_visit_places_next_12_months,
+
+        SUM(p) FILTER (
+            WHERE question = 'Compared with the last 12 months, in the coming 12 months do you expect to take part in these kinds of activities'
+        ) AS expectation_to_participate_in_activities_next_12_months
+
+    FROM "wmcsrp2"."public_warehouse"."int__residents_survey"
+
+    WHERE question IN (
+        'Compared with the last 12 months, in the coming 12 months do you expect to attend these kinds of events',
+        'Compared with the last 12 months, in the coming 12 months do you expect to go to these kinds of places',
+        'Compared with the last 12 months, in the coming 12 months do you expect to take part in these kinds of activities'
+    )
+    
+    AND answer IN (
+        'About the same amount',
+        'A lot more in the next 12 months',
+        'A little more in the next 12 months'
     )
 
     GROUP BY lad22cd
@@ -294,6 +327,9 @@ combined as (
         where_attended_culture.visited_culture_places_local,
         desire_for_creativity.desire_to_be_more_creative,
         feeling_creative.feeling_you_are_creative,
+        expectation_to_attend.expectation_to_attend_events_next_12_months,
+        expectation_to_attend.expectation_to_visit_places_next_12_months,
+        expectation_to_attend.expectation_to_participate_in_activities_next_12_months,
         participation_table.all_creative_activities_and_media_consumption,
         participation_table.any_cultural_places_engagement,
         participation_table.attending_or_watching_cultural_events
@@ -309,6 +345,7 @@ combined as (
     join where_attended_culture on wm_lads.lad22cd = where_attended_culture.lad22cd
     join desire_for_creativity on wm_lads.lad22cd = desire_for_creativity.lad22cd
     join feeling_creative on wm_lads.lad22cd = feeling_creative.lad22cd
+    join expectation_to_attend on wm_lads.lad22cd = expectation_to_attend.lad22cd
 )
 
 select * from combined
